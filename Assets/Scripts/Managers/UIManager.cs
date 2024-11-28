@@ -15,6 +15,9 @@ public class UIManager : MonoBehaviour
 
     private Tower selectedTower;
 
+    //// UI element to display opponent's snapshot
+    //public RawImage opponentSnapshotImage;
+
     void Awake()
     {
         if (Instance == null)
@@ -138,4 +141,16 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+
+
+
+    //public void UpdateOpponentSnapshot(string imageData)
+    //{
+    //    byte[] imageBytes = Convert.FromBase64String(imageData);
+    //    Texture2D texture = new Texture2D(2, 2);
+    //    texture.LoadImage(imageBytes);
+
+    //    // Assign texture to the UI element
+    //    opponentSnapshotImage.texture = texture;
+    //}
 }
