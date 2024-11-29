@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Newtonsoft.Json; // Make sure to import Newtonsoft.Json
+using Newtonsoft.Json.Linq;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +27,8 @@ public class GameManager : MonoBehaviour
     // Multiplayer variables
     public enum GameMode { SinglePlayer, Multiplayer }
     public GameMode CurrentGameMode { get; private set; }
+
+    public GameObject balloonSendingPanel; // Assign in Inspector
 
     void Awake()
     {
@@ -57,11 +62,23 @@ public class GameManager : MonoBehaviour
             StartGame();
         }
         Debug.Log("CurrentGameMode: " + CurrentGameMode);
+
+
+        if (balloonSendingPanel != null)
+        {
+            //balloonSendingPanel.SetActive(CurrentGameMode == GameMode.Multiplayer);
+            balloonSendingPanel.SetActive(false);
+        }
     }
 
     public void OnMatchFound()
     {
         // Called by NetworkManager when a match is found
+        if (balloonSendingPanel != null)
+        {
+            balloonSendingPanel.SetActive(true);
+        }
+
         StartGame();
     }
 
@@ -206,24 +223,66 @@ public class GameManager : MonoBehaviour
 
     // Multiplayer Methods
 
-    //// Spawn balloons received from the opponent
-    //public void SpawnOpponentBalloons(string balloonType, int quantity)
-    //{
-    //    // Find the balloon prefab based on the balloonType
-    //    GameObject balloonPrefab = BalloonSpawner.Instance.GetBalloonPrefabByName(balloonType);
+    public void SendBalloonToOpponent(string balloonType, int cost)
+    {
+        if (isGameOver)
+            return;
 
-    //    if (balloonPrefab == null)
-    //    {
-    //        Debug.LogError("Balloon prefab not found for type: " + balloonType);
-    //        return;
-    //    }
+        if (CurrentGameMode != GameMode.Multiplayer)
+        {
+            Debug.Log("Cannot send balloons in Single Player mode.");
+            return;
+        }
 
-    //    // Spawn the balloons
-    //    for (int i = 0; i < quantity; i++)
-    //    {
-    //        BalloonSpawner.Instance.SpawnBalloon(balloonPrefab);
-    //    }
-    //}
+        if (CanAfford(cost))
+        {
+            // Deduct currency
+            SpendCurrency(cost);
+
+            // Prepare message
+            var message = new SendBalloonMessage
+            {
+                Type = "SendBalloon",
+                Data = new SendBalloonData
+                {
+                    BalloonType = balloonType
+                }
+            };
+
+            string jsonMessage = JsonConvert.SerializeObject(message);
+            NetworkManager.Instance.SendMessage(jsonMessage);
+
+            Debug.Log($"Sent balloon '{balloonType}' to opponent.");
+        }
+        else
+        {
+            Debug.Log("Not enough currency to send balloons.");
+            // Optionally display a message to the player
+        }
+    }
+
+    public void SpawnOpponentBalloon(string balloonType)
+    {
+        Debug.Log("balloonType: " + balloonType);
+        if (isGameOver)
+            return;
+
+        // Find the balloon prefab based on the balloonType
+        GameObject balloonPrefab = BalloonUtils.Instance.GetBalloonPrefabByName(balloonType);
+        //GameObject balloonPrefab = BalloonSpawner.Instance.GetBalloonPrefabByName(balloonType);
+
+        if (balloonPrefab == null)
+        {
+            Debug.LogError("Balloon prefab not found for type: " + balloonType);
+            return;
+        }
+
+        // Spawn the balloon
+        BalloonSpawner.Instance.SpawnBalloon(balloonPrefab);
+    }
+
+
+
 
     //// Coroutine to send game snapshots periodically
     //public IEnumerator SendSnapshots()

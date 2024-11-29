@@ -33,7 +33,12 @@ public class NetworkManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        ConnectToServer(); // Connect immediately
+        //Connect to the server only in the first time the MainMenu is shown (at entering the game in the first time and not also when returning to the MainMenu scene).
+        if (NetworkManager.Instance.isConnected == false)
+            ConnectToServer(); // Connect immediately
+
+        //ConnectToServer(); // Connect immediately
+
 
         UnityMainThreadDispatcher.Instance();
 
@@ -166,20 +171,20 @@ public class NetworkManager : MonoBehaviour
                 });
                 break;
 
-            //case "SendBalloon":
-            //    // Deserialize into SendBalloonMessage
-            //    SendBalloonMessage sendBalloonMessage = messageObject.ToObject<SendBalloonMessage>();
+            case "SendBalloon":
+                // Deserialize into SendBalloonMessage
+                SendBalloonMessage sendBalloonMessage = messageObject.ToObject<SendBalloonMessage>();
 
-            //    // Extract data
-            //    string balloonType = sendBalloonMessage.Data.BalloonType;
-            //    int quantity = sendBalloonMessage.Data.Quantity;
+                // Extract data
+                string balloonType = sendBalloonMessage.Data.BalloonType;
 
-            //    // Spawn opponent balloons
-            //    UnityMainThreadDispatcher.Instance().Enqueue(() =>
-            //    {
-            //        GameManager.Instance.SpawnOpponentBalloons(balloonType, quantity);
-            //    });
-            //    break;
+                // Spawn opponent balloons
+                UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                {
+                    GameManager.Instance.SpawnOpponentBalloon(balloonType);
+                });
+                break;
+
 
             //case "GameSnapshot":
             //    // Deserialize into GameSnapshotMessage
@@ -226,6 +231,7 @@ public class NetworkManager : MonoBehaviour
         // Encrypt message if encryption is implemented
         byte[] bytes = Encoding.UTF8.GetBytes(message);
         stream.Write(bytes, 0, bytes.Length);
+        Debug.Log("Message: " + message);
     }
 
     public void RequestMatchmaking()
@@ -253,344 +259,3 @@ public class NetworkManager : MonoBehaviour
         Debug.Log("NetworkManager configurations have been reset.");
     }
 }
-
-
-
-
-
-
-
-
-
-//using UnityEngine;
-//using System;
-//using System.Net.Sockets;
-//using System.Text;
-//using System.Threading;
-//using System.Threading.Tasks;
-////using Microsoft.CSharp.RuntimeBinder;
-//using System.Collections.Generic;
-//using Newtonsoft.Json;
-//using Newtonsoft;
-
-
-
-//public class NetworkManager : MonoBehaviour
-//{
-//    public static NetworkManager Instance;
-
-//    private TcpClient clientSocket;
-//    private NetworkStream stream;
-//    private byte[] buffer = new byte[4096];
-
-//    private string serverIP = "127.0.0.1"; // Replace with your server's IP address
-//    private int port = 5555; // Ensure it matches the server port
-
-//    private Thread clientThread;
-
-//    public bool isConnected = false;
-
-//    public bool IsMatchmakingRequested { get; private set; } = false;
-
-//    void Awake()
-//    {
-//        // Singleton pattern
-//        if (Instance == null)
-//            Instance = this;
-//        else
-//            Destroy(gameObject);
-
-//        DontDestroyOnLoad(gameObject);
-
-//        ConnectToServer(); // Connect immediately
-//    }
-
-//    public async void ConnectToServer()
-//    {
-//        clientSocket = new TcpClient();
-
-//        try
-//        {
-//            await clientSocket.ConnectAsync(serverIP, port);
-//            stream = clientSocket.GetStream();
-
-//            // Start a thread to listen for incoming data
-//            clientThread = new Thread(ListenForData);
-//            clientThread.IsBackground = true;
-//            clientThread.Start();
-
-//            isConnected = true;
-//            Debug.Log("Connected to server.");
-//        }
-//        catch (Exception ex)
-//        {
-//            Debug.LogError("Failed to connect to server: " + ex.Message);
-//            isConnected = false;
-//            // Handle reconnection logic or notify the player
-//        }
-//    }
-
-//    private void ListenForData()
-//    {
-//        try
-//        {
-//            while (true)
-//            {
-//                int bytesRead = stream.Read(buffer, 0, buffer.Length);
-//                if (bytesRead == 0)
-//                    break; // Connection closed
-
-//                string data = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-//                HandleMessage(data);
-//            }
-//        }
-//        catch (Exception ex)
-//        {
-//            Debug.Log("Disconnected from server: " + ex.Message);
-//            isConnected = false;
-//            // Handle reconnection logic or notify the player
-//        }
-//    }
-
-//    private void HandleMessage(string data)
-//    {
-//        // Decrypt data if encryption is implemented
-
-//        // Deserialize JSON message
-//        //dynamic message = Newtonsoft.Json.JsonConvert.DeserializeObject(data);
-//        var message = Newtonsoft.Json.JsonConvert.DeserializeObject(data);
-//        string messageType = message.Type;
-
-//        //switch (messageType)
-//        //{
-//        //    //case "MatchFound":
-//        //    //    // Notify the game manager that a match is found
-//        //    //    GameManager.Instance.OnMatchFound();
-//        //    //    break;
-
-//        //    //case "SendBalloon":
-//        //    //    // Extract balloon data and spawn balloons
-//        //    //    string balloonType = message.Data.BalloonType;
-//        //    //    int quantity = message.Data.Quantity;
-//        //    //    GameManager.Instance.SpawnOpponentBalloons(balloonType, quantity);
-//        //    //    break;
-
-//        //    //case "GameSnapshot":
-//        //    //    // Receive and display opponent's snapshot
-//        //    //    string imageData = message.Data.ImageData;
-//        //    //    UIManager.Instance.UpdateOpponentSnapshot(imageData);
-//        //    //    break;
-
-//        //    //case "GameOver":
-//        //    //    // Handle game over notification
-//        //    //    bool opponentWon = message.Data.Won;
-//        //    //    GameManager.Instance.OnOpponentGameOver(opponentWon);
-//        //    //    break;
-
-//        //        // Handle other message types
-
-//        //}
-//    }
-
-
-//    public new void SendMessage(string message)
-//    {
-//        if (!isConnected)
-//            return;
-
-//        // Encrypt message if encryption is implemented
-//        byte[] bytes = Encoding.UTF8.GetBytes(message);
-//        stream.Write(bytes, 0, bytes.Length);
-//    }
-
-//    void OnApplicationQuit()
-//    {
-//        // Clean up
-//        if (stream != null)
-//            stream.Close();
-//        if (clientSocket != null)
-//            clientSocket.Close();
-//        if (clientThread != null)
-//            clientThread.Abort();
-//    }
-
-//    public void RequestMatchmaking()
-//    {
-//        IsMatchmakingRequested = true;
-
-//        string message = "{\"Type\":\"MatchmakingRequest\"}";
-//        SendMessage(message);
-//    }
-//}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//using UnityEngine;
-//using System;
-//using System.Net.Sockets;
-//using System.Text;
-//using System.Threading;
-//using System.Threading.Tasks;
-
-
-//public class NetworkManager : MonoBehaviour
-//{
-//    public static NetworkManager Instance;
-
-//    private TcpClient clientSocket;
-//    private NetworkStream stream;
-//    private byte[] buffer = new byte[4096];
-
-//    private string serverIP = "127.0.0.1"; // Replace with your server's IP address
-//    private int port = 5555; // Ensure it matches the server port
-
-//    private Thread clientThread;
-
-//    void Awake()
-//    {
-//        // Singleton pattern
-//        if (Instance == null)
-//            Instance = this;
-//        else
-//            Destroy(gameObject);
-
-//        DontDestroyOnLoad(gameObject);
-
-//        ConnectToServer();
-//    }
-
-//    void Start()
-//    {
-//        //ConnectToServer();
-//    }
-
-//    //public void ConnectToServer()
-//    //{
-//    //    clientSocket = new TcpClient();
-//    //    clientSocket.Connect(serverIP, port);
-//    //    stream = clientSocket.GetStream();
-
-//    //    // Start a thread to listen for incoming data
-//    //    clientThread = new Thread(ListenForData);
-//    //    clientThread.IsBackground = true;
-//    //    clientThread.Start();
-//    //}
-
-//    public async void ConnectToServer()
-//    {
-//        clientSocket = new TcpClient();
-
-//        try
-//        {
-//            await clientSocket.ConnectAsync(serverIP, port);
-//            stream = clientSocket.GetStream();
-
-//            // Start a thread to listen for incoming data
-//            clientThread = new Thread(ListenForData);
-//            clientThread.IsBackground = true;
-//            clientThread.Start();
-
-//            Debug.Log("Connected to server.");
-//        }
-//        catch (Exception ex)
-//        {
-//            Debug.LogError("Failed to connect to server: " + ex.Message);
-//            // Handle reconnection logic or notify the player
-//        }
-//    }
-
-
-//    private void ListenForData()
-//    {
-//        try
-//        {
-//            while (true)
-//            {
-//                int bytesRead = stream.Read(buffer, 0, buffer.Length);
-//                if (bytesRead == 0)
-//                    break; // Connection closed
-
-//                string data = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-//                HandleMessage(data);
-//            }
-//        }
-//        catch (Exception ex)
-//        {
-//            Debug.Log("Disconnected from server: " + ex.Message);
-//        }
-//    }
-
-//    private void HandleMessage(string data)
-//    {
-//        // Decrypt data if encryption is implemented
-
-//        // Deserialize JSON message
-//        dynamic message = Newtonsoft.Json.JsonConvert.DeserializeObject(data);
-//        string messageType = message.Type;
-
-//        switch (messageType)
-//        {
-//            case "MatchFound":
-//                // Notify the game manager that a match is found
-//                GameManager.Instance.OnMatchFound();
-//                break;
-
-//            case "SendBalloon":
-//                // Extract balloon data and spawn balloons
-//                string balloonType = message.Data.BalloonType;
-//                int quantity = message.Data.Quantity;
-//                GameManager.Instance.SpawnOpponentBalloons(balloonType, quantity);
-//                break;
-
-//            case "GameSnapshot":
-//                // Receive and display opponent's snapshot
-//                string imageData = message.Data.ImageData;
-//                UIManager.Instance.UpdateOpponentSnapshot(imageData);
-//                break;
-
-//            case "GameOver":
-//                // Handle game over notification
-//                bool opponentWon = message.Data.Won;
-//                GameManager.Instance.OnOpponentGameOver(opponentWon);
-//                break;
-
-//                // Handle other message types
-//        }
-//    }
-
-
-//    public void SendMessage(string message)
-//    {
-//        // Encrypt message if encryption is implemented
-//        byte[] bytes = Encoding.UTF8.GetBytes(message);
-//        stream.Write(bytes, 0, bytes.Length);
-//    }
-
-//    void OnApplicationQuit()
-//    {
-//        // Clean up
-//        stream.Close();
-//        clientSocket.Close();
-//        clientThread.Abort();
-//    }
-
-//    public void RequestMatchmaking()
-//    {
-//        string message = "{\"Type\":\"MatchmakingRequest\"}";
-//        SendMessage(message);
-//    }
-
-//}
