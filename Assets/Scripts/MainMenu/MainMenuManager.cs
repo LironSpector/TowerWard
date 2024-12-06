@@ -35,7 +35,7 @@ public class MainMenuManager : MonoBehaviour
             NetworkManager.Instance.RequestMatchmaking();
 
             // Load the game scene
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene("WaitingScene");
         }
         else
         {

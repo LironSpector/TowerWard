@@ -113,6 +113,12 @@ public class BalloonSpawner : MonoBehaviour
         balloon.OnEndReached -= OnBalloonDestroyed;
     }
 
+    public void ResetSpawnConfigurations()
+    {
+        currentWaveIndex = 0;
+        Debug.Log("Balloon Spawner configurations have been reset.");
+    }
+
 }
 
 

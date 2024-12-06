@@ -27,11 +27,14 @@ public class NetworkManager : MonoBehaviour
     {
         // Singleton pattern
         if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
         else
             Destroy(gameObject);
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
         //Connect to the server only in the first time the MainMenu is shown (at entering the game in the first time and not also when returning to the MainMenu scene).
         if (NetworkManager.Instance.isConnected == false)
@@ -163,11 +166,47 @@ public class NetworkManager : MonoBehaviour
         switch (messageType)
         {
             case "MatchFound":
+                //// Handle MatchFound message
+                //UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                //{
+                //    Debug.Log("Match found!");
+                //    Debug.Log("Game Manager: " + GameManager.Instance);
+
+                //    if (GameManager.Instance == null)
+                //    {
+                //        Debug.LogWarning("GameManager.Instance is null. Attempting to find it...");
+                //        GameManager.Instance = FindObjectOfType<GameManager>();
+
+                //        if (GameManager.Instance == null)
+                //        {
+                //            Debug.LogError("GameManager could not be found in the scene!");
+                //            return; // Avoid calling OnMatchFound if GameManager still doesn't exist
+                //        }
+                //    }
+
+                //    GameManager.Instance.OnMatchFound();
+                //});
+                //break;
+
+
+
                 // Handle MatchFound message
                 UnityMainThreadDispatcher.Instance().Enqueue(() =>
                 {
                     Debug.Log("Match found!");
-                    GameManager.Instance.OnMatchFound();
+                    // Check if MatchmakingManager exists
+                    if (MatchmakingManager.Instance != null)
+                    {
+                        MatchmakingManager.Instance.OnMatchFound();
+                    }
+                    else if (GameManager.Instance != null)
+                    {
+                        GameManager.Instance.OnMatchFound();
+                    }
+                    else
+                    {
+                        Debug.LogError("No handler found for MatchFound message.");
+                    }
                 });
                 break;
 

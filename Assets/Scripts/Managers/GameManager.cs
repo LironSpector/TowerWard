@@ -52,23 +52,30 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Yes!!!");
             CurrentGameMode = GameMode.Multiplayer;
-            // Wait for match to be found
+
+            // Since we've already found a match, we can start the game
+            if (balloonSendingPanel != null)
+            {
+                balloonSendingPanel.SetActive(true);
+            }
+
+            StartGame();
         }
         else
         {
             Debug.Log("No!!!");
             CurrentGameMode = GameMode.SinglePlayer;
             // Start single-player game immediately
+
+            if (balloonSendingPanel != null)
+            {
+                //balloonSendingPanel.SetActive(CurrentGameMode == GameMode.Multiplayer);
+                balloonSendingPanel.SetActive(false);
+            }
+
             StartGame();
         }
         Debug.Log("CurrentGameMode: " + CurrentGameMode);
-
-
-        if (balloonSendingPanel != null)
-        {
-            //balloonSendingPanel.SetActive(CurrentGameMode == GameMode.Multiplayer);
-            balloonSendingPanel.SetActive(false);
-        }
     }
 
     public void OnMatchFound()
@@ -140,6 +147,10 @@ public class GameManager : MonoBehaviour
 
         isGameOver = true;
         winPanel.SetActive(true);
+
+        NetworkManager.Instance.ResetMatchmaking();
+        //BalloonSpawner.Instance.ResetSpawnConfigurations();
+
         Time.timeScale = 0; // Pause the game
 
         if (CurrentGameMode == GameMode.Multiplayer)
@@ -159,6 +170,7 @@ public class GameManager : MonoBehaviour
         gameOverPanel.SetActive(true);
 
         NetworkManager.Instance.ResetMatchmaking();
+        //BalloonSpawner.Instance.ResetSpawnConfigurations();
 
         Time.timeScale = 0; // Pause the game
 
