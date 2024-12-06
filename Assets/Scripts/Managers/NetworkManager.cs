@@ -239,6 +239,15 @@ public class NetworkManager : MonoBehaviour
             //    });
             //    break;
 
+
+            case "OpponentDisconnected":
+                UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                {
+                    // The other player disconnected, we automatically win
+                    GameManager.Instance.OnOpponentGameOver(opponentWon: false, reason: "The other player disconnected");
+                });
+                break;
+
             case "GameOver":
                 // Deserialize into GameOverMessage
                 GameOverMessage gameOverMessage = messageObject.ToObject<GameOverMessage>();

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class MatchmakingManager : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class MatchmakingManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
+            Debug.Log("MatchmakingManager has awaken!");
         }
         else
             Destroy(gameObject);
@@ -24,7 +26,14 @@ public class MatchmakingManager : MonoBehaviour
 
     public void OnMatchFound()
     {
-        // Transition to the Game scene
+        // Start a coroutine to delay the scene load
+        StartCoroutine(DelayedMatchStart());
+    }
+
+    private IEnumerator DelayedMatchStart()
+    {
+        yield return new WaitForSeconds(1f); // 1 second delay between the moment a match is found and the moment the game begins, for better user experience.
         SceneManager.LoadScene("SampleScene");
     }
+
 }

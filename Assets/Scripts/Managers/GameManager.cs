@@ -140,13 +140,21 @@ public class GameManager : MonoBehaviour
         currencyText.text = "Currency: " + currency;
     }
 
-    public void WinGame()
+    public void WinGame(string reason)
     {
         if (isGameOver)
             return;
 
         isGameOver = true;
         winPanel.SetActive(true);
+
+        // Find the reason text object:
+        TextMeshProUGUI winReasonText = winPanel.transform.Find("WinMessageText").GetComponent<TextMeshProUGUI>();
+        if (winReasonText != null)
+        {
+            winReasonText.text = reason;
+        }
+
 
         NetworkManager.Instance.ResetMatchmaking();
         //BalloonSpawner.Instance.ResetSpawnConfigurations();
@@ -182,7 +190,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OnOpponentGameOver(bool opponentWon)
+    //public void OnOpponentGameOver(bool opponentWon)
+    //{
+    //    if (isGameOver)
+    //        return;
+
+    //    if (opponentWon)
+    //    {
+    //        // The opponent won, so we lost
+    //        GameOver();
+    //    }
+    //    else
+    //    {
+    //        // The opponent lost, so we won
+    //        WinGame();
+    //    }
+    //}
+
+    public void OnOpponentGameOver(bool opponentWon, string reason = null)
     {
         if (isGameOver)
             return;
@@ -190,14 +215,21 @@ public class GameManager : MonoBehaviour
         if (opponentWon)
         {
             // The opponent won, so we lost
+            // show GameOver panel as usual
             GameOver();
         }
         else
         {
-            // The opponent lost, so we won
-            WinGame();
+            // The opponent lost or disconnected, so we win
+            if (string.IsNullOrEmpty(reason))
+            {
+                // Default reason if not provided, e.g., "You've defeated the other player"
+                reason = "You've defeated the other player";
+            }
+            WinGame(reason);
         }
     }
+
 
     // Method to check if a position is occupied, with float tolerance
     public bool IsCellOccupied(Vector2 position)

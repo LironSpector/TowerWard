@@ -83,7 +83,9 @@ public class BalloonSpawner : MonoBehaviour
         {
             // No more waves and all balloons are destroyed, player wins
             yield return new WaitForSeconds(5); //wait for a few more seconds because sometimes at high levels the "balloonsRemaining" is sometimes 0 a bit early.
-            GameManager.Instance.WinGame();
+            //GameManager.Instance.WinGame();
+            GameManager.Instance.WinGame(reason: "You've defeated all the waves");
+
         }
         else
         {
