@@ -68,28 +68,4 @@ public class BalloonMovement : MonoBehaviour
         }
     }
 
-
-
-    // Old Move() function with less accuracty 
-    //void Move()
-    //{
-    //    if (waypointIndex < waypoints.Length)
-    //    {
-    //        Transform targetWaypoint = waypoints[waypointIndex];
-    //        float movementStep = balloon.speed * Time.deltaTime;
-    //        transform.position = Vector2.MoveTowards(transform.position, targetWaypoint.position, movementStep);
-
-    //        if (Vector2.Distance(transform.position, targetWaypoint.position) < 0.1f)
-    //        {
-    //            waypointIndex++;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        // Balloon reached the end
-    //        GameManager.Instance.LoseLife();
-    //        Destroy(gameObject);
-    //    }
-    //}
-
 }

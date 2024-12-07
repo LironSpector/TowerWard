@@ -28,8 +28,8 @@ public class GridManager : MonoBehaviour
     // Optional: You can add methods to get grid boundaries, check if a position is within the grid, etc.
     public bool IsWithinGrid(Vector2 position, int gridWidth, int gridHeight)
     {
-        float gridOriginXRectifiedPosition = -5f;
-        float gridOriginYRectifiedPosition = -2.5f;
+        float gridOriginXRectifiedPosition = -1f; //Used to be -5f before changing the map location.
+        float gridOriginYRectifiedPosition = -0.5f; //Used to be -2.5f before changing the map location.
 
         float gridMinX = gridOriginXRectifiedPosition;
         float gridMaxX = gridOriginXRectifiedPosition + (gridWidth * cellSize);

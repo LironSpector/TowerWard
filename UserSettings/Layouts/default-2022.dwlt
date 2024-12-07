@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Console
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -273,8 +273,8 @@ MonoBehaviour:
     y: 0
     width: 458
     height: 939
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -326,7 +326,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/BalloonButtons
+    - Assets/Scripts/Managers
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -334,16 +334,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Prefabs/BalloonButtons
+  - Assets/Scripts/Managers
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\gilsp\Documents\Spector Family\Liron\Programming\TowerWard
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 180}
-    m_SelectedIDs: 727d0000
-    m_LastClickedID: 32114
-    m_ExpandedIDs: 00000000587900005a7900005c7900005e79000000ca9a3b
+    scrollPos: {x: 0, y: 173}
+    m_SelectedIDs: 4a830000
+    m_LastClickedID: 33610
+    m_ExpandedIDs: 000000005479000056790000587900005a7900005e83000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -359,7 +359,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 10}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -371,7 +371,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000587900005a7900005c7900005e790000
+    m_ExpandedIDs: 000000005479000056790000587900005a790000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -396,9 +396,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: ce250100
+    m_LastClickedInstanceID: 75214
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300001a7a0000908e000000000000467b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -415,7 +415,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 10}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -466,7 +466,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: f8faffff
+      m_ExpandedIDs: 0a18e7ffba18e7ff981ce7ff9e1ce7ffbc1ce7ff4e2ce7ffe442e7ff0880e7ff489fe7fff89fe7ffcea3e7ffd4a3e7fff2a3e7ff1036f0ff2438f0ff3a42f0ff8a44f0ffd258f0ff9062f0ffca68f0ff5a9df0ffe289fdff688efdfff22cfeff5c2efeffea2efeff84c7ffff34c8ffff0accffff10ccffff2eccffff7ad0ffff60d1ffff62d5fffff2d5ffffcee6ffffa4e7ffff7ce8ffff74e9ffff44ebffff48edfffff8fafffff4ffffffb8830000228400005a840000e084000024e9000052ff00007eff00007607010076250100ba250100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -970,9 +970,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 252.04478, y: 73.956604, z: -1.3043646}
+    m_Target: {x: 444.5643, y: 172.30498, z: -3.982367}
     speed: 2
-    m_Value: {x: 252.04478, y: 73.956604, z: -1.3043646}
+    m_Value: {x: 444.5643, y: 172.30498, z: -3.982367}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1022,9 +1022,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 137.06754
+    m_Target: 404.86884
     speed: 2
-    m_Value: 137.06754
+    m_Value: 404.86884
   m_Ortho:
     m_Target: 1
     speed: 2

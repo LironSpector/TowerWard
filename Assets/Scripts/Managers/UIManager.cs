@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.IO;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,6 +16,9 @@ public class UIManager : MonoBehaviour
     public Button sellButton;
 
     private Tower selectedTower;
+
+    public RawImage opponentSnapshotImage; // Assign in Inspector
+    public GameObject opponentSnapshotPanel; // Assign in Inspector
 
     //// UI element to display opponent's snapshot
     //public RawImage opponentSnapshotImage;
@@ -143,14 +148,44 @@ public class UIManager : MonoBehaviour
     }
 
 
+    public void SetOpponentSnapshotPanel(bool isMultiplayer)
+    {
+        // Only show opponent snapshot panel in Multiplayer mode
+        opponentSnapshotPanel.SetActive(isMultiplayer);
+    }
 
-    //public void UpdateOpponentSnapshot(string imageData)
-    //{
-    //    byte[] imageBytes = Convert.FromBase64String(imageData);
-    //    Texture2D texture = new Texture2D(2, 2);
-    //    texture.LoadImage(imageBytes);
 
-    //    // Assign texture to the UI element
-    //    opponentSnapshotImage.texture = texture;
-    //}
+    private byte[] DecompressData(byte[] data)
+    {
+        using (var input = new MemoryStream(data))
+        using (var gzip = new System.IO.Compression.GZipStream(input, System.IO.Compression.CompressionMode.Decompress))
+        using (var output = new MemoryStream())
+        {
+            gzip.CopyTo(output);
+            return output.ToArray();
+        }
+    }
+
+    public void UpdateOpponentSnapshot(string imageData)
+    {
+        if (string.IsNullOrEmpty(imageData))
+            return;
+
+        byte[] compressedBytes = System.Convert.FromBase64String(imageData);
+        byte[] imageBytes = DecompressData(compressedBytes);
+        //byte[] imageBytes = System.Convert.FromBase64String(imageData);
+        Debug.Log("------ Image bytes - before updating (end): ---------> " + BitConverter.ToString(imageBytes));
+
+        Texture2D texture = new Texture2D(2, 2); //(2, 2) is an initial value of 2*2 pixels, but it is override by the dimentions of "imageBytes" in "texture.LoadImage(imageBytes)"
+        texture.LoadImage(imageBytes);
+
+        opponentSnapshotImage.texture = texture;
+    }
+
+    void OnDestroy()
+    {
+        //To save memory - I am not sure if it's needed
+        opponentSnapshotImage = null;
+        opponentSnapshotPanel = null;
+    }
 }

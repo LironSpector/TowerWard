@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json; // Make sure to import Newtonsoft.Json
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 public class NetworkManager : MonoBehaviour
@@ -15,7 +15,7 @@ public class NetworkManager : MonoBehaviour
     private NetworkStream stream;
     private byte[] buffer = new byte[4096];
 
-    private string serverIP = "127.0.0.1"; // Replace with your server's IP address
+    private string serverIP = "127.0.0.1";
     private int port = 5555; // Ensure it matches the server port
 
     private Thread clientThread;
@@ -34,13 +34,10 @@ public class NetworkManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        //DontDestroyOnLoad(gameObject);
 
         //Connect to the server only in the first time the MainMenu is shown (at entering the game in the first time and not also when returning to the MainMenu scene).
         if (NetworkManager.Instance.isConnected == false)
             ConnectToServer(); // Connect immediately
-
-        //ConnectToServer(); // Connect immediately
 
 
         UnityMainThreadDispatcher.Instance();
@@ -72,84 +69,81 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    //private void ListenForData()
+    //{
+    //    try
+    //    {
+    //        while (true)
+    //        {
+    //            int bytesRead = stream.Read(buffer, 0, buffer.Length);
+    //            //Debug.Log($"bytesRead: {bytesRead}");
+    //            if (bytesRead == 0)
+    //                break; // Connection closed
+
+    //            string data = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+    //            //Debug.Log($"data - bytesRead: {data}");
+
+    //            //HandleMessage(data);
+
+    //            UnityMainThreadDispatcher.Instance().Enqueue(() => HandleMessage(data));
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        //Debug.Log("Disconnected from server: " + ex.Message);
+    //        //isConnected = false;
+
+    //        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+    //        {
+    //            Debug.Log("Disconnected from server: " + ex.Message);
+    //            isConnected = false;
+    //        });
+
+    //        // Handle reconnection logic or notify the player
+    //    }
+    //}
+
+
     private void ListenForData()
     {
         try
         {
             while (true)
             {
-                int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                //Debug.Log($"bytesRead: {bytesRead}");
-                if (bytesRead == 0)
-                    break; // Connection closed
+                // Read length
+                byte[] lengthBuffer = new byte[4];
+                int bytesRead = stream.Read(lengthBuffer, 0, 4);
+                if (bytesRead == 0) break; // Connection closed
+                int messageLength = BitConverter.ToInt32(lengthBuffer, 0);
 
-                string data = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                //Debug.Log($"data - bytesRead: {data}");
+                // Now read the message
+                byte[] messageBuffer = new byte[messageLength];
+                int totalBytesRead = 0;
+                while (totalBytesRead < messageLength)
+                {
+                    int read = stream.Read(messageBuffer, totalBytesRead, messageLength - totalBytesRead);
+                    if (read == 0) break;
+                    totalBytesRead += read;
+                }
 
-                //HandleMessage(data);
+                if (totalBytesRead < messageLength)
+                    break; // Connection closed partway through message
+
+                string data = Encoding.UTF8.GetString(messageBuffer, 0, totalBytesRead);
+                Debug.Log("Data is: " + data);
 
                 UnityMainThreadDispatcher.Instance().Enqueue(() => HandleMessage(data));
             }
         }
         catch (Exception ex)
         {
-            //Debug.Log("Disconnected from server: " + ex.Message);
-            //isConnected = false;
-
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 Debug.Log("Disconnected from server: " + ex.Message);
                 isConnected = false;
             });
-
-            // Handle reconnection logic or notify the player
         }
     }
-
-    //private void HandleMessage(string data)
-    //{
-    //    // Decrypt data if encryption is implemented
-
-    //    // Deserialize JSON message
-    //    dynamic message = JsonConvert.DeserializeObject(data);
-    //    string messageType = message.Type;
-
-
-    //    switch (messageType)
-    //    {
-    //        case "MatchFound":
-    //            // Notify the game manager that a match is found
-    //            UnityMainThreadDispatcher.Instance().Enqueue(() =>
-    //            {
-    //                GameManager.Instance.OnMatchFound();
-    //            });
-    //            break;
-
-    //        //case "SendBalloon":
-    //        //    // Extract balloon data and spawn balloons
-    //        //    string balloonType = message.Data.BalloonType;
-    //        //    int quantity = message.Data.Quantity;
-    //        //    GameManager.Instance.SpawnOpponentBalloons(balloonType, quantity);
-    //        //    break;
-
-    //        //case "GameSnapshot":
-    //        //    // Receive and display opponent's snapshot
-    //        //    string imageData = message.Data.ImageData;
-    //        //    UIManager.Instance.UpdateOpponentSnapshot(imageData);
-    //        //    break;
-
-    //        case "GameOver":
-    //            // Handle game over notification
-    //            bool opponentWon = message.Data.Won;
-    //            GameManager.Instance.OnOpponentGameOver(opponentWon);
-    //            break;
-
-    //        // Handle other message types
-    //        default:
-    //            Debug.LogWarning("Unknown message type received: " + messageType);
-    //            break;
-    //    }
-    //}
 
 
     private void HandleMessage(string data)
@@ -159,6 +153,7 @@ public class NetworkManager : MonoBehaviour
 
         // Parse the JSON into a JObject
         JObject messageObject = JObject.Parse(decryptedData);
+        Debug.Log("messageObject: " + messageObject);
 
         // Extract the message type
         string messageType = messageObject["Type"].ToString();
@@ -213,6 +208,7 @@ public class NetworkManager : MonoBehaviour
             case "SendBalloon":
                 // Deserialize into SendBalloonMessage
                 SendBalloonMessage sendBalloonMessage = messageObject.ToObject<SendBalloonMessage>();
+                Debug.Log("Sending balloon---: " + sendBalloonMessage);
 
                 // Extract data
                 string balloonType = sendBalloonMessage.Data.BalloonType;
@@ -225,19 +221,23 @@ public class NetworkManager : MonoBehaviour
                 break;
 
 
-            //case "GameSnapshot":
-            //    // Deserialize into GameSnapshotMessage
-            //    GameSnapshotMessage snapshotMessage = messageObject.ToObject<GameSnapshotMessage>();
+            case "GameSnapshot":
+                // Deserialize into GameSnapshotMessage
+                GameSnapshotMessage snapshotMessage = messageObject.ToObject<GameSnapshotMessage>();
 
-            //    // Extract data
-            //    string imageData = snapshotMessage.Data.ImageData;
+                // Extract data
+                string imageData = snapshotMessage.Data.ImageData;
+                //For testing:
+                //string imageData = "H4sIAAAAAAAACusM8HPn5ZLiYmBg4PX0cAkC0l+AuJODCUhO+di0jYGBabani2NIBePbS4y8DAo8LIYHBJ0+NNc09Xo/f5A/9/edhyIaYhFHA800P3AfOOu4jeHOzetSbObMN5kK0uOzJe7wpHAfmFu7NrHAeIIuQ/m3rW0HzzqMKhpVRA1FHxjaDzJxbLHdHAtMrQyern4u65wSmgBodMdY1AIAAA==";
+                Debug.Log("imageData: " + imageData);
 
-            //    // Update opponent snapshot
-            //    UnityMainThreadDispatcher.Instance().Enqueue(() =>
-            //    {
-            //        UIManager.Instance.UpdateOpponentSnapshot(imageData);
-            //    });
-            //    break;
+
+                // Update opponent snapshot
+                UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                {
+                    UIManager.Instance.UpdateOpponentSnapshot(imageData);
+                });
+                break;
 
 
             case "OpponentDisconnected":
@@ -270,24 +270,61 @@ public class NetworkManager : MonoBehaviour
     }
 
 
+    //public new void SendMessage(string message)
+    //{
+    //    if (!isConnected)
+    //        return;
 
-    public new void SendMessage(string message)
+    //    // Encrypt message if encryption is implemented
+    //    byte[] bytes = Encoding.UTF8.GetBytes(message);
+    //    stream.Write(bytes, 0, bytes.Length);
+    //    Debug.Log("Message: " + message);
+    //}
+
+
+
+    //public new void SendMessage(string message)
+    //{
+    //    byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+
+    //    // Prepend the length of the message as a 4-byte integer
+    //    byte[] lengthPrefix = BitConverter.GetBytes(messageBytes.Length);
+    //    if (BitConverter.IsLittleEndian)
+    //    {
+    //        Array.Reverse(lengthPrefix); // Ensure big-endian for consistency
+    //    }
+
+    //    // Send the length prefix followed by the actual message
+    //    stream.Write(lengthPrefix, 0, lengthPrefix.Length);
+    //    stream.Write(messageBytes, 0, messageBytes.Length);
+    //}
+
+
+    public void SendMessageWithLengthPrefix(string message)
     {
-        if (!isConnected)
-            return;
+        if (!isConnected) return;
 
-        // Encrypt message if encryption is implemented
-        byte[] bytes = Encoding.UTF8.GetBytes(message);
-        stream.Write(bytes, 0, bytes.Length);
-        Debug.Log("Message: " + message);
+        byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+        byte[] lengthBytes = BitConverter.GetBytes(messageBytes.Length);
+
+        // Send length first
+        stream.Write(lengthBytes, 0, lengthBytes.Length);
+        // Then send message
+        stream.Write(messageBytes, 0, messageBytes.Length);
+
+        Debug.Log("Sent (with length): " + message);
     }
+
+
+
 
     public void RequestMatchmaking()
     {
         IsMatchmakingRequested = true;
 
         string message = "{\"Type\":\"MatchmakingRequest\"}";
-        SendMessage(message);
+        //SendMessage(message);
+        SendMessageWithLengthPrefix(message);
     }
 
     void OnApplicationQuit()
