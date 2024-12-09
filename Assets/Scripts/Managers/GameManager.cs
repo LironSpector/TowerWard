@@ -328,7 +328,7 @@ public class GameManager : MonoBehaviour
     {
         while (!isGameOver)
         {
-            yield return new WaitForSeconds(5f); // Every 5 seconds
+            yield return new WaitForSeconds(1f); // Every 5 seconds
             yield return new WaitForEndOfFrame(); //Check if this line is needed here.
             SendSnapshotToServer();
         }
@@ -338,15 +338,16 @@ public class GameManager : MonoBehaviour
     {
         Texture2D snapshot = CaptureSnapshot();
 
-        byte[] pngBytes = snapshot.EncodeToPNG();
-        Debug.Log("------ Image bytes - (beginning): ---------> " + BitConverter.ToString(pngBytes));
+        //byte[] pngBytes = snapshot.EncodeToPNG();
+        //Debug.Log("------ Image bytes - (beginning): ---------> " + BitConverter.ToString(pngBytes));
+        byte[] jpgBytes = snapshot.EncodeToJPG(50);
 
 
         // Compress the PNG data
-        byte[] compressedBytes = CompressData(pngBytes);
+        byte[] compressedBytes = CompressData(jpgBytes);
         string imageData = Convert.ToBase64String(compressedBytes);
         //string imageData = Convert.ToBase64String(pngBytes);
-        Debug.Log("Length comparison: ---------> " + pngBytes.Length + ", " + compressedBytes.Length);
+        Debug.Log("Length comparison: ---------> " + jpgBytes.Length + ", " + compressedBytes.Length);
         Debug.Log("Image Data initialy is: " + imageData);
 
         var snapshotMessage = new GameSnapshotMessage

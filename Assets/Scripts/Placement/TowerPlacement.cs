@@ -194,22 +194,89 @@ public class TowerPlacement : MonoBehaviour
         return true;
     }
 
+    //bool IsOnBalloonPath(Vector2 position)
+    //{
+    //    // Convert world position to cell position
+    //    Vector3Int cellPosition = tilemap.WorldToCell(position);
+    //    Debug.Log("Cell position is this: " + cellPosition);
+    //    Debug.Log("Cell position type: " + cellPosition.GetType());
+
+    //    // Get the tile at the cell position
+    //    TileBase tile = tilemap.GetTile(cellPosition);
+
+    //    // Check if the tile is a PathTile
+    //    if (tile is PathTile)
+    //    {
+    //        return true; // Position is on the balloon path
+    //    }
+
+    //    return false; // Position is not on the balloon path
+    //}
+
     bool IsOnBalloonPath(Vector2 position)
     {
-        // Convert world position to cell position
-        Vector3Int cellPosition = tilemap.WorldToCell(position);
-
-        // Get the tile at the cell position
-        TileBase tile = tilemap.GetTile(cellPosition);
-
-        // Check if the tile is a PathTile
-        if (tile is PathTile)
+        List<Vector3Int> balloonPathPositions = new List<Vector3Int>
         {
-            return true; // Position is on the balloon path
-        }
+            new Vector3Int(-10, 3, 0),
+            new Vector3Int(-9, 3, 0),
+            new Vector3Int(-8, 3, 0),
+            new Vector3Int(-7, 3, 0),
+            new Vector3Int(-6, 3, 0),
+            new Vector3Int(-5, 3, 0),
+            new Vector3Int(-4, 3, 0),
+            new Vector3Int(-3, 3, 0),
+            new Vector3Int(-2, 3, 0),
+            new Vector3Int(-1, 3, 0),
+            new Vector3Int(-0, 3, 0),
+            new Vector3Int(1, 3, 0),
+            new Vector3Int(2, 3, 0),
+            new Vector3Int(3, 3, 0),
+            new Vector3Int(3, 2, 0),
+            new Vector3Int(3, 1, 0),
+            new Vector3Int(2, 1, 0),
+            new Vector3Int(1, 1, 0),
+            new Vector3Int(0, 1, 0),
+            new Vector3Int(-1, 1, 0),
+            new Vector3Int(-2, 1, 0),
+            new Vector3Int(-3, 1, 0),
+            new Vector3Int(-4, 1, 0),
+            new Vector3Int(-5, 1, 0),
+            new Vector3Int(-6, 1, 0),
+            new Vector3Int(-7, 1, 0),
+            new Vector3Int(-8, 1, 0),
+            new Vector3Int(-8, 0, 0),
+            new Vector3Int(-8, -1, 0),
+            new Vector3Int(-7, -1, 0),
+            new Vector3Int(-6, -1, 0),
+            new Vector3Int(-5, -1, 0),
+            new Vector3Int(-4, -1, 0),
+            new Vector3Int(-3, -1, 0),
+            new Vector3Int(-2, -1, 0),
+            new Vector3Int(-1, -1, 0),
+            new Vector3Int(0, -1, 0),
+            new Vector3Int(0, -2, 0),
+            new Vector3Int(0, -3, 0),
+            new Vector3Int(0, -4, 0),
+            new Vector3Int(-1, -4, 0),
+            new Vector3Int(-2, -4, 0),
+            new Vector3Int(-3, -4, 0),
+            new Vector3Int(-4, -4, 0),
+            new Vector3Int(-5, -4, 0),
+            new Vector3Int(-6, -4, 0),
+            new Vector3Int(-7, -4, 0),
+            new Vector3Int(-8, -4, 0),
+            new Vector3Int(-9, -4, 0),
+            new Vector3Int(-10, -4, 0),
+        };
 
-        return false; // Position is not on the balloon path
+        Vector3Int cellPosition = tilemap.WorldToCell(position);
+        Debug.Log("Cell position is this: " + cellPosition);
+        Debug.Log("Cell position type: " + cellPosition.GetType());
+
+        return balloonPathPositions.Contains(cellPosition);
     }
+
+
 
     void CancelPlacement()
     {
