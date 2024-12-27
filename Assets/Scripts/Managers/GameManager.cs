@@ -142,8 +142,10 @@ public class GameManager : MonoBehaviour
 
     void UpdateUI()
     {
-        livesText.text = "Lives: " + lives;
-        currencyText.text = "Currency: " + currency;
+        livesText.text = lives.ToString();
+        currencyText.text = currency.ToString();
+        //livesText.text = "Lives: " + lives;
+        //currencyText.text = "Currency: " + currency;
     }
 
     public void WinGame(string reason)
@@ -237,6 +239,7 @@ public class GameManager : MonoBehaviour
     // Method to mark a cell as occupied by a tower
     public void OccupyCell(Vector2 position, Tower tower)
     {
+        Debug.Log("Position to occupy: " + position);
         occupiedCells[position] = tower;
     }
 

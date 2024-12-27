@@ -18,8 +18,10 @@ public class TowerPlacement : MonoBehaviour
     private bool isPlacing = false;
     private int selectedTowerIndex = -1; // No tower selected by default
 
-    public int gridWidth = 16; // Exclude the tower selection column
-    public int gridHeight = 10;
+    //public int gridWidth = 16; // Exclude the tower selection column
+    //public int gridHeight = 10;
+    public int gridWidth = 26; // Exclude the tower selection column
+    public int gridHeight = 14;
 
     public Tilemap tilemap; // Reference to the tilemap
 
@@ -130,8 +132,11 @@ public class TowerPlacement : MonoBehaviour
     void MovePendingTowerToMouse()
     {
         Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        //Debug.Log("Mouse position is: " + mousePosition);
+
         //Debug.Log("gridPosition: " + GridManager.Instance);
         Vector2 gridPosition = GridManager.Instance.SnapToGrid(mousePosition);
+        //Debug.Log("gridPosition: " + gridPosition);
 
         pendingTower.transform.position = gridPosition;
     }
@@ -139,6 +144,8 @@ public class TowerPlacement : MonoBehaviour
     void PlaceTower()
     {
         Vector2 gridPosition = GridManager.Instance.SnapToGrid(pendingTower.transform.position);
+        Debug.Log("gridPosition: " + gridPosition);
+
 
         // Check if the position is valid
         if (IsValidPlacement(pendingTower.transform.position))
@@ -217,57 +224,96 @@ public class TowerPlacement : MonoBehaviour
     {
         List<Vector3Int> balloonPathPositions = new List<Vector3Int>
         {
-            new Vector3Int(-10, 3, 0),
-            new Vector3Int(-9, 3, 0),
-            new Vector3Int(-8, 3, 0),
-            new Vector3Int(-7, 3, 0),
-            new Vector3Int(-6, 3, 0),
-            new Vector3Int(-5, 3, 0),
-            new Vector3Int(-4, 3, 0),
-            new Vector3Int(-3, 3, 0),
-            new Vector3Int(-2, 3, 0),
-            new Vector3Int(-1, 3, 0),
-            new Vector3Int(-0, 3, 0),
-            new Vector3Int(1, 3, 0),
-            new Vector3Int(2, 3, 0),
-            new Vector3Int(3, 3, 0),
-            new Vector3Int(3, 2, 0),
-            new Vector3Int(3, 1, 0),
-            new Vector3Int(2, 1, 0),
-            new Vector3Int(1, 1, 0),
-            new Vector3Int(0, 1, 0),
-            new Vector3Int(-1, 1, 0),
-            new Vector3Int(-2, 1, 0),
-            new Vector3Int(-3, 1, 0),
-            new Vector3Int(-4, 1, 0),
-            new Vector3Int(-5, 1, 0),
-            new Vector3Int(-6, 1, 0),
-            new Vector3Int(-7, 1, 0),
-            new Vector3Int(-8, 1, 0),
+            // Path from waypoint0 (-10, 2, 0) to waypoint1 (9, 2, 0)
+            new Vector3Int(-10, 2, 0), new Vector3Int(-9, 2, 0), new Vector3Int(-8, 2, 0), new Vector3Int(-7, 2, 0), new Vector3Int(-6, 2, 0),
+            new Vector3Int(-5, 2, 0), new Vector3Int(-4, 2, 0), new Vector3Int(-3, 2, 0), new Vector3Int(-2, 2, 0), new Vector3Int(-1, 2, 0),
+            new Vector3Int(0, 2, 0), new Vector3Int(1, 2, 0), new Vector3Int(2, 2, 0), new Vector3Int(3, 2, 0), new Vector3Int(4, 2, 0),
+            new Vector3Int(5, 2, 0), new Vector3Int(6, 2, 0), new Vector3Int(7, 2, 0), new Vector3Int(8, 2, 0), new Vector3Int(9, 2, 0),
+
+            // Path from waypoint1 (9, 2, 0) to waypoint2 (9, -3, 0)
+            new Vector3Int(9, 1, 0), new Vector3Int(9, 0, 0), new Vector3Int(9, -1, 0), new Vector3Int(9, -2, 0), new Vector3Int(9, -3, 0),
+
+            // Path from waypoint2 (9, -3, 0) to waypoint3 (3, -3, 0)
+            new Vector3Int(8, -3, 0), new Vector3Int(7, -3, 0), new Vector3Int(6, -3, 0), new Vector3Int(5, -3, 0), new Vector3Int(4, -3, 0),
+            new Vector3Int(3, -3, 0),
+
+            // Path from waypoint3 (3, -3, 0) to waypoint4 (3, 0, 0)
+            new Vector3Int(3, -2, 0), new Vector3Int(3, -1, 0), new Vector3Int(3, 0, 0),
+
+            // Path from waypoint4 (3, 0, 0) to waypoint5 (-8, 0, 0)
+            new Vector3Int(2, 0, 0), new Vector3Int(1, 0, 0), new Vector3Int(0, 0, 0), new Vector3Int(-1, 0, 0), new Vector3Int(-2, 0, 0),
+            new Vector3Int(-3, 0, 0), new Vector3Int(-4, 0, 0), new Vector3Int(-5, 0, 0), new Vector3Int(-6, 0, 0), new Vector3Int(-7, 0, 0),
             new Vector3Int(-8, 0, 0),
-            new Vector3Int(-8, -1, 0),
-            new Vector3Int(-7, -1, 0),
-            new Vector3Int(-6, -1, 0),
-            new Vector3Int(-5, -1, 0),
-            new Vector3Int(-4, -1, 0),
-            new Vector3Int(-3, -1, 0),
-            new Vector3Int(-2, -1, 0),
-            new Vector3Int(-1, -1, 0),
-            new Vector3Int(0, -1, 0),
-            new Vector3Int(0, -2, 0),
-            new Vector3Int(0, -3, 0),
-            new Vector3Int(0, -4, 0),
-            new Vector3Int(-1, -4, 0),
-            new Vector3Int(-2, -4, 0),
-            new Vector3Int(-3, -4, 0),
-            new Vector3Int(-4, -4, 0),
-            new Vector3Int(-5, -4, 0),
-            new Vector3Int(-6, -4, 0),
-            new Vector3Int(-7, -4, 0),
-            new Vector3Int(-8, -4, 0),
-            new Vector3Int(-9, -4, 0),
-            new Vector3Int(-10, -4, 0),
+
+            // Path from waypoint5 (-8, 0, 0) to waypoint6 (-8, -4, 0)
+            new Vector3Int(-8, -1, 0), new Vector3Int(-8, -2, 0), new Vector3Int(-8, -3, 0), new Vector3Int(-8, -4, 0),
+
+            // Path from waypoint6 (-8, -4, 0) to waypoint7 (0, -4, 0)
+            new Vector3Int(-7, -4, 0), new Vector3Int(-6, -4, 0), new Vector3Int(-5, -4, 0), new Vector3Int(-4, -4, 0), new Vector3Int(-3, -4, 0),
+            new Vector3Int(-2, -4, 0), new Vector3Int(-1, -4, 0), new Vector3Int(0, -4, 0),
+
+            // Path from waypoint7 (0, -4, 0) to waypoint8 (0, -7, 0)
+            new Vector3Int(0, -5, 0), new Vector3Int(0, -6, 0), new Vector3Int(0, -7, 0),
+
+            // Path from waypoint8 (0, -7, 0) to waypoint9 (-10, -7, 0)
+            new Vector3Int(-1, -7, 0), new Vector3Int(-2, -7, 0), new Vector3Int(-3, -7, 0), new Vector3Int(-4, -7, 0), new Vector3Int(-5, -7, 0),
+            new Vector3Int(-6, -7, 0), new Vector3Int(-7, -7, 0), new Vector3Int(-8, -7, 0), new Vector3Int(-9, -7, 0), new Vector3Int(-10, -7, 0)
         };
+
+
+        //List<Vector3Int> balloonPathPositions = new List<Vector3Int>
+        //{
+        //    new Vector3Int(-10, 3, 0),
+        //    new vector3int(-9, 3, 0),
+        //    new vector3int(-8, 3, 0),
+        //    new vector3int(-7, 3, 0),
+        //    new vector3int(-6, 3, 0),
+        //    new vector3int(-5, 3, 0),
+        //    new vector3int(-4, 3, 0),
+        //    new vector3int(-3, 3, 0),
+        //    new vector3int(-2, 3, 0),
+        //    new vector3int(-1, 3, 0),
+        //    new vector3int(-0, 3, 0),
+        //    new vector3int(1, 3, 0),
+        //    new vector3int(2, 3, 0),
+        //    new vector3int(3, 3, 0),
+        //    new vector3int(3, 2, 0),
+        //    new vector3int(3, 1, 0),
+        //    new vector3int(2, 1, 0),
+        //    new vector3int(1, 1, 0),
+        //    new vector3int(0, 1, 0),
+        //    new vector3int(-1, 1, 0),
+        //    new vector3int(-2, 1, 0),
+        //    new vector3int(-3, 1, 0),
+        //    new vector3int(-4, 1, 0),
+        //    new vector3int(-5, 1, 0),
+        //    new vector3int(-6, 1, 0),
+        //    new vector3int(-7, 1, 0),
+        //    new vector3int(-8, 1, 0),
+        //    new vector3int(-8, 0, 0),
+        //    new vector3int(-8, -1, 0),
+        //    new vector3int(-7, -1, 0),
+        //    new vector3int(-6, -1, 0),
+        //    new vector3int(-5, -1, 0),
+        //    new vector3int(-4, -1, 0),
+        //    new vector3int(-3, -1, 0),
+        //    new vector3int(-2, -1, 0),
+        //    new vector3int(-1, -1, 0),
+        //    new vector3int(0, -1, 0),
+        //    new vector3int(0, -2, 0),
+        //    new vector3int(0, -3, 0),
+        //    new vector3int(0, -4, 0),
+        //    new vector3int(-1, -4, 0),
+        //    new vector3int(-2, -4, 0),
+        //    new vector3int(-3, -4, 0),
+        //    new vector3int(-4, -4, 0),
+        //    new vector3int(-5, -4, 0),
+        //    new vector3int(-6, -4, 0),
+        //    new vector3int(-7, -4, 0),
+        //    new vector3int(-8, -4, 0),
+        //    new vector3int(-9, -4, 0),
+        //    new vector3int(-10, -4, 0),
+        //};
 
         Vector3Int cellPosition = tilemap.WorldToCell(position);
         Debug.Log("Cell position is this: " + cellPosition);
