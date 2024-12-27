@@ -15,7 +15,8 @@ public class NetworkManager : MonoBehaviour
     private NetworkStream stream;
     private byte[] buffer = new byte[4096];
 
-    private string serverIP = "127.0.0.1";
+    //private string serverIP = "127.0.0.1";
+    private string serverIP = "10.100.102.11";
     private int port = 5555; // Ensure it matches the server port
 
     private Thread clientThread;
@@ -337,6 +338,26 @@ public class NetworkManager : MonoBehaviour
         if (clientThread != null)
             clientThread.Abort();
     }
+
+    public void DisconnectAndQuit()
+    {
+        // Disconnect from server
+        if (isConnected)
+        {
+            // Close streams and sockets if needed
+            if (stream != null)
+                stream.Close();
+            if (clientSocket != null)
+                clientSocket.Close();
+            if (clientThread != null)
+                clientThread.Abort();
+            isConnected = false;
+        }
+
+        // Quit the application
+        Application.Quit();
+    }
+
 
     public void ResetMatchmaking()
     {

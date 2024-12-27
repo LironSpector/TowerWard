@@ -328,7 +328,7 @@ public class GameManager : MonoBehaviour
     {
         while (!isGameOver)
         {
-            yield return new WaitForSeconds(1f); // Every 5 seconds
+            yield return new WaitForSeconds(0.04f); // Every 5 seconds
             yield return new WaitForEndOfFrame(); //Check if this line is needed here.
             SendSnapshotToServer();
         }
@@ -374,12 +374,17 @@ public class GameManager : MonoBehaviour
 
     private Texture2D CaptureSnapshot()
     {
-        // Capture a portion of the screen or the entire game view.
-        // For simplicity, capture the entire screen:
-        int width = Screen.width; // Adjust as necessary
-        int height = Screen.height;
+        // If I want to capture the entire screen:
+        //int width = Screen.width; // Adjust as necessary
+        //int height = Screen.height;
+        //Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
+        //tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+
+        // If I want to capture the map only:
+        int width = 865; // Adjust as necessary
+        int height = 520;
         Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
-        tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+        tex.ReadPixels(new Rect(850, 500, width, height), 0, 0);
         tex.Apply();
         return tex;
     }
