@@ -36,6 +36,10 @@ public class GameManager : MonoBehaviour
 
     private Coroutine snapshotCoroutine;
 
+
+    public Camera mapCamera; // Assign in Inspector
+    public RenderTexture mapRenderTexture; // Assign in Inspector
+
     void Awake()
     {
         // Singleton pattern
@@ -331,7 +335,7 @@ public class GameManager : MonoBehaviour
     {
         while (!isGameOver)
         {
-            yield return new WaitForSeconds(0.04f); // Every 5 seconds
+            yield return new WaitForSeconds(1f); // Every 5 seconds
             yield return new WaitForEndOfFrame(); //Check if this line is needed here.
             SendSnapshotToServer();
         }
@@ -383,12 +387,32 @@ public class GameManager : MonoBehaviour
         //Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
         //tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
 
-        // If I want to capture the map only:
-        int width = 865; // Adjust as necessary
-        int height = 520;
-        Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
-        tex.ReadPixels(new Rect(850, 500, width, height), 0, 0);
+
+        //// If I want to capture the map only:
+        //int width = 865; // Adjust as necessary
+        //int height = 520;
+        //Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
+        //tex.ReadPixels(new Rect(850, 500, width, height), 0, 0);
+        //tex.Apply();
+        //return tex;
+
+
+
+        // Set the RenderTexture as active
+        RenderTexture currentRT = RenderTexture.active;
+        RenderTexture.active = mapRenderTexture;
+
+        // Create a Texture2D with the same size as mapRenderTexture
+        Texture2D tex = new Texture2D(mapRenderTexture.width, mapRenderTexture.height, TextureFormat.RGB24, false);
+        tex.ReadPixels(new Rect(0, 0, mapRenderTexture.width, mapRenderTexture.height), 0, 0);
         tex.Apply();
+
+        Debug.Log("tex's width: " + tex.width);
+        Debug.Log("tex's height: " + tex.height);
+
+        // Restore the active RenderTexture
+        RenderTexture.active = currentRT;
+
         return tex;
     }
 

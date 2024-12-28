@@ -341,6 +341,7 @@ public class NetworkManager : MonoBehaviour
 
     public void DisconnectAndQuit()
     {
+        Debug.Log("Trying to disconnect...");
         // Disconnect from server
         if (isConnected)
         {

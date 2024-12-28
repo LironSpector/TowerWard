@@ -26,7 +26,7 @@ public class GridManager : MonoBehaviour
         //Debug.Log("division floored is: " + (Mathf.Floor((position.x - gridOriginX) / cellSize) * cellSize));
         float snappedX = Mathf.Floor((position.x - gridOriginX) / cellSize) * cellSize + cellSize / 2 + gridOriginX;
         float snappedY = Mathf.Floor((position.y - gridOriginY) / cellSize) * cellSize + cellSize / 2 + gridOriginY;
-        Debug.Log("SnappedX: " + snappedX + ", SnappedY" + snappedY);
+        //Debug.Log("SnappedX: " + snappedX + ", SnappedY" + snappedY);
 
         //return new Vector2(snappedX + 0.185f, snappedY + 0.28125f);
         return new Vector2(snappedX, snappedY);

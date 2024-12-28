@@ -45,6 +45,15 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
+    public void OnExitButtonClicked()
+    {
+        if (NetworkManager.Instance != null && NetworkManager.Instance.isConnected)
+        {
+            NetworkManager.Instance.DisconnectAndQuit();
+            //NetworkManager.Instance.Disconnect(); // you can write a custom Disconnect method
+        }
+        Application.Quit();
+    }
 
     public static List<string> GetMessages()
     {
