@@ -21,28 +21,18 @@ public class GridManager : MonoBehaviour
 
     public Vector2 SnapToGrid(Vector2 position)
     {
-        //Debug.Log("division is: " + (position.x - gridOriginX) / cellSize);
-        //Debug.Log("division floored is: " + Mathf.Floor((position.x - gridOriginX) / cellSize));
-        //Debug.Log("division floored is: " + (Mathf.Floor((position.x - gridOriginX) / cellSize) * cellSize));
         float snappedX = Mathf.Floor((position.x - gridOriginX) / cellSize) * cellSize + cellSize / 2 + gridOriginX;
         float snappedY = Mathf.Floor((position.y - gridOriginY) / cellSize) * cellSize + cellSize / 2 + gridOriginY;
-        //Debug.Log("SnappedX: " + snappedX + ", SnappedY" + snappedY);
 
         //return new Vector2(snappedX + 0.185f, snappedY + 0.28125f);
         return new Vector2(snappedX, snappedY);
     }
 
 
-    // Optional: You can add methods to get grid boundaries, check if a position is within the grid, etc.
     public bool IsWithinGrid(Vector2 position, int gridWidth, int gridHeight)
     {
-        //float gridOriginXRectifiedPosition = -1f; //Used to be -5f before changing the map location.
-        //float gridOriginYRectifiedPosition = -0.5f; //Used to be -2.5f before changing the map location.
-
-        //float gridOriginXRectifiedPosition = -5.6f; //Used to be -5f before changing the map location.
-        //float gridOriginYRectifiedPosition = -1.05f; //Used to be -2.5f before changing the map location.
-        float gridOriginXRectifiedPosition = -5.5f; //Used to be -5f before changing the map location.
-        float gridOriginYRectifiedPosition = -2.5f; //Used to be -2.5f before changing the map location.
+        float gridOriginXRectifiedPosition = -5.5f; //Used to be -5f before changing the map location and size.
+        float gridOriginYRectifiedPosition = -2.5f; //Used to be -2.5f before changing the map location and size.
 
 
         float gridMinX = gridOriginXRectifiedPosition;

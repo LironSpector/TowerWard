@@ -34,11 +34,13 @@ public class GameManager : MonoBehaviour
 
     public GameObject balloonSendingPanel; // Assign in Inspector
 
-    private Coroutine snapshotCoroutine;
-
-
     public Camera mapCamera; // Assign in Inspector
     public RenderTexture mapRenderTexture; // Assign in Inspector
+
+    private Coroutine snapshotCoroutine = null;
+    private bool isSendingSnapshots = false;
+
+    public GameObject toggleMapButton;
 
     void Awake()
     {
@@ -68,7 +70,7 @@ public class GameManager : MonoBehaviour
             {
                 balloonSendingPanel.SetActive(true);
             }
-            UIManager.Instance.SetOpponentSnapshotPanel(isMultiplayer: true);
+            UIManager.Instance.SetOpponentSnapshotPanel(false);
 
             StartGame();
         }
@@ -80,10 +82,12 @@ public class GameManager : MonoBehaviour
 
             if (balloonSendingPanel != null)
             {
-                //balloonSendingPanel.SetActive(CurrentGameMode == GameMode.Multiplayer);
                 balloonSendingPanel.SetActive(false);
-                UIManager.Instance.SetOpponentSnapshotPanel(isMultiplayer: false);
+                UIManager.Instance.SetOpponentSnapshotPanel(false);
             }
+
+            // Hide toggle snapshot map button
+            toggleMapButton.SetActive(false);
 
             StartGame();
         }
@@ -106,11 +110,6 @@ public class GameManager : MonoBehaviour
         // Initialize game components common to both modes
         BalloonSpawner.Instance.StartSpawningWaves();
 
-        if (CurrentGameMode == GameMode.Multiplayer)
-        {
-            // Start sending snapshots every 5 seconds
-            snapshotCoroutine = StartCoroutine(SendSnapshots());
-        }
     }
 
     public void LoseLife()
@@ -148,8 +147,6 @@ public class GameManager : MonoBehaviour
     {
         livesText.text = lives.ToString();
         currencyText.text = currency.ToString();
-        //livesText.text = "Lives: " + lives;
-        //currencyText.text = "Currency: " + currency;
     }
 
     public void WinGame(string reason)
@@ -188,7 +185,9 @@ public class GameManager : MonoBehaviour
             return;
 
         isGameOver = true;
+        UIManager.Instance.opponentSnapshotPanel.SetActive(false);
         gameOverPanel.SetActive(true);
+
 
         NetworkManager.Instance.ResetMatchmaking();
         //BalloonSpawner.Instance.ResetSpawnConfigurations();
@@ -333,7 +332,11 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SendSnapshots()
     {
-        while (!isGameOver)
+        // Immediately send one snapshot for better user experience
+        yield return new WaitForEndOfFrame();
+        SendSnapshotToServer();
+
+        while (isSendingSnapshots && !isGameOver)
         {
             yield return new WaitForSeconds(1f); // Every 5 seconds
             yield return new WaitForEndOfFrame(); //Check if this line is needed here.
@@ -345,8 +348,6 @@ public class GameManager : MonoBehaviour
     {
         Texture2D snapshot = CaptureSnapshot();
 
-        //byte[] pngBytes = snapshot.EncodeToPNG();
-        //Debug.Log("------ Image bytes - (beginning): ---------> " + BitConverter.ToString(pngBytes));
         byte[] jpgBytes = snapshot.EncodeToJPG(50);
 
 
@@ -365,6 +366,9 @@ public class GameManager : MonoBehaviour
 
         string jsonMessage = JsonConvert.SerializeObject(snapshotMessage);
         NetworkManager.Instance.SendMessageWithLengthPrefix(jsonMessage);
+
+        //Works without it, but maybe add this:
+        //Destroy(snapshot);
     }
 
     private byte[] CompressData(byte[] data)
@@ -381,23 +385,6 @@ public class GameManager : MonoBehaviour
 
     private Texture2D CaptureSnapshot()
     {
-        // If I want to capture the entire screen:
-        //int width = Screen.width; // Adjust as necessary
-        //int height = Screen.height;
-        //Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
-        //tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-
-
-        //// If I want to capture the map only:
-        //int width = 865; // Adjust as necessary
-        //int height = 520;
-        //Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
-        //tex.ReadPixels(new Rect(850, 500, width, height), 0, 0);
-        //tex.Apply();
-        //return tex;
-
-
-
         // Set the RenderTexture as active
         RenderTexture currentRT = RenderTexture.active;
         RenderTexture.active = mapRenderTexture;
@@ -414,6 +401,28 @@ public class GameManager : MonoBehaviour
         RenderTexture.active = currentRT;
 
         return tex;
+    }
+
+    // Called by NetworkManager when we receive "ShowSnapshots" or "HideSnapshots"
+    public void EnableSnapshotSending(bool enable)
+    {
+        if (isGameOver)
+            return; // No snapshots if the game is over
+
+        if (enable && !isSendingSnapshots)
+        {
+            isSendingSnapshots = true;
+            snapshotCoroutine = StartCoroutine(SendSnapshots());
+        }
+        else if (!enable && isSendingSnapshots)
+        {
+            isSendingSnapshots = false;
+            if (snapshotCoroutine != null)
+            {
+                StopCoroutine(snapshotCoroutine);
+                snapshotCoroutine = null;
+            }
+        }
     }
 
 }

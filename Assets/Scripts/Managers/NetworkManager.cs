@@ -240,6 +240,23 @@ public class NetworkManager : MonoBehaviour
                 });
                 break;
 
+            case "ShowSnapshots":
+                // Tells *THIS CLIENT* to start capturing snapshots
+                UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                {
+                    GameManager.Instance.EnableSnapshotSending(true);
+                    // We'll define EnableSnapshotSending in GameManager 
+                    // to start the coroutine if not already running
+                });
+                break;
+
+            case "HideSnapshots":
+                // Tells *THIS CLIENT* to stop capturing snapshots
+                UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                {
+                    GameManager.Instance.EnableSnapshotSending(false);
+                });
+                break;
 
             case "OpponentDisconnected":
                 UnityMainThreadDispatcher.Instance().Enqueue(() =>

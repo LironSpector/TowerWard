@@ -20,8 +20,6 @@ public class UIManager : MonoBehaviour
     public RawImage opponentSnapshotImage; // Assign in Inspector
     public GameObject opponentSnapshotPanel; // Assign in Inspector
 
-    //// UI element to display opponent's snapshot
-    //public RawImage opponentSnapshotImage;
 
     void Awake()
     {
@@ -148,11 +146,10 @@ public class UIManager : MonoBehaviour
 
     }
 
-
-    public void SetOpponentSnapshotPanel(bool isMultiplayer)
+    public void SetOpponentSnapshotPanel(bool isActive)  //Also used in intention to: "bool isMultiplayer"
     {
         // Only show opponent snapshot panel in Multiplayer mode
-        opponentSnapshotPanel.SetActive(isMultiplayer);
+        opponentSnapshotPanel.SetActive(isActive);
     }
 
 
@@ -183,6 +180,16 @@ public class UIManager : MonoBehaviour
         Debug.Log("Texture's height: " +  texture.height);
 
         opponentSnapshotImage.texture = texture;
+    }
+
+    public void SetOpponentSnapshotAlpha(float alpha)
+    {
+        if (opponentSnapshotImage != null)
+        {
+            Color c = opponentSnapshotImage.color;
+            c.a = alpha;
+            opponentSnapshotImage.color = c;
+        }
     }
 
     void OnDestroy()
