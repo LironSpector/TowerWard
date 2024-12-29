@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3160274099224528428}
   - component: {fileID: -2780350150686959137}
   m_Layer: 5
-  m_Name: BlackBalloonButton
+  m_Name: BigBossBalloonButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b8a015a628ee5b64985f28a6207831a1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cf27c6133d3df8549a0b443d2222b016, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -134,8 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  balloonType: BlackBalloon
-  cost: 60
+  balloonType: BigBossBalloon
+  cost: 150
 --- !u!1 &8710664127784967337
 GameObject:
   m_ObjectHideFlags: 0

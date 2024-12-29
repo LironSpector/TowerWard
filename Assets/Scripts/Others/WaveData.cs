@@ -11,5 +11,7 @@ public class WaveData : ScriptableObject
         public float spawnDelay; // Delay after the previous balloon
     }
 
+    public float delayBeforeWaveBegins = 0f; // The artificial delay before this wave starts
+
     public List<SpawnInstruction> spawnInstructions = new List<SpawnInstruction>();
 }

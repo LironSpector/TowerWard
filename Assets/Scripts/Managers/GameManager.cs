@@ -317,7 +317,6 @@ public class GameManager : MonoBehaviour
 
         // Find the balloon prefab based on the balloonType
         GameObject balloonPrefab = BalloonUtils.Instance.GetBalloonPrefabByName(balloonType);
-        //GameObject balloonPrefab = BalloonSpawner.Instance.GetBalloonPrefabByName(balloonType);
 
         if (balloonPrefab == null)
         {

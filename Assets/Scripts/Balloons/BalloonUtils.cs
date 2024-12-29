@@ -27,6 +27,9 @@ public class BalloonUtils : MonoBehaviour
     public GameObject strongBalloonPrefab;
     public GameObject strongerBalloonPrefab;
     public GameObject veryStrongBalloonPrefab;
+    public GameObject smallBossBalloonPrefab;
+    public GameObject mediumBossBalloonPrefab;
+    public GameObject bigBossBalloonPrefab;
 
     // Ensures the Singleton instance is set up.
     private void Awake()
@@ -65,6 +68,12 @@ public class BalloonUtils : MonoBehaviour
                 return strongerBalloonPrefab;
             case "VeryStrongBalloon":
                 return veryStrongBalloonPrefab;
+            case "SmallBossBalloon":
+                return smallBossBalloonPrefab;
+            case "MediumBossBalloon":
+                return mediumBossBalloonPrefab;
+            case "BigBossBalloon":
+                return bigBossBalloonPrefab;
             default:
                 Debug.LogWarning($"Balloon type '{balloonType}' not recognized.");
                 return null;

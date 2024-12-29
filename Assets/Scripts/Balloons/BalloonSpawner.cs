@@ -264,6 +264,13 @@ public class BalloonSpawner : MonoBehaviour
             yield break;
         }
 
+        WaveData waveData = waves[currentWaveIndex];
+        // Wait waveData.delayBeforeWaveBegins
+        if (waveData.delayBeforeWaveBegins > 0f)
+        {
+            yield return new WaitForSeconds(waveData.delayBeforeWaveBegins);
+        }
+
         yield return StartCoroutine(SpawnWave(currentWaveIndex));
     }
 

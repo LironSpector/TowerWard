@@ -152,6 +152,15 @@ public class WaveGeneratorEditor : EditorWindow
                 });
             }
 
+            if (i < 75)
+            {
+                wave.delayBeforeWaveBegins = 0.5f * i;
+            }
+            else
+            {
+                wave.delayBeforeWaveBegins = 0.5f * 75 + 5 * (i - 75);
+            }
+
             // Save the WaveData asset
             AssetDatabase.CreateAsset(wave, $"{folderPath}/Wave{i}.asset");
         }
