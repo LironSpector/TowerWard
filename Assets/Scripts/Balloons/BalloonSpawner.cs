@@ -179,6 +179,10 @@ public class BalloonSpawner : MonoBehaviour
 
         WaveData waveData = waves[waveIndex];
         //waveBalloonsRemaining = waveData.spawnInstructions.Count;
+        if (waveBalloonsRemaining < 0)
+        {
+            waveBalloonsRemaining = 0;
+        }
         waveBalloonsRemaining += waveData.spawnInstructions.Count; //Add the new wave's balloon amount + amount of WaveBalloons from prev waves which is still on map.
 
         foreach (var instruction in waveData.spawnInstructions)
@@ -207,6 +211,15 @@ public class BalloonSpawner : MonoBehaviour
         // Single Player => start next wave automatically
         if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.SinglePlayer)
         {
+            WaveData waveData = waves[currentWaveIndex];
+            // Wait waveData.delayBeforeWaveBegins
+            if (waveData.delayBeforeWaveBegins > 0f)
+            {
+                Debug.Log($"waveData.delayBeforeWaveBegins: {waveData.delayBeforeWaveBegins}");
+                yield return new WaitForSeconds(waveData.delayBeforeWaveBegins);
+                Debug.Log($"Finished waiting");
+            }
+
             currentWaveIndex++;
             if (currentWaveIndex >= waves.Count)
             {
@@ -229,6 +242,15 @@ public class BalloonSpawner : MonoBehaviour
             }
             else
             {
+                //WaveData waveData = waves[currentWaveIndex];
+                //// Wait waveData.delayBeforeWaveBegins
+                //if (waveData.delayBeforeWaveBegins > 0f)
+                //{
+                //    Debug.Log($"waveData.delayBeforeWaveBegins: {waveData.delayBeforeWaveBegins}");
+                //    yield return new WaitForSeconds(waveData.delayBeforeWaveBegins);
+                //    Debug.Log($"Finished waiting");
+                //}
+
                 string waveDone = $"{{\"Type\":\"WaveDone\",\"WaveIndex\":{currentWaveIndex}}}";
                 NetworkManager.Instance.SendMessageWithLengthPrefix(waveDone);
             }
@@ -264,12 +286,18 @@ public class BalloonSpawner : MonoBehaviour
             yield break;
         }
 
-        WaveData waveData = waves[currentWaveIndex];
-        // Wait waveData.delayBeforeWaveBegins
-        if (waveData.delayBeforeWaveBegins > 0f)
-        {
-            yield return new WaitForSeconds(waveData.delayBeforeWaveBegins);
-        }
+        //WaveData waveData = waves[currentWaveIndex];
+        //// Wait waveData.delayBeforeWaveBegins
+        //if (waveData.delayBeforeWaveBegins > 0f)
+        //{
+        //    Debug.Log($"waveData.delayBeforeWaveBegins: {waveData.delayBeforeWaveBegins}");
+        //    yield return new WaitForSeconds(waveData.delayBeforeWaveBegins);
+        //    Debug.Log($"Finished waiting");
+        //}
+        //else
+        //{
+        //    Debug.Log($"It's 0!");
+        //}
 
         yield return StartCoroutine(SpawnWave(currentWaveIndex));
     }

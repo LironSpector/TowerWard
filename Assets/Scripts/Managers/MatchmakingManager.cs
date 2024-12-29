@@ -33,6 +33,11 @@ public class MatchmakingManager : MonoBehaviour
     private IEnumerator DelayedMatchStart()
     {
         yield return new WaitForSeconds(1f); // 1 second delay between the moment a match is found and the moment the game begins, for better user experience.
+
+        //Stop the actions on the WaitingScene (such as loading spinner and timer counting)
+        var waitingSceneManager = FindObjectOfType<WaitingSceneManager>();
+        if (waitingSceneManager != null) waitingSceneManager.StopWaiting();
+
         SceneManager.LoadScene("SampleScene");
     }
 

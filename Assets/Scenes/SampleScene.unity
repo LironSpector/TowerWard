@@ -2123,8 +2123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206814d539a8bbc4997e32f2501a15e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 2000
-  currency: 800
+  lives: 20
+  currency: 1000
   livesText: {fileID: 283725393}
   currencyText: {fileID: 242890620}
   gameOverPanel: {fileID: 1429572373}
@@ -10732,7 +10732,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a323471cd680a7d4396b55ff39aef854, type: 2}
   - {fileID: 11400000, guid: fe3ee0b22d8dfbd4997056f295151805, type: 2}
   - {fileID: 11400000, guid: 9ac58186373286e4c95d40090a28540c, type: 2}
-  - {fileID: 11400000, guid: 5f2e3bba4ce87674a98ee13a0dca84bc, type: 2}
   - {fileID: 11400000, guid: 0429d014f7280b749842457d9727f40c, type: 2}
   - {fileID: 11400000, guid: 77b84e74fa86b124a80f5aefe5bfe8d6, type: 2}
   - {fileID: 11400000, guid: d6944c2bbb1894640ab997d17eea126a, type: 2}
@@ -10752,6 +10751,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cff3fb6ceb76e86419373e9720bd0356, type: 2}
   - {fileID: 11400000, guid: c4b5e00e7c0f8a34a88ebec1186fa820, type: 2}
   - {fileID: 11400000, guid: 5375b5c41cad1c348b356e51ff787ba8, type: 2}
+  - {fileID: 11400000, guid: 5f2e3bba4ce87674a98ee13a0dca84bc, type: 2}
 --- !u!4 &1724829137
 Transform:
   m_ObjectHideFlags: 0

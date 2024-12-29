@@ -276,6 +276,7 @@ public class NetworkManager : MonoBehaviour
                     {
                         // forcibly set wave index and spawn wave
                         // note: StartNextWave method can accept the waveIndex
+                        Debug.Log("From NetworkManager - StartNextWave!!!!!!!");
                         BalloonSpawner.Instance.StartCoroutine(BalloonSpawner.Instance.StartNextWave(waveIndex));
                     });
                     break;
