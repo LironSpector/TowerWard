@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6767987894293364350}
   - component: {fileID: 8047822178190460496}
   m_Layer: 11
-  m_Name: StrongBalloon
+  m_Name: SmallBossBalloon
   m_TagString: Balloon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 78487021
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d2f760d014cb2c04490378ef873a651c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c50cd91f53eab364ea3a7e8e4dab0d30, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -162,14 +162,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a58fe53b86602459ff9906bc6b7e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
-  speed: 2
+  health: 10
+  speed: 1.5
   reward: 10
-  nextBalloonPrefab: {fileID: 4145948176449361689, guid: 45ef8420e362ff8449bf1de7d5434faa, type: 3}
-  immuneToFreeze: 0
+  nextBalloonPrefab: {fileID: 4145948176449361689, guid: d9aef3b37a4f7284d93fd9ba29303207, type: 3}
+  immuneToFreeze: 1
   immuneToPoison: 0
   isFrozen: 0
   isPoisoned: 0
+  isWaveBalloon: 0
+  waveNumber: -1
 --- !u!114 &8047822178190460496
 MonoBehaviour:
   m_ObjectHideFlags: 0

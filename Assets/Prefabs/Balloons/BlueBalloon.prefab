@@ -75,9 +75,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 78487021
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 531b8918ceedcb04986635667735eff4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fbf5df6e8ef40c149aeb344d8a43edee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -166,6 +166,10 @@ MonoBehaviour:
   speed: 2
   reward: 15
   nextBalloonPrefab: {fileID: 4145948176449361689, guid: 974db0696a8172b4fba15d02c15519b6, type: 3}
+  immuneToFreeze: 0
+  immuneToPoison: 0
+  isFrozen: 0
+  isPoisoned: 0
 --- !u!114 &8047822178190460496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,3 +184,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waypoints: []
   waypointIndex: 0
+  startFromExactPosition: 0

@@ -355,8 +355,9 @@ public class GameManager : MonoBehaviour
         byte[] compressedBytes = CompressData(jpgBytes);
         string imageData = Convert.ToBase64String(compressedBytes);
         //string imageData = Convert.ToBase64String(pngBytes);
-        Debug.Log("Length comparison: ---------> " + jpgBytes.Length + ", " + compressedBytes.Length);
-        Debug.Log("Image Data initialy is: " + imageData);
+
+        //Debug.Log("Length comparison: ---------> " + jpgBytes.Length + ", " + compressedBytes.Length);
+        //Debug.Log("Image Data initialy is: " + imageData);
 
         var snapshotMessage = new GameSnapshotMessage
         {
@@ -394,8 +395,6 @@ public class GameManager : MonoBehaviour
         tex.ReadPixels(new Rect(0, 0, mapRenderTexture.width, mapRenderTexture.height), 0, 0);
         tex.Apply();
 
-        Debug.Log("tex's width: " + tex.width);
-        Debug.Log("tex's height: " + tex.height);
 
         // Restore the active RenderTexture
         RenderTexture.active = currentRT;

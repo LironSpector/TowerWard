@@ -26,6 +26,10 @@ public class Balloon : MonoBehaviour
     // New event to notify when the balloon reaches the end of the path
     public event Action<Balloon> OnEndReached;
 
+    public bool isWaveBalloon = false;
+    public int waveNumber = -1;  // The wave index this balloon belongs to
+
+
     void Start()
     {
         movement = GetComponent<BalloonMovement>();
@@ -94,31 +98,65 @@ public class Balloon : MonoBehaviour
         }
     }
 
+
+    //Old pop method before balloon & wave changes:
+    //void Pop()
+    //{
+    //    // Spawn next balloon if applicable
+    //    if (nextBalloonPrefab != null)
+    //    {
+    //        // Instantiate the next balloon at the current balloon's position
+    //        GameObject nextBalloon = Instantiate(nextBalloonPrefab, transform.position, Quaternion.identity);
+
+    //        // Set up the next balloon's movement
+    //        BalloonMovement movement = nextBalloon.GetComponent<BalloonMovement>();
+    //        BalloonMovement currentMovement = GetComponent<BalloonMovement>();
+
+    //        movement.waypoints = currentMovement.waypoints;
+    //        movement.waypointIndex = currentMovement.waypointIndex;
+    //        movement.startFromExactPosition = true; // A flag to indicate the next balloon will start from the exact position of the popped balloon (and not from
+    //                                                // the next waypoint)
+    //    }
+
+    //    // Reward the player
+    //    GameManager.Instance.AddCurrency(reward);
+
+    //    // Notify listeners that this balloon is destroyed
+    //    OnDestroyed?.Invoke(this);
+
+    //    // Destroy the balloon
+    //    Destroy(gameObject);
+    //}
+
     void Pop()
     {
-        // Spawn next balloon if applicable
         if (nextBalloonPrefab != null)
         {
-            // Instantiate the next balloon at the current balloon's position
+            // The new balloon is still part of the wave if 'this' balloon was wave-based
             GameObject nextBalloon = Instantiate(nextBalloonPrefab, transform.position, Quaternion.identity);
 
-            // Set up the next balloon's movement
+            // Copy movement, etc.
             BalloonMovement movement = nextBalloon.GetComponent<BalloonMovement>();
             BalloonMovement currentMovement = GetComponent<BalloonMovement>();
-
             movement.waypoints = currentMovement.waypoints;
             movement.waypointIndex = currentMovement.waypointIndex;
-            movement.startFromExactPosition = true; // A flag to indicate the next balloon will start from the exact position of the popped balloon (and not from
-                                                    // the next waypoint)
+            movement.startFromExactPosition = true;
+
+            // If this was a wave balloon, the next one is also a wave balloon
+            Balloon nextB = nextBalloon.GetComponent<Balloon>();
+            nextB.isWaveBalloon = this.isWaveBalloon;
+
+            nextB.OnDestroyed += BalloonSpawner.Instance.OnBalloonDestroyed;
+            nextB.OnEndReached += BalloonSpawner.Instance.OnBalloonDestroyedByEnd;
         }
 
         // Reward the player
         GameManager.Instance.AddCurrency(reward);
 
-        // Notify listeners that this balloon is destroyed
+        // Notify listeners
         OnDestroyed?.Invoke(this);
 
-        // Destroy the balloon
+        // Destroy this balloon
         Destroy(gameObject);
     }
 

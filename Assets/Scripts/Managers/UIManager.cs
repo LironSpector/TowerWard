@@ -172,12 +172,12 @@ public class UIManager : MonoBehaviour
         byte[] compressedBytes = System.Convert.FromBase64String(imageData);
         byte[] imageBytes = DecompressData(compressedBytes);
         //byte[] imageBytes = System.Convert.FromBase64String(imageData);
-        Debug.Log("------ Image bytes - before updating (end): ---------> " + BitConverter.ToString(imageBytes));
+        //Debug.Log("------ Image bytes - before updating (end): ---------> " + BitConverter.ToString(imageBytes));
 
         Texture2D texture = new Texture2D(2, 2); //(2, 2) is an initial value of 2*2 pixels, but it is override by the dimentions of "imageBytes" in "texture.LoadImage(imageBytes)"
         texture.LoadImage(imageBytes);
-        Debug.Log("Texture's width: " +  texture.width);
-        Debug.Log("Texture's height: " +  texture.height);
+        //Debug.Log("Texture's width: " +  texture.width);
+        //Debug.Log("Texture's height: " +  texture.height);
 
         opponentSnapshotImage.texture = texture;
     }

@@ -258,6 +258,29 @@ public class NetworkManager : MonoBehaviour
                 });
                 break;
 
+            //case "StartNextWave":
+            //    // waveIndex from the server
+            //    int waveIndex = (int)messageObject["WaveIndex"];
+            //    UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            //    {
+            //        // forcibly set spawner's wave index
+            //        BalloonSpawner.Instance.SetWaveIndex(waveIndex);
+            //        BalloonSpawner.Instance.StartCoroutine(BalloonSpawner.Instance.StartNextWave());
+            //    });
+            //    break;
+
+            case "StartNextWave":
+                {
+                    int waveIndex = (int)messageObject["WaveIndex"];
+                    UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                    {
+                        // forcibly set wave index and spawn wave
+                        // note: StartNextWave method can accept the waveIndex
+                        BalloonSpawner.Instance.StartCoroutine(BalloonSpawner.Instance.StartNextWave(waveIndex));
+                    });
+                    break;
+                }
+
             case "OpponentDisconnected":
                 UnityMainThreadDispatcher.Instance().Enqueue(() =>
                 {
