@@ -52,14 +52,14 @@ public class TowerPlacement : MonoBehaviour
                 CancelPlacement();
             }
         }
-        else
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                DetectTowerSelection();
-            }
+        //else
+        //{
+        //    if (Input.GetMouseButtonDown(0))
+        //    {
+        //        DetectTowerSelection();
+        //    }
 
-        }
+        //}
     }
 
     void DetectTowerSelection()
@@ -259,61 +259,6 @@ public class TowerPlacement : MonoBehaviour
             new Vector3Int(-1, -7, 0), new Vector3Int(-2, -7, 0), new Vector3Int(-3, -7, 0), new Vector3Int(-4, -7, 0), new Vector3Int(-5, -7, 0),
             new Vector3Int(-6, -7, 0), new Vector3Int(-7, -7, 0), new Vector3Int(-8, -7, 0), new Vector3Int(-9, -7, 0), new Vector3Int(-10, -7, 0)
         };
-
-
-        //List<Vector3Int> balloonPathPositions = new List<Vector3Int>
-        //{
-        //    new Vector3Int(-10, 3, 0),
-        //    new vector3int(-9, 3, 0),
-        //    new vector3int(-8, 3, 0),
-        //    new vector3int(-7, 3, 0),
-        //    new vector3int(-6, 3, 0),
-        //    new vector3int(-5, 3, 0),
-        //    new vector3int(-4, 3, 0),
-        //    new vector3int(-3, 3, 0),
-        //    new vector3int(-2, 3, 0),
-        //    new vector3int(-1, 3, 0),
-        //    new vector3int(-0, 3, 0),
-        //    new vector3int(1, 3, 0),
-        //    new vector3int(2, 3, 0),
-        //    new vector3int(3, 3, 0),
-        //    new vector3int(3, 2, 0),
-        //    new vector3int(3, 1, 0),
-        //    new vector3int(2, 1, 0),
-        //    new vector3int(1, 1, 0),
-        //    new vector3int(0, 1, 0),
-        //    new vector3int(-1, 1, 0),
-        //    new vector3int(-2, 1, 0),
-        //    new vector3int(-3, 1, 0),
-        //    new vector3int(-4, 1, 0),
-        //    new vector3int(-5, 1, 0),
-        //    new vector3int(-6, 1, 0),
-        //    new vector3int(-7, 1, 0),
-        //    new vector3int(-8, 1, 0),
-        //    new vector3int(-8, 0, 0),
-        //    new vector3int(-8, -1, 0),
-        //    new vector3int(-7, -1, 0),
-        //    new vector3int(-6, -1, 0),
-        //    new vector3int(-5, -1, 0),
-        //    new vector3int(-4, -1, 0),
-        //    new vector3int(-3, -1, 0),
-        //    new vector3int(-2, -1, 0),
-        //    new vector3int(-1, -1, 0),
-        //    new vector3int(0, -1, 0),
-        //    new vector3int(0, -2, 0),
-        //    new vector3int(0, -3, 0),
-        //    new vector3int(0, -4, 0),
-        //    new vector3int(-1, -4, 0),
-        //    new vector3int(-2, -4, 0),
-        //    new vector3int(-3, -4, 0),
-        //    new vector3int(-4, -4, 0),
-        //    new vector3int(-5, -4, 0),
-        //    new vector3int(-6, -4, 0),
-        //    new vector3int(-7, -4, 0),
-        //    new vector3int(-8, -4, 0),
-        //    new vector3int(-9, -4, 0),
-        //    new vector3int(-10, -4, 0),
-        //};
 
         Vector3Int cellPosition = tilemap.WorldToCell(position);
         Debug.Log("Cell position is this: " + cellPosition);
