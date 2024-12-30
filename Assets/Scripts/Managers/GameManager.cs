@@ -130,6 +130,8 @@ public class GameManager : MonoBehaviour
     {
         currency += amount;
         UpdateUI();
+
+        RefreshButtonsDisplay();
     }
 
     public bool CanAfford(int amount)
@@ -141,6 +143,26 @@ public class GameManager : MonoBehaviour
     {
         currency -= amount;
         UpdateUI();
+
+        RefreshButtonsDisplay();
+
+    }
+
+    public void RefreshButtonsDisplay()
+    {
+        // After spending money, refresh tower UI
+        TowerSelectionUI towerSelectionUI = FindObjectOfType<TowerSelectionUI>();
+        if (towerSelectionUI != null)
+        {
+            towerSelectionUI.RefreshTowerButtons();
+        }
+
+        //// Also refresh balloon panel if desired
+        BalloonSendingPanel balloonSendingPanel = FindObjectOfType<BalloonSendingPanel>();
+        if (balloonSendingPanel != null)
+        {
+            balloonSendingPanel.RefreshBalloonButtons();
+        }
     }
 
     void UpdateUI()

@@ -486,6 +486,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802190360}
     m_Modifications:
+    - target: {fileID: 3946419437289435862, guid: 794a6a8e01f1a0244872e624ede01d51, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: 794a6a8e01f1a0244872e624ede01d51, type: 3}
       propertyPath: m_Name
       value: ButtonVeryStrongBalloon
@@ -570,6 +574,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: 794a6a8e01f1a0244872e624ede01d51, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 126840673}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -580,6 +588,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437230124011244338, guid: 794a6a8e01f1a0244872e624ede01d51, type: 3}
   m_PrefabInstance: {fileID: 126840671}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &126840673 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7967936578742643198, guid: 794a6a8e01f1a0244872e624ede01d51, type: 3}
+  m_PrefabInstance: {fileID: 126840671}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &126840674 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: 794a6a8e01f1a0244872e624ede01d51, type: 3}
+  m_PrefabInstance: {fileID: 126840671}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &155946380
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,10 +642,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1783261832}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -20}
+  m_SizeDelta: {x: 90, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &155946382
 MonoBehaviour:
@@ -637,17 +667,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: $10
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2d37a52cac721704a949bef944352bcf, type: 2}
+  m_sharedMaterial: {fileID: -2934442979332954447, guid: 2d37a52cac721704a949bef944352bcf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -664,8 +694,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1131,6 +1161,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 56
       objectReference: {fileID: 0}
+    - target: {fileID: 3946419437289435862, guid: 1a3949cbf2d6f6b4dabe6127109fc034, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: 1a3949cbf2d6f6b4dabe6127109fc034, type: 3}
       propertyPath: m_Name
       value: ButtonBigBossBalloon
@@ -1215,6 +1249,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: 1a3949cbf2d6f6b4dabe6127109fc034, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 248174502}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1225,6 +1263,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437230124011244338, guid: 1a3949cbf2d6f6b4dabe6127109fc034, type: 3}
   m_PrefabInstance: {fileID: 248174500}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &248174502 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7967936578742643198, guid: 1a3949cbf2d6f6b4dabe6127109fc034, type: 3}
+  m_PrefabInstance: {fileID: 248174500}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &248174503 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: 1a3949cbf2d6f6b4dabe6127109fc034, type: 3}
+  m_PrefabInstance: {fileID: 248174500}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &249801455
 GameObject:
   m_ObjectHideFlags: 0
@@ -1859,6 +1919,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802190360}
     m_Modifications:
+    - target: {fileID: 3946419437289435862, guid: 4f9cd2db192972148bfa348668bccbc4, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: 4f9cd2db192972148bfa348668bccbc4, type: 3}
       propertyPath: m_Name
       value: ButtonPinkBalloon
@@ -1943,6 +2007,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: 4f9cd2db192972148bfa348668bccbc4, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 385393584}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1953,6 +2021,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437230124011244338, guid: 4f9cd2db192972148bfa348668bccbc4, type: 3}
   m_PrefabInstance: {fileID: 385393582}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &385393584 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7967936578742643198, guid: 4f9cd2db192972148bfa348668bccbc4, type: 3}
+  m_PrefabInstance: {fileID: 385393582}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &385393585 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: 4f9cd2db192972148bfa348668bccbc4, type: 3}
+  m_PrefabInstance: {fileID: 385393582}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &431095075
 GameObject:
   m_ObjectHideFlags: 0
@@ -2266,7 +2356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lives: 20
-  currency: 100000
+  currency: 1000
   livesText: {fileID: 283725393}
   currencyText: {fileID: 242890620}
   gameOverPanel: {fileID: 1429572373}
@@ -3633,9 +3723,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1429572374}
   - {fileID: 1928523490}
-  - {fileID: 885927982}
   - {fileID: 1802190360}
   - {fileID: 217928896}
   - {fileID: 1112675182}
@@ -3645,6 +3733,8 @@ RectTransform:
   - {fileID: 1719131042}
   - {fileID: 65090116}
   - {fileID: 1604673107}
+  - {fileID: 1429572374}
+  - {fileID: 885927982}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3872,6 +3962,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802190360}
     m_Modifications:
+    - target: {fileID: 3946419437289435862, guid: 35f10f4740fd9314eb4a397ca5139016, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: 35f10f4740fd9314eb4a397ca5139016, type: 3}
       propertyPath: m_Name
       value: ButtonBlackBalloon
@@ -3956,6 +4050,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: 35f10f4740fd9314eb4a397ca5139016, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 948329405}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3966,6 +4064,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437230124011244338, guid: 35f10f4740fd9314eb4a397ca5139016, type: 3}
   m_PrefabInstance: {fileID: 948329403}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &948329405 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7967936578742643198, guid: 35f10f4740fd9314eb4a397ca5139016, type: 3}
+  m_PrefabInstance: {fileID: 948329403}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &948329406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: 35f10f4740fd9314eb4a397ca5139016, type: 3}
+  m_PrefabInstance: {fileID: 948329403}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &952909676
 GameObject:
   m_ObjectHideFlags: 0
@@ -4196,6 +4316,8 @@ MonoBehaviour:
   sniperTowerButton: {fileID: 0}
   basicTowerIndex: 0
   sniperTowerIndex: 1
+  basicTowerPriceText: {fileID: 0}
+  sniperTowerPriceText: {fileID: 0}
 --- !u!4 &994438693
 Transform:
   m_ObjectHideFlags: 0
@@ -4889,6 +5011,18 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 56
       objectReference: {fileID: 0}
+    - target: {fileID: 3603505221321775669, guid: 7c39d97624c46614eb9147f2c3b0606e, type: 3}
+      propertyPath: m_text
+      value: $10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3946419437289435862, guid: 7c39d97624c46614eb9147f2c3b0606e, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4020939201220355576, guid: 7c39d97624c46614eb9147f2c3b0606e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 65
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: 7c39d97624c46614eb9147f2c3b0606e, type: 3}
       propertyPath: m_Name
       value: ButtonMediumBossBalloon
@@ -4973,6 +5107,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: 7c39d97624c46614eb9147f2c3b0606e, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 1389255148}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4983,6 +5121,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437230124011244338, guid: 7c39d97624c46614eb9147f2c3b0606e, type: 3}
   m_PrefabInstance: {fileID: 1389255146}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1389255148 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7967936578742643198, guid: 7c39d97624c46614eb9147f2c3b0606e, type: 3}
+  m_PrefabInstance: {fileID: 1389255146}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1389255149 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: 7c39d97624c46614eb9147f2c3b0606e, type: 3}
+  m_PrefabInstance: {fileID: 1389255146}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1389320990
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4991,6 +5151,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802190360}
     m_Modifications:
+    - target: {fileID: 3946419437289435862, guid: 40d54196c0f5a0541b7064001470ed29, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: 40d54196c0f5a0541b7064001470ed29, type: 3}
       propertyPath: m_Name
       value: ButtonWhiteBalloon
@@ -5075,6 +5239,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: 40d54196c0f5a0541b7064001470ed29, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 1389320992}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5085,6 +5253,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437230124011244338, guid: 40d54196c0f5a0541b7064001470ed29, type: 3}
   m_PrefabInstance: {fileID: 1389320990}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1389320992 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7967936578742643198, guid: 40d54196c0f5a0541b7064001470ed29, type: 3}
+  m_PrefabInstance: {fileID: 1389320990}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1389320993 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: 40d54196c0f5a0541b7064001470ed29, type: 3}
+  m_PrefabInstance: {fileID: 1389320990}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1389398359
 GameObject:
   m_ObjectHideFlags: 0
@@ -5413,6 +5603,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802190360}
     m_Modifications:
+    - target: {fileID: 3946419437289435862, guid: e500ce3191118944da3dd8275775ec0a, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: e500ce3191118944da3dd8275775ec0a, type: 3}
       propertyPath: m_Name
       value: ButtonYellowBalloon
@@ -5497,6 +5691,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: e500ce3191118944da3dd8275775ec0a, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 1535838614}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5507,6 +5705,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437230124011244338, guid: e500ce3191118944da3dd8275775ec0a, type: 3}
   m_PrefabInstance: {fileID: 1535838612}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1535838614 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7967936578742643198, guid: e500ce3191118944da3dd8275775ec0a, type: 3}
+  m_PrefabInstance: {fileID: 1535838612}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1535838615 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: e500ce3191118944da3dd8275775ec0a, type: 3}
+  m_PrefabInstance: {fileID: 1535838612}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1550381033
 GameObject:
   m_ObjectHideFlags: 0
@@ -5834,6 +6054,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802190360}
     m_Modifications:
+    - target: {fileID: 3946419437289435862, guid: 4ea83d3e0a937ae43b231c9b16fd34d6, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: 4ea83d3e0a937ae43b231c9b16fd34d6, type: 3}
       propertyPath: m_Name
       value: ButtonStrongerBalloon
@@ -5918,6 +6142,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: 4ea83d3e0a937ae43b231c9b16fd34d6, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 1595998207}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5928,6 +6156,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437230124011244338, guid: 4ea83d3e0a937ae43b231c9b16fd34d6, type: 3}
   m_PrefabInstance: {fileID: 1595998205}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1595998207 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7967936578742643198, guid: 4ea83d3e0a937ae43b231c9b16fd34d6, type: 3}
+  m_PrefabInstance: {fileID: 1595998205}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1595998208 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: 4ea83d3e0a937ae43b231c9b16fd34d6, type: 3}
+  m_PrefabInstance: {fileID: 1595998205}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1604673106
 GameObject:
   m_ObjectHideFlags: 0
@@ -6022,6 +6272,8 @@ MonoBehaviour:
   sniperTowerButton: {fileID: 1785284226}
   basicTowerIndex: 0
   sniperTowerIndex: 1
+  basicTowerPriceText: {fileID: 155946382}
+  sniperTowerPriceText: {fileID: 2065634132}
 --- !u!1 &1627103349
 GameObject:
   m_ObjectHideFlags: 0
@@ -11886,6 +12138,7 @@ GameObject:
   - component: {fileID: 1802190362}
   - component: {fileID: 1802190361}
   - component: {fileID: 1802190363}
+  - component: {fileID: 1802190364}
   m_Layer: 5
   m_Name: BalloonSendingPanel
   m_TagString: Untagged
@@ -11989,6 +12242,32 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1802190364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1802190359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d63fc0aa9385f24c8a24b3e9cab2dad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  balloonButtons:
+  - {fileID: 4733683477064302447}
+  - {fileID: 2045081617}
+  - {fileID: 1932832339}
+  - {fileID: 1535838615}
+  - {fileID: 385393585}
+  - {fileID: 948329406}
+  - {fileID: 1389320993}
+  - {fileID: 2130836733}
+  - {fileID: 1595998208}
+  - {fileID: 126840674}
+  - {fileID: 1869643026}
+  - {fileID: 1389255149}
+  - {fileID: 248174503}
 --- !u!1 &1809965527
 GameObject:
   m_ObjectHideFlags: 0
@@ -12131,6 +12410,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802190360}
     m_Modifications:
+    - target: {fileID: 3946419437289435862, guid: 37c4e98e45b726540a505647e3df8772, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: 37c4e98e45b726540a505647e3df8772, type: 3}
       propertyPath: m_Name
       value: ButtonSmallBossBalloon
@@ -12215,6 +12498,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: 37c4e98e45b726540a505647e3df8772, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 1869643025}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12225,6 +12512,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437230124011244338, guid: 37c4e98e45b726540a505647e3df8772, type: 3}
   m_PrefabInstance: {fileID: 1869643023}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1869643025 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7967936578742643198, guid: 37c4e98e45b726540a505647e3df8772, type: 3}
+  m_PrefabInstance: {fileID: 1869643023}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1869643026 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: 37c4e98e45b726540a505647e3df8772, type: 3}
+  m_PrefabInstance: {fileID: 1869643023}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1919654372
 GameObject:
   m_ObjectHideFlags: 0
@@ -12388,6 +12697,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802190360}
     m_Modifications:
+    - target: {fileID: 3946419437289435862, guid: a523a4d248afa2744a7015b466554314, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: a523a4d248afa2744a7015b466554314, type: 3}
       propertyPath: m_Name
       value: ButtonGreenBalloon
@@ -12472,6 +12785,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: a523a4d248afa2744a7015b466554314, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 1932832338}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12482,6 +12799,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437230124011244338, guid: a523a4d248afa2744a7015b466554314, type: 3}
   m_PrefabInstance: {fileID: 1932832336}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1932832338 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7967936578742643198, guid: a523a4d248afa2744a7015b466554314, type: 3}
+  m_PrefabInstance: {fileID: 1932832336}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1932832339 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: a523a4d248afa2744a7015b466554314, type: 3}
+  m_PrefabInstance: {fileID: 1932832336}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1937736821
 GameObject:
   m_ObjectHideFlags: 0
@@ -12624,6 +12963,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802190360}
     m_Modifications:
+    - target: {fileID: 3946419437289435862, guid: 8bfa92feef09307438d53e6c850754da, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: 8bfa92feef09307438d53e6c850754da, type: 3}
       propertyPath: m_Name
       value: ButtonBlueBalloon
@@ -12718,6 +13061,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437230124011244338, guid: 8bfa92feef09307438d53e6c850754da, type: 3}
   m_PrefabInstance: {fileID: 2045081614}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2045081616 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7967936578742643198, guid: 8bfa92feef09307438d53e6c850754da, type: 3}
+  m_PrefabInstance: {fileID: 2045081614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2045081617 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: 8bfa92feef09307438d53e6c850754da, type: 3}
+  m_PrefabInstance: {fileID: 2045081614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2057745174
 GameObject:
   m_ObjectHideFlags: 0
@@ -12825,10 +13190,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1785284225}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -20}
+  m_SizeDelta: {x: 90, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2065634132
 MonoBehaviour:
@@ -12850,17 +13215,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: $10
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2d37a52cac721704a949bef944352bcf, type: 2}
+  m_sharedMaterial: {fileID: -2934442979332954447, guid: 2d37a52cac721704a949bef944352bcf, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -12877,8 +13242,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12935,6 +13300,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802190360}
     m_Modifications:
+    - target: {fileID: 3946419437289435862, guid: 37e2efd660194a94d8d46928a0689dfb, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: 37e2efd660194a94d8d46928a0689dfb, type: 3}
       propertyPath: m_Name
       value: ButtonStrongBalloon
@@ -13019,6 +13388,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: 37e2efd660194a94d8d46928a0689dfb, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 2130836732}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13029,6 +13402,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437230124011244338, guid: 37e2efd660194a94d8d46928a0689dfb, type: 3}
   m_PrefabInstance: {fileID: 2130836730}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2130836732 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7967936578742643198, guid: 37e2efd660194a94d8d46928a0689dfb, type: 3}
+  m_PrefabInstance: {fileID: 2130836730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2130836733 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: 37e2efd660194a94d8d46928a0689dfb, type: 3}
+  m_PrefabInstance: {fileID: 2130836730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2145095568
 GameObject:
   m_ObjectHideFlags: 0
@@ -13313,6 +13708,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1802190360}
     m_Modifications:
+    - target: {fileID: 3946419437289435862, guid: 68b2d4e76d199c340a1ca43426babb6a, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4957458418675685110, guid: 68b2d4e76d199c340a1ca43426babb6a, type: 3}
       propertyPath: m_Name
       value: ButtonRedBalloon
@@ -13397,11 +13796,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: 68b2d4e76d199c340a1ca43426babb6a, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 2045081616}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68b2d4e76d199c340a1ca43426babb6a, type: 3}
+--- !u!114 &4733683477064302447 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7149617241145836678, guid: 68b2d4e76d199c340a1ca43426babb6a, type: 3}
+  m_PrefabInstance: {fileID: 4733683477064302446}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df4395e64a890444bee33dc66513f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
