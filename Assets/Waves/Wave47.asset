@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delayBeforeWaveBegins: 23.5
   spawnInstructions:
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 7f52cf488426cd549bdde2f6a16834fb, type: 3}
-    spawnDelay: 0.29474914
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.20293169
+    initialHealth: 126

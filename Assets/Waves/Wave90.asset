@@ -14,99 +14,147 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delayBeforeWaveBegins: 112.5
   spawnInstructions:
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.437764
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.19151936
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.2223287
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.38297495
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.13296375
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.25399333
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.35510308
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.5169037
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.2259847
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.13581452
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.20441084
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.30596834
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.1727166
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.49559492
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.2891951
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.26064277
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.20778446
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.12405298
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.2590562
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.27374655
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.11291043
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.55747956
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.35934642
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.53460926
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.33096427
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.10830865
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.44382834
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.23397906
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.2232329
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.54962707
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.12337289
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.16597353
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.41687578
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.37236428
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.2240107
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.53713346
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.12305657
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.42823172
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.3288316
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.21672897
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.3928334
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.1835426
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.39025462
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.4306125
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.57328045
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.5147044
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 2b2509bfb7916644b91cb21299eb4a02, type: 3}
-    spawnDelay: 0.56216234
-  - balloonPrefab: {fileID: 4145948176449361689, guid: 37cd85501ac1cc642a4fcee1d0c72cf2, type: 3}
-    spawnDelay: 0.4984992
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.5429317
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.5606898
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.48616403
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.56435996
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.272986
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.20839518
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.40235594
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.23919582
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.2969363
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.28539366
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.58590966
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.12443875
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.44799066
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.5658231
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.34562758
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.3473954
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.12686458
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.4873451
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.20145397
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.37069902
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.15033928
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.41917133
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.47514856
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.110791005
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.42610365
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.54728115
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.4941947
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.16729811
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.3224214
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.29741642
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.48207402
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.20798093
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.56577295
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.57592916
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.5602735
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.29477543
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.53685564
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.53648806
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.1093174
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.30513716
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.26689768
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.34382617
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.5142098
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.43348765
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.14296368
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.49372464
+    initialHealth: 3126
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.25769046
+    initialHealth: 626
+  - balloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+    spawnDelay: 0.1105201
+    initialHealth: 626

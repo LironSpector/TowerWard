@@ -1,3 +1,4 @@
+//------- After balloon code & behaviour changes: -----------
 using UnityEngine;
 using System;
 using System.Net.Sockets;
@@ -207,20 +208,22 @@ public class NetworkManager : MonoBehaviour
                 break;
 
             case "SendBalloon":
-                // Deserialize into SendBalloonMessage
-                SendBalloonMessage sendBalloonMessage = messageObject.ToObject<SendBalloonMessage>();
-                Debug.Log("Sending balloon---: " + sendBalloonMessage);
-
-                // Extract data
-                string balloonType = sendBalloonMessage.Data.BalloonType;
-
-                // Spawn opponent balloons
-                UnityMainThreadDispatcher.Instance().Enqueue(() =>
                 {
-                    GameManager.Instance.SpawnOpponentBalloon(balloonType);
-                });
-                break;
+                    // e.g. { "Type":"SendBalloon", "Data": { "BalloonHealth": 2, "Cost":10 } }
+                    // The server relays it to the opponent, or if you're the opponent receiving it:
+                    // We parse "BalloonHealth"
+                    JObject dataObj = (JObject)messageObject["Data"];
+                    int balloonHealth = (int)dataObj["BalloonHealth"];
+                    // int cost = (int)dataObj["Cost"]; // might not be needed on receiving side
 
+                    // Now spawn that balloon locally
+                    // If you're the local client receiving this, do:
+                    UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                    {
+                        GameManager.Instance.SpawnOpponentBalloon(balloonHealth);
+                    });
+                    break;
+                }
 
             case "GameSnapshot":
                 // Deserialize into GameSnapshotMessage

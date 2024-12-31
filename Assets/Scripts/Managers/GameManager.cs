@@ -1,3 +1,4 @@
+//------- After balloon code & behaviour changes: -----------
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
@@ -41,6 +42,8 @@ public class GameManager : MonoBehaviour
     private bool isSendingSnapshots = false;
 
     public GameObject toggleMapButton;
+
+    public GameObject universalBalloonPrefab;
 
     void Awake()
     {
@@ -112,12 +115,12 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void LoseLife()
+    public void LoseLife(int livesToDecrease)
     {
         if (isGameOver)
             return;
 
-        lives--;
+        lives -= livesToDecrease;
         UpdateUI();
 
         if (lives <= 0)
@@ -292,11 +295,9 @@ public class GameManager : MonoBehaviour
 
     // Multiplayer Methods
 
-    public void SendBalloonToOpponent(string balloonType, int cost)
+    public void SendBalloonToOpponent(int balloonHealth, int cost)
     {
-        if (isGameOver)
-            return;
-
+        if (isGameOver) return;
         if (CurrentGameMode != GameMode.Multiplayer)
         {
             Debug.Log("Cannot send balloons in Single Player mode.");
@@ -305,51 +306,39 @@ public class GameManager : MonoBehaviour
 
         if (CanAfford(cost))
         {
-            // Deduct currency
             SpendCurrency(cost);
 
             // Prepare message
-            var message = new SendBalloonMessage
+            // Instead of "BalloonType", we do "BalloonHealth"
+            // We also keep "Cost" if needed, or you might omit it.
+            var message = new
             {
                 Type = "SendBalloon",
-                Data = new SendBalloonData
+                Data = new
                 {
-                    BalloonType = balloonType
+                    BalloonHealth = balloonHealth,
+                    Cost = cost
                 }
             };
 
             string jsonMessage = JsonConvert.SerializeObject(message);
-            //NetworkManager.Instance.SendMessage(jsonMessage);
             NetworkManager.Instance.SendMessageWithLengthPrefix(jsonMessage);
-
-            Debug.Log($"Sent balloon '{balloonType}' to opponent.");
+            //Debug.Log($"Sent balloon with health {balloonHealth} to opponent.");
         }
         else
         {
             Debug.Log("Not enough currency to send balloons.");
-            // Optionally display a message to the player
         }
     }
 
-    public void SpawnOpponentBalloon(string balloonType)
+    public void SpawnOpponentBalloon(int balloonHealth)
     {
-        Debug.Log("balloonType: " + balloonType);
-        if (isGameOver)
-            return;
+        Debug.Log($"Spawning opponent balloon with health={balloonHealth}");
+        if (isGameOver) return;
 
-        // Find the balloon prefab based on the balloonType
-        GameObject balloonPrefab = BalloonUtils.Instance.GetBalloonPrefabByName(balloonType);
-
-        if (balloonPrefab == null)
-        {
-            Debug.LogError("Balloon prefab not found for type: " + balloonType);
-            return;
-        }
-
-        // Spawn the balloon
-        BalloonSpawner.Instance.SpawnBalloon(balloonPrefab);
+        // Spawn the universal balloon
+        BalloonSpawner.Instance.SpawnExtraBalloon(universalBalloonPrefab, balloonHealth);
     }
-
 
     private IEnumerator SendSnapshots()
     {

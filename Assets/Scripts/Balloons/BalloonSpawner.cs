@@ -1,135 +1,4 @@
-// ------------------ BalloonSpawner before waves changes: ------------------
-//using UnityEngine;
-//using System.Collections;
-//using System.Collections.Generic;
-
-//public class BalloonSpawner : MonoBehaviour
-//{
-//    public Transform[] waypoints; // Assign in Inspector
-
-//    private int currentWaveIndex = 0;
-
-//    // List of WaveData assets
-//    public List<WaveData> waves = new List<WaveData>();
-
-//    // New variables for balloon tracking
-//    private int balloonsToSpawn = 0;
-//    private int balloonsRemaining = 0;
-//    //private bool isSpawningWave = false;
-
-//    public static BalloonSpawner Instance { get; private set; }
-
-//    void Awake()
-//    {
-//        if (Instance == null)
-//        {
-//            Instance = this;
-//        }
-//        else
-//        {
-//            Destroy(gameObject);
-//        }
-//    }
-
-//    //removing this method - waves will not longer start automatically
-//    //void Start()
-//    //{
-//    //    StartCoroutine(StartNextWave());
-//    //}
-
-//    public void StartSpawningWaves()
-//    {
-//        StartCoroutine(StartNextWave());
-//    }
-
-
-//    IEnumerator StartNextWave()
-//    {
-//        if (currentWaveIndex >= waves.Count)
-//        {
-//            // No more waves to spawn
-//            yield break;
-//        }
-
-//        //isSpawningWave = true;
-
-//        WaveData currentWave = waves[currentWaveIndex];
-//        balloonsToSpawn = currentWave.spawnInstructions.Count;
-//        balloonsRemaining = balloonsToSpawn;
-
-//        foreach (var instruction in currentWave.spawnInstructions)
-//        {
-//            yield return new WaitForSeconds(instruction.spawnDelay);
-//            SpawnBalloon(instruction.balloonPrefab);
-//        }
-
-//        //isSpawningWave = false;
-
-//        // Wait until all balloons are destroyed before starting the next wave
-//        StartCoroutine(CheckForNextWave());
-//    }
-
-//    IEnumerator CheckForNextWave()
-//    {
-//        // Wait until all balloons are destroyed
-//        while (balloonsRemaining > 0)
-//        {
-//            yield return null; // Wait for next frame
-//        }
-
-//        // All balloons are destroyed
-//        currentWaveIndex++;
-
-//        if (currentWaveIndex >= waves.Count)
-//        {
-//            // No more waves and all balloons are destroyed, player wins
-//            yield return new WaitForSeconds(5); //wait for a few more seconds because sometimes at high levels the "balloonsRemaining" is sometimes 0 a bit early.
-//            //GameManager.Instance.WinGame();
-//            GameManager.Instance.WinGame(reason: "You've defeated all the waves");
-
-//        }
-//        else
-//        {
-//            // Start the next wave
-//            StartCoroutine(StartNextWave());
-//        }
-//    }
-
-//    public void SpawnBalloon(GameObject balloonPrefab)
-//    {
-//        GameObject balloon = Instantiate(balloonPrefab, waypoints[0].position, Quaternion.identity);
-//        BalloonMovement movement = balloon.GetComponent<BalloonMovement>();
-//        movement.waypoints = waypoints;
-
-//        // Subscribe to balloon's OnDestroyed event
-//        Balloon balloonScript = balloon.GetComponent<Balloon>();
-//        balloonScript.OnDestroyed += OnBalloonDestroyed;
-//        balloonScript.OnEndReached += OnBalloonDestroyed;
-//    }
-
-//    void OnBalloonDestroyed(Balloon balloon)
-//    {
-//        balloonsRemaining--;
-
-//        // Unsubscribe from the event to avoid memory leaks
-//        balloon.OnDestroyed -= OnBalloonDestroyed;
-//        balloon.OnEndReached -= OnBalloonDestroyed;
-//    }
-
-//    public void ResetSpawnConfigurations()
-//    {
-//        currentWaveIndex = 0;
-//        Debug.Log("Balloon Spawner configurations have been reset.");
-//    }
-
-//}
-
-
-
-
-
-
-// ------------------ BalloonSpawner with waves changes: ------------------
+//------- After balloon code & behaviour changes: -----------
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -167,33 +36,51 @@ public class BalloonSpawner : MonoBehaviour
         StartCoroutine(SpawnWave(currentWaveIndex));
     }
 
+    //private IEnumerator SpawnWave(int waveIndex)
+    //{
+    //    Debug.Log($"---- Spawning wave {waveIndex}");
+
+    //    if (waveIndex >= waves.Count)
+    //    {
+    //        // No more waves
+    //        yield break;
+    //    }
+
+    //    WaveData waveData = waves[waveIndex];
+    //    //waveBalloonsRemaining = waveData.spawnInstructions.Count;
+    //    if (waveBalloonsRemaining < 0)
+    //    {
+    //        waveBalloonsRemaining = 0;
+    //    }
+    //    waveBalloonsRemaining += waveData.spawnInstructions.Count; //Add the new wave's balloon amount + amount of WaveBalloons from prev waves which is still on map.
+
+    //    foreach (var instruction in waveData.spawnInstructions)
+    //    {
+    //        yield return new WaitForSeconds(instruction.spawnDelay);
+    //        SpawnWaveBalloon(instruction.balloonPrefab);
+    //    }
+
+    //    // Wait for wave balloons to be destroyed
+    //    yield return StartCoroutine(CheckWaveCompletion());
+    //}
+
     private IEnumerator SpawnWave(int waveIndex)
     {
-        Debug.Log($"---- Spawning wave {waveIndex}");
-
-        if (waveIndex >= waves.Count)
-        {
-            // No more waves
-            yield break;
-        }
-
+        if (waveIndex >= waves.Count) yield break;
         WaveData waveData = waves[waveIndex];
-        //waveBalloonsRemaining = waveData.spawnInstructions.Count;
-        if (waveBalloonsRemaining < 0)
-        {
-            waveBalloonsRemaining = 0;
-        }
-        waveBalloonsRemaining += waveData.spawnInstructions.Count; //Add the new wave's balloon amount + amount of WaveBalloons from prev waves which is still on map.
+
+        waveBalloonsRemaining += waveData.spawnInstructions.Count;
 
         foreach (var instruction in waveData.spawnInstructions)
         {
             yield return new WaitForSeconds(instruction.spawnDelay);
-            SpawnWaveBalloon(instruction.balloonPrefab);
+            SpawnBalloon(instruction); // new approach
         }
 
-        // Wait for wave balloons to be destroyed
+        // Then wait for wave to complete, etc...
         yield return StartCoroutine(CheckWaveCompletion());
     }
+
 
     public void SetWaveIndex(int index)
     {
@@ -221,6 +108,8 @@ public class BalloonSpawner : MonoBehaviour
             }
 
             currentWaveIndex++;
+            Debug.Log("currentWaveIndex is this one: " + currentWaveIndex);
+            Debug.Log("waves.Count is this one: " + waves.Count);
             if (currentWaveIndex >= waves.Count)
             {
                 yield return new WaitForSeconds(5f);
@@ -254,24 +143,25 @@ public class BalloonSpawner : MonoBehaviour
                 string waveDone = $"{{\"Type\":\"WaveDone\",\"WaveIndex\":{currentWaveIndex}}}";
                 NetworkManager.Instance.SendMessageWithLengthPrefix(waveDone);
             }
-
-            //string waveDone = $"{{\"Type\":\"WaveDone\",\"WaveIndex\":{currentWaveIndex}}}";
-            //NetworkManager.Instance.SendMessageWithLengthPrefix(waveDone);
         }
     }
 
-
-    public void SpawnBalloon(GameObject balloonPrefab)
+    public void SpawnBalloon(WaveData.SpawnInstruction instruction)
     {
-        GameObject balloon = Instantiate(balloonPrefab, waypoints[0].position, Quaternion.identity);
-        BalloonMovement movement = balloon.GetComponent<BalloonMovement>();
-        movement.waypoints = waypoints;
+        GameObject balloonGO = Instantiate(instruction.balloonPrefab, waypoints[0].position, Quaternion.identity);
+        Balloon b = balloonGO.GetComponent<Balloon>();
+        b.health = instruction.initialHealth;
+        b.RecalculateAttributesBasedOnHealth();
 
-        // Subscribe to balloon's OnDestroyed event
-        Balloon balloonScript = balloon.GetComponent<Balloon>();
-        balloonScript.OnDestroyed += OnBalloonDestroyed;
-        balloonScript.OnEndReached += OnBalloonDestroyed;
+        b.isWaveBalloon = true;
+        //b.isWaveBalloon = isWaveBalloon;
+        b.OnDestroyed += OnBalloonDestroyed;
+        b.OnEndReached += OnBalloonDestroyedByEnd;
+
+        BalloonMovement m = balloonGO.GetComponent<BalloonMovement>();
+        m.waypoints = waypoints;
     }
+
 
     // Called by "StartNextWave" message from server
     public IEnumerator StartNextWave(int waveIndex)
@@ -320,19 +210,11 @@ public class BalloonSpawner : MonoBehaviour
 
     public void OnBalloonDestroyed(Balloon b)
     {
-        // If it's wave balloon, check if it's final form
-        // Actually, we only decrement waveBalloonsRemaining 
-        // if b.nextBalloonPrefab == null 
-        // meaning it doesn't spawn a successor balloon
-
-        //Debug.Log("b.isWaveBalloon: " + b.isWaveBalloon);
-        //Debug.Log("b.nextBalloonPrefab == null: " + (b.nextBalloonPrefab == null));
-        if (b.isWaveBalloon && b.nextBalloonPrefab == null)
+        if (b.isWaveBalloon)
         {
-            waveBalloonsRemaining--;
             Debug.Log("Wave balloon destroyed. Current num balloons: " + waveBalloonsRemaining);
+            waveBalloonsRemaining--;
         }
-
 
         b.OnDestroyed -= OnBalloonDestroyed;
         b.OnEndReached -= OnBalloonDestroyedByEnd;
@@ -341,11 +223,6 @@ public class BalloonSpawner : MonoBehaviour
 
     public void OnBalloonDestroyedByEnd(Balloon b)
     {
-        // If it's wave balloon, check if it's final form
-        // Actually, we only decrement waveBalloonsRemaining 
-        // if b.nextBalloonPrefab == null 
-        // meaning it doesn't spawn a successor balloon
-
         if (b.isWaveBalloon)
         {
             waveBalloonsRemaining--;
@@ -358,19 +235,23 @@ public class BalloonSpawner : MonoBehaviour
     }
 
     // ---------- Extra Balloon -----------
-    public void SpawnExtraBalloon(GameObject prefab)
+    public void SpawnExtraBalloon(GameObject prefab, int balloonHealth)
     {
         GameObject balloonGO = Instantiate(prefab, waypoints[0].position, Quaternion.identity);
 
-        Balloon balloonScript = balloonGO.GetComponent<Balloon>();
-        balloonScript.isWaveBalloon = false; // Extra balloon does not belong to wave
+        Balloon b = balloonGO.GetComponent<Balloon>();
 
-        // Optionally handle collisions, but do not track wave
-        balloonScript.OnDestroyed += OnBalloonDestroyed;
-        balloonScript.OnEndReached += OnBalloonDestroyedByEnd;
+        b.health = balloonHealth;
+        b.RecalculateAttributesBasedOnHealth();
+        b.isWaveBalloon = false;
 
+        // Possibly set balloon’s movement waypoints
         BalloonMovement movement = balloonGO.GetComponent<BalloonMovement>();
-        movement.waypoints = waypoints;
+        movement.waypoints = waypoints; // or wherever you define them
+
+        // Subscribe to OnDestroyed events
+        b.OnDestroyed += OnBalloonDestroyed;
+        b.OnEndReached += OnBalloonDestroyedByEnd;
     }
 
 

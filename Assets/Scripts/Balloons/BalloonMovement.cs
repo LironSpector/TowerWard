@@ -62,7 +62,8 @@ public class BalloonMovement : MonoBehaviour
         else
         {
             // Balloon reached the end
-            GameManager.Instance.LoseLife();
+            int livesToDecrease = balloon.health;
+            GameManager.Instance.LoseLife(livesToDecrease);
             balloon.ReachEnd(); // Trigger the ReachEnd method
             //Destroy(gameObject);
         }

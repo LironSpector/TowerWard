@@ -1,44 +1,12 @@
-// ------------------ old BalloonButton - before UI changes of BalloonPanel: ------------------
-//using UnityEngine;
-//using UnityEngine.UI;
-//using TMPro;
-
-//public class BalloonButton : MonoBehaviour
-//{
-//    public string balloonType;
-//    public int cost;
-
-//    private Button button;
-//    private TextMeshProUGUI costText;
-
-//    void Start()
-//    {
-//        button = GetComponent<Button>();
-//        button.onClick.AddListener(OnButtonClicked);
-
-//        // Find the CostText child
-//        costText = GetComponentInChildren<TextMeshProUGUI>();
-//        if (costText != null)
-//        {
-//            costText.text = "$" + cost.ToString();
-//        }
-//    }
-
-//    void OnButtonClicked()
-//    {
-//        GameManager.Instance.SendBalloonToOpponent(balloonType, cost);
-//    }
-//}
-
-
-
+//------- After balloon code & behaviour changes: -----------
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
 public class BalloonButton : MonoBehaviour
 {
-    public string balloonType;
+    [Header("Balloon Data")]
+    public int balloonHealth = 1;  // e.g. 1 for red, 2 for blue, etc.
     public int cost;
 
     [Header("UI References")]
@@ -72,9 +40,15 @@ public class BalloonButton : MonoBehaviour
         imageComponent = image.GetComponent<Image>();
     }
 
+    //void OnButtonClicked()
+    //{
+    //    GameManager.Instance.SendBalloonToOpponent(balloonType, cost);
+    //}
+
     void OnButtonClicked()
     {
-        GameManager.Instance.SendBalloonToOpponent(balloonType, cost);
+        // Instead of balloonType, we pass balloonHealth to GameManager
+        GameManager.Instance.SendBalloonToOpponent(balloonHealth, cost);
     }
 
     // Called by BalloonSendingPanel manager or something

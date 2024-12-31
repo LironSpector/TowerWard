@@ -578,6 +578,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 126840673}
+    - target: {fileID: 7149617241145836678, guid: 794a6a8e01f1a0244872e624ede01d51, type: 3}
+      propertyPath: balloonHealth
+      value: 26
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -779,7 +783,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 170}
-  m_SizeDelta: {x: 700, y: 30}
+  m_SizeDelta: {x: 850, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &173409441
 MonoBehaviour:
@@ -1253,6 +1257,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 248174502}
+    - target: {fileID: 7149617241145836678, guid: 1a3949cbf2d6f6b4dabe6127109fc034, type: 3}
+      propertyPath: balloonHealth
+      value: 3126
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2011,6 +2019,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 385393584}
+    - target: {fileID: 7149617241145836678, guid: 4f9cd2db192972148bfa348668bccbc4, type: 3}
+      propertyPath: balloonHealth
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2366,6 +2378,7 @@ MonoBehaviour:
   mapCamera: {fileID: 2145095571}
   mapRenderTexture: {fileID: 8400000, guid: 82ca992d9e13c664887266df5e4fbc37, type: 2}
   toggleMapButton: {fileID: 65090115}
+  universalBalloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
 --- !u!4 &526024724
 Transform:
   m_ObjectHideFlags: 0
@@ -4054,6 +4067,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 948329405}
+    - target: {fileID: 7149617241145836678, guid: 35f10f4740fd9314eb4a397ca5139016, type: 3}
+      propertyPath: balloonHealth
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5111,6 +5128,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 1389255148}
+    - target: {fileID: 7149617241145836678, guid: 7c39d97624c46614eb9147f2c3b0606e, type: 3}
+      propertyPath: balloonHealth
+      value: 626
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5243,6 +5264,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 1389320992}
+    - target: {fileID: 7149617241145836678, guid: 40d54196c0f5a0541b7064001470ed29, type: 3}
+      propertyPath: balloonHealth
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5695,6 +5720,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 1535838614}
+    - target: {fileID: 7149617241145836678, guid: e500ce3191118944da3dd8275775ec0a, type: 3}
+      propertyPath: balloonHealth
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6146,6 +6175,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 1595998207}
+    - target: {fileID: 7149617241145836678, guid: 4ea83d3e0a937ae43b231c9b16fd34d6, type: 3}
+      propertyPath: balloonHealth
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11447,6 +11480,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a323471cd680a7d4396b55ff39aef854, type: 2}
   - {fileID: 11400000, guid: fe3ee0b22d8dfbd4997056f295151805, type: 2}
   - {fileID: 11400000, guid: 9ac58186373286e4c95d40090a28540c, type: 2}
+  - {fileID: 11400000, guid: 5f2e3bba4ce87674a98ee13a0dca84bc, type: 2}
   - {fileID: 11400000, guid: 0429d014f7280b749842457d9727f40c, type: 2}
   - {fileID: 11400000, guid: 77b84e74fa86b124a80f5aefe5bfe8d6, type: 2}
   - {fileID: 11400000, guid: d6944c2bbb1894640ab997d17eea126a, type: 2}
@@ -11466,7 +11500,66 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cff3fb6ceb76e86419373e9720bd0356, type: 2}
   - {fileID: 11400000, guid: c4b5e00e7c0f8a34a88ebec1186fa820, type: 2}
   - {fileID: 11400000, guid: 5375b5c41cad1c348b356e51ff787ba8, type: 2}
-  - {fileID: 11400000, guid: 5f2e3bba4ce87674a98ee13a0dca84bc, type: 2}
+  - {fileID: 11400000, guid: ea34215d1a033b34b86884c2f0de1d02, type: 2}
+  - {fileID: 11400000, guid: 8906319124c251c47998e8bd466df65d, type: 2}
+  - {fileID: 11400000, guid: 0bd321d3a0295ab4eb201d9aeb331945, type: 2}
+  - {fileID: 11400000, guid: 09dae8948dbd6c34f8537b60771efbb3, type: 2}
+  - {fileID: 11400000, guid: c7e04b5f3be9a0342acbca0592eca8d0, type: 2}
+  - {fileID: 11400000, guid: a69c19a7d2f25a142adff0a16ad206ff, type: 2}
+  - {fileID: 11400000, guid: 723302b283556ff45997e64288d2ea07, type: 2}
+  - {fileID: 11400000, guid: d2d9df16823c0304899020675504f1ef, type: 2}
+  - {fileID: 11400000, guid: cf9cdb09ad000dd4a92c5f6df13a7325, type: 2}
+  - {fileID: 11400000, guid: b9fa42537bebcc14da72d2d4a68ddf9e, type: 2}
+  - {fileID: 11400000, guid: 229befc22ac5f5b40a959fdac7ce3a7a, type: 2}
+  - {fileID: 11400000, guid: c06b217997121734698ce6b890481405, type: 2}
+  - {fileID: 11400000, guid: 4d0cf09373fd4294db9ebb0a3fa61b6b, type: 2}
+  - {fileID: 11400000, guid: 4bad5dfdcca496c48966603e0bc7c9ee, type: 2}
+  - {fileID: 11400000, guid: bb9b6e0f63e2a9b4c8d0beccaa3c9310, type: 2}
+  - {fileID: 11400000, guid: 516738ca51becd4428a8f2afbb4fb266, type: 2}
+  - {fileID: 11400000, guid: 6deeddfe68f59a644960abce88a65b8f, type: 2}
+  - {fileID: 11400000, guid: f96ea89746f74334f9cb6a1f3fb545be, type: 2}
+  - {fileID: 11400000, guid: 19e02e775d1341e40829a5c81794c52f, type: 2}
+  - {fileID: 11400000, guid: e3192b8b4c981384ea0b82c8fe576285, type: 2}
+  - {fileID: 11400000, guid: 5296028cc2932f449ac63533523a249a, type: 2}
+  - {fileID: 11400000, guid: 686f0765cd3c1084a8b1c234e4527e56, type: 2}
+  - {fileID: 11400000, guid: 68154c88bc4c1e443af6f3be25f24ec8, type: 2}
+  - {fileID: 11400000, guid: fee91ac371bf5e940aafdeab67a744e2, type: 2}
+  - {fileID: 11400000, guid: c5b95a175d36dfe4d8ac5cda775d6563, type: 2}
+  - {fileID: 11400000, guid: 6543d9a3f2483264bbd5116ef3c16ccb, type: 2}
+  - {fileID: 11400000, guid: be2c1699a28e7eb4ba67a7a89902396f, type: 2}
+  - {fileID: 11400000, guid: 1fc8a0a186dca074b9056916c2d8b9e4, type: 2}
+  - {fileID: 11400000, guid: 7b444d7e96df79a4f9706680c05effc0, type: 2}
+  - {fileID: 11400000, guid: 68df916f200623744bc4d57855664eb0, type: 2}
+  - {fileID: 11400000, guid: 982dbe5eba394bb48b452d8d7afd3ba6, type: 2}
+  - {fileID: 11400000, guid: 3d980615f3d0fdb498bd0d51309fa4c6, type: 2}
+  - {fileID: 11400000, guid: f3c0febfc9142684b9a66d7432245987, type: 2}
+  - {fileID: 11400000, guid: af4fa5fb290c6814ea406d631456e107, type: 2}
+  - {fileID: 11400000, guid: 8c7622b5aefa3884ba9f682790310bbc, type: 2}
+  - {fileID: 11400000, guid: 80b7ec0935b89fb49bc524bbae37cb2a, type: 2}
+  - {fileID: 11400000, guid: eb804c27cf0443d40ae52402b6aa61eb, type: 2}
+  - {fileID: 11400000, guid: ef0c4ccf281402e4eb2694536ab84ce6, type: 2}
+  - {fileID: 11400000, guid: 417cd22306e900e46977d2b1bdb5c086, type: 2}
+  - {fileID: 11400000, guid: 155ca235c0d0d92438f34285f8daad2f, type: 2}
+  - {fileID: 11400000, guid: 461dafe3339bfb741bbf4266d43e2811, type: 2}
+  - {fileID: 11400000, guid: 5f6401436da0dc148aa08de83601d14d, type: 2}
+  - {fileID: 11400000, guid: ac97c3e8ca2c86d408260be8591e0f54, type: 2}
+  - {fileID: 11400000, guid: e838a1cc954ec4042b0f3064bf00b827, type: 2}
+  - {fileID: 11400000, guid: cf8d7236c6a203b40847fd36257421c9, type: 2}
+  - {fileID: 11400000, guid: ddb30a4d9112bff459affb6afbdc404b, type: 2}
+  - {fileID: 11400000, guid: 5fc112a2c32536c4eaef6d5c2e55ab1a, type: 2}
+  - {fileID: 11400000, guid: 93a05f19aa846e8459399905c81ea403, type: 2}
+  - {fileID: 11400000, guid: e291b1f9f2b1d9946be64bd250612891, type: 2}
+  - {fileID: 11400000, guid: f90a41d7200d0fe46939dc4daa90699f, type: 2}
+  - {fileID: 11400000, guid: 68f000e3f913dea4e8ac4a69162c4a40, type: 2}
+  - {fileID: 11400000, guid: a4c2d39d4ed4f644fb429eabb6363424, type: 2}
+  - {fileID: 11400000, guid: 4f70e2d26be8255458891c0d4120416c, type: 2}
+  - {fileID: 11400000, guid: a5854150802691648a2f14ae84b99159, type: 2}
+  - {fileID: 11400000, guid: 4fff76f2dad65214fb3b9fd0f9460aa1, type: 2}
+  - {fileID: 11400000, guid: 35b6fe81e310afe419eda3e5014fba16, type: 2}
+  - {fileID: 11400000, guid: e3401a9702930bc4089c6e66ecde2648, type: 2}
+  - {fileID: 11400000, guid: b8f5c0cd50694ff44a784336e3489bdc, type: 2}
+  - {fileID: 11400000, guid: d920da5cc1a5d9540bd6eeffc55da6b3, type: 2}
+  - {fileID: 11400000, guid: bb6552e9c002aeb4e8d16e07d3610496, type: 2}
 --- !u!4 &1724829137
 Transform:
   m_ObjectHideFlags: 0
@@ -12502,6 +12595,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 1869643025}
+    - target: {fileID: 7149617241145836678, guid: 37c4e98e45b726540a505647e3df8772, type: 3}
+      propertyPath: balloonHealth
+      value: 126
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12789,6 +12886,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 1932832338}
+    - target: {fileID: 7149617241145836678, guid: a523a4d248afa2744a7015b466554314, type: 3}
+      propertyPath: balloonHealth
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13050,6 +13151,10 @@ PrefabInstance:
     - target: {fileID: 5437230124011244338, guid: 8bfa92feef09307438d53e6c850754da, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7149617241145836678, guid: 8bfa92feef09307438d53e6c850754da, type: 3}
+      propertyPath: balloonHealth
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13392,6 +13497,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 2130836732}
+    - target: {fileID: 7149617241145836678, guid: 37e2efd660194a94d8d46928a0689dfb, type: 3}
+      propertyPath: balloonHealth
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
