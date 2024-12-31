@@ -1,3 +1,4 @@
+// ------------------ old BalloonButton - before UI changes of BalloonPanel: ------------------
 //using UnityEngine;
 //using UnityEngine.UI;
 //using TMPro;

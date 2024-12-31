@@ -1,3 +1,4 @@
+// ------------------ old TowerSelectionUI - before UI changes of the TowerSelection panel: ------------------
 //using UnityEngine;
 //using UnityEngine.UI;
 
