@@ -69,4 +69,45 @@ public class BalloonMovement : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Predict the balloon's position after 'timeAhead' seconds from now,
+    /// assuming it continues forward along the same path, turning at waypoints, etc.
+    /// We'll do a small piecewise simulation, ignoring large DT steps for better accuracy.
+    /// </summary>
+    public Vector2 PredictPositionInFuture(float timeAhead)
+    {
+        // We'll make a temp copy of balloon's path state and simulate forward
+        Vector2 currentPos = transform.position;
+        int currentIndex = waypointIndex;
+        float remainTime = timeAhead;
+        float speedB = balloon.speed;
+
+        while (remainTime > 0f && currentIndex < waypoints.Length)
+        {
+            // distance to next waypoint
+            Vector2 nextWaypointPos = waypoints[currentIndex].position;
+            Vector2 dir = nextWaypointPos - currentPos;
+            float dist = dir.magnitude;
+
+            float timeToReach = dist / speedB;
+            if (timeToReach <= remainTime)
+            {
+                // we reach the waypoint and maybe move on
+                currentPos = nextWaypointPos;
+                currentIndex++;
+                remainTime -= timeToReach;
+            }
+            else
+            {
+                // we won't reach the next waypoint in remainTime
+                currentPos += dir.normalized * (speedB * remainTime);
+                remainTime = 0f;
+            }
+        }
+
+        // If we run out of waypoints, we stay at the last position
+        return currentPos;
+    }
+
 }

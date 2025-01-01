@@ -108,17 +108,76 @@ public class TowerShooting : MonoBehaviour
         }
     }
 
+    // "Shoot()" method before projectile code & behaviour changes:
+    //void Shoot()
+    //{
+    //    if (projectilePrefab == null || targetBalloon == null)
+    //        return;
+
+    //    GameObject projectileGO = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+    //    Projectile projectile = projectileGO.GetComponent<Projectile>();
+    //    if (projectile != null)
+    //    {
+    //        projectile.Seek(targetBalloon.transform);
+    //    }
+
+    //}
+
+
     void Shoot()
     {
         if (projectilePrefab == null || targetBalloon == null)
             return;
 
-        GameObject projectileGO = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-        Projectile projectile = projectileGO.GetComponent<Projectile>();
-        if (projectile != null)
+        // If we want a "predictive shot" instead of a homing shot:
+        BalloonMovement balloonMov = targetBalloon.GetComponent<BalloonMovement>();
+        if (balloonMov == null)
         {
-            projectile.Seek(targetBalloon.transform);
+            // fallback - no movement script found
+            return;
         }
 
+        // 1) find intercept time
+        float projectileSpeed = 5f; // or you can store in projectilePrefab
+        float balloonSpeed = targetBalloon.speed; // or balloonMov.balloon.speed
+        Vector2 towerPos = firePoint.position;
+
+        float interceptTime = InterceptSolver.FindInterceptTime(
+            towerPos,
+            balloonMov,
+            balloonSpeed,
+            projectileSpeed
+        );
+
+        // 2) find intercept position
+        Vector2 interceptPos = balloonMov.PredictPositionInFuture(interceptTime);
+
+        // 3) spawn projectile
+        GameObject projGO = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+
+        Projectile projectile = projGO.GetComponent<Projectile>();
+        projectile.damage = damage;
+        // pass no "target transform"
+        // Instead we do a pure velocity approach
+
+        // 4) set projectile velocity to go in a straight line
+        Vector2 dir = interceptPos - (Vector2)firePoint.position;
+        dir.Normalize();
+
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        projGO.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        // e.g., if Projectile has a RigidBody2D:
+        Rigidbody2D rb = projGO.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.velocity = dir * projectileSpeed;
+        }
+        else
+        {
+            // or if you do a "manual movement" in Projectile.cs, store the direction
+            projectile.InitDirection(dir, projectileSpeed);
+        }
     }
+
 }

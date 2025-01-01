@@ -121,6 +121,9 @@ public class GameManager : MonoBehaviour
             return;
 
         lives -= livesToDecrease;
+        if (lives < 0)
+            lives = 0;
+
         UpdateUI();
 
         if (lives <= 0)

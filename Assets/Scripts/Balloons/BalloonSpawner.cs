@@ -98,14 +98,14 @@ public class BalloonSpawner : MonoBehaviour
         // Single Player => start next wave automatically
         if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.SinglePlayer)
         {
-            WaveData waveData = waves[currentWaveIndex];
-            // Wait waveData.delayBeforeWaveBegins
-            if (waveData.delayBeforeWaveBegins > 0f)
-            {
-                Debug.Log($"waveData.delayBeforeWaveBegins: {waveData.delayBeforeWaveBegins}");
-                yield return new WaitForSeconds(waveData.delayBeforeWaveBegins);
-                Debug.Log($"Finished waiting");
-            }
+            //WaveData waveData = waves[currentWaveIndex];
+            //// Wait waveData.delayBeforeWaveBegins
+            //if (waveData.delayBeforeWaveBegins > 0f)
+            //{
+            //    Debug.Log($"waveData.delayBeforeWaveBegins: {waveData.delayBeforeWaveBegins}");
+            //    yield return new WaitForSeconds(waveData.delayBeforeWaveBegins);
+            //    Debug.Log($"Finished waiting");
+            //}
 
             currentWaveIndex++;
             Debug.Log("currentWaveIndex is this one: " + currentWaveIndex);
@@ -215,6 +215,10 @@ public class BalloonSpawner : MonoBehaviour
             Debug.Log("Wave balloon destroyed. Current num balloons: " + waveBalloonsRemaining);
             waveBalloonsRemaining--;
         }
+        else
+        {
+            Debug.Log("Extra balloon destroyed");
+        }
 
         b.OnDestroyed -= OnBalloonDestroyed;
         b.OnEndReached -= OnBalloonDestroyedByEnd;
@@ -227,6 +231,10 @@ public class BalloonSpawner : MonoBehaviour
         {
             waveBalloonsRemaining--;
             Debug.Log("Wave balloon destroyed. Current num balloons: " + waveBalloonsRemaining);
+        }
+        else
+        {
+            Debug.Log("Extra balloon destroyed");
         }
 
 
