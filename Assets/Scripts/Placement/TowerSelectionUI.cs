@@ -50,17 +50,26 @@ public class TowerSelectionUI : MonoBehaviour
     [Header("Tower Buttons")]
     public Button basicTowerButton;
     public Button sniperTowerButton;
-    // etc...
+    public Button freezingTowerButton;
+    public Button slowingTowerButton;
+    public Button poisonTowerButton;
+    public Button superTowerButton;
 
-    // These indices must match TowerPlacement’s towerPrefabs order
     public int basicTowerIndex = 0;
     public int sniperTowerIndex = 1;
-    // etc...
+    public int freezingTowerIndex = 2;
+    public int slowingTowerIndex = 3;
+    public int poisonTowerIndex = 4;
+    public int superTowerIndex = 5;
 
     // We’ll store references to the text for each button
     public TextMeshProUGUI basicTowerPriceText;
     public TextMeshProUGUI sniperTowerPriceText;
-    // etc...
+    public TextMeshProUGUI freezingTowerPriceText;
+    public TextMeshProUGUI slowingTowerPriceText;
+    public TextMeshProUGUI poisonTowerPriceText;
+    public TextMeshProUGUI superTowerPriceText;
+
 
     // We’ll store references to the images for each button to gray them out
     //public Image basicTowerButtonImage;
@@ -71,11 +80,19 @@ public class TowerSelectionUI : MonoBehaviour
     {
         basicTowerButton.onClick.AddListener(() => OnTowerButtonClicked(basicTowerIndex));
         sniperTowerButton.onClick.AddListener(() => OnTowerButtonClicked(sniperTowerIndex));
+        freezingTowerButton.onClick.AddListener(() => OnTowerButtonClicked(freezingTowerIndex));
+        slowingTowerButton.onClick.AddListener(() => OnTowerButtonClicked(slowingTowerIndex));
+        poisonTowerButton.onClick.AddListener(() => OnTowerButtonClicked(poisonTowerIndex));
+        superTowerButton.onClick.AddListener(() => OnTowerButtonClicked(superTowerIndex));
         // etc.
 
         // Initialize the price text
         InitTowerButton(basicTowerIndex, basicTowerPriceText);
         InitTowerButton(sniperTowerIndex, sniperTowerPriceText);
+        InitTowerButton(freezingTowerIndex, freezingTowerPriceText);
+        InitTowerButton(slowingTowerIndex, slowingTowerPriceText);
+        InitTowerButton(poisonTowerIndex, poisonTowerPriceText);
+        InitTowerButton(superTowerIndex, superTowerPriceText);
         // etc.
 
         // Then do an initial refresh to set color based on current currency
@@ -121,6 +138,10 @@ public class TowerSelectionUI : MonoBehaviour
         //UpdateTowerButton(sniperTowerIndex, sniperTowerButton, sniperTowerButtonImage, sniperTowerPriceText);
         UpdateTowerButton(basicTowerIndex, basicTowerButton, basicTowerPriceText);
         UpdateTowerButton(sniperTowerIndex, sniperTowerButton, sniperTowerPriceText);
+        UpdateTowerButton(freezingTowerIndex, freezingTowerButton, freezingTowerPriceText);
+        UpdateTowerButton(slowingTowerIndex, slowingTowerButton, slowingTowerPriceText);
+        UpdateTowerButton(poisonTowerIndex, poisonTowerButton, poisonTowerPriceText);
+        UpdateTowerButton(superTowerIndex, superTowerButton, superTowerPriceText);
 
         // etc. for other towers
     }

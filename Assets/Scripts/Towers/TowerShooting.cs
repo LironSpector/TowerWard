@@ -1,3 +1,4 @@
+//Previous file - was used before "BaseTowerShooting". Now not it use at all.
 using UnityEngine;
 using System.Collections.Generic;
 

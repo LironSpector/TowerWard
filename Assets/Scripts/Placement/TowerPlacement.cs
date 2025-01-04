@@ -151,7 +151,10 @@ public class TowerPlacement : MonoBehaviour
         if (IsValidPlacement(pendingTower.transform.position))
         {
             Tower towerScript = pendingTower.GetComponent<Tower>();
+            Debug.Log("Valid placement in indeed. Storing in Tower: " + towerScript);
+            //Debug.Log("Is he null? " + (towerScript == null));
             towerScript.towerGridPosition = gridPosition; // Store the grid position in the tower
+            Debug.Log("Stored position: " + towerScript.towerGridPosition);
 
             // Hide the range indicator
             towerScript.HideRangeIndicator();

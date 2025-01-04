@@ -1,4 +1,341 @@
-//------- After balloon code & behaviour changes: -----------
+////------- After balloon code & behaviour changes: -----------
+//using UnityEngine;
+//using System;
+//using UnityEditor.Rendering;
+
+//[RequireComponent(typeof(SpriteRenderer))]
+//public class Balloon : MonoBehaviour
+//{
+//    [Header("Current Balloon State")]
+//    public int health = 1;
+//    public float speed = 2f;    // Used by BalloonMovement
+//    public int reward = 5;
+
+//    [Header("Immunities")]
+//    public bool immuneToFreeze = false;
+//    public bool immuneToPoison = false;
+
+//    [Header("Status Effects")]
+//    public bool isFrozen = false;
+//    public bool isPoisoned = false;
+//    public bool isSlowed = false;
+
+//    private float freezeDuration = 0f;
+//    private float poisonDuration = 0f;
+//    private float poisonTickInterval = 1f;
+//    private float poisonTickTimer = 0f;
+//    private float slowDuration = 0f;   // how long the balloon is slowed
+//    private float slowFactor = 0.5f;   // ex. reduces speed by 50% if slowed
+//    private float originalSpeed = 2f;
+
+//    private BalloonMovement movement;
+//    private SpriteRenderer spriteRenderer;
+
+//    // We'll store references to different balloon sprites
+//    [Header("Balloon Sprites")]
+//    public Sprite redBalloonSprite;
+//    public Sprite blueBalloonSprite;
+//    public Sprite greenBalloonSprite;
+//    public Sprite yellowBalloonSprite;
+//    public Sprite pinkBalloonSprite;
+//    public Sprite blackBalloonSprite;
+//    public Sprite whiteBalloonSprite;
+//    public Sprite strongBalloonSprite;
+//    public Sprite strongerBalloonSprite;
+//    public Sprite veryStrongBalloonSprite;
+//    public Sprite smallBossBalloonSprite;
+//    public Sprite mediumBossBalloonSprite;
+//    public Sprite bigBossBalloonSprite;
+
+//    // Wave logic
+//    public bool isWaveBalloon = false;
+//    public int waveNumber = -1;        // The wave index this balloon belongs to
+
+//    // Events
+//    public event Action<Balloon> OnDestroyed;
+//    public event Action<Balloon> OnEndReached;
+
+//    void Awake()
+//    {
+//        movement = GetComponent<BalloonMovement>();
+//        spriteRenderer = GetComponent<SpriteRenderer>();
+//    }
+
+//    void Start()
+//    {
+//        // Right after we spawn, recalc sprite and stats from current health
+//        RecalculateAttributesBasedOnHealth();
+//    }
+
+//    void Update()
+//    {
+//        // Handle freezing
+//        if (isFrozen)
+//        {
+//            Debug.Log("You are fronzen. stop!");
+//            freezeDuration -= Time.deltaTime;
+//            if (freezeDuration <= 0f)
+//            {
+//                isFrozen = false;
+//                // Optionally revert appearance
+//            }
+//        }
+
+//        // Handle poisoning
+//        if (isPoisoned)
+//        {
+//            poisonDuration -= Time.deltaTime;
+//            poisonTickTimer -= Time.deltaTime;
+
+//            if (poisonTickTimer <= 0f)
+//            {
+//                poisonTickTimer = poisonTickInterval;
+//                TakeDamage(1); // 1 damage per tick
+//            }
+
+//            if (poisonDuration <= 0f)
+//            {
+//                isPoisoned = false;
+//            }
+//        }
+
+//        if (isSlowed)
+//        {
+//            slowDuration -= Time.deltaTime;
+//            if (slowDuration <= 0f)
+//            {
+//                isSlowed = false;
+//                speed = originalSpeed;
+//                // revert speed to normal
+//            }
+//        }
+//    }
+
+//    // ========================
+//    // Taking damage and popping
+//    // ========================
+//    public void TakeDamage(int damage)
+//    {
+//        int oldHealth = health;
+//        health -= damage;
+
+//        if (health > 0)
+//        {
+//            // Still alive => Recalc stats if crossing a threshold
+//            Sprite previousSprite = spriteRenderer.sprite;
+//            int prevReward = reward;
+//            RecalculateAttributesBasedOnHealth();
+//            if (previousSprite != spriteRenderer.sprite) //If the balloon has changed (for example from "StrongBalloon" to "WhiteBalloon"), add currency
+//            {
+//                GameManager.Instance.AddCurrency(prevReward);
+//            }
+//        }
+//        else
+//        {
+//            // Fully destroyed
+//            Pop();
+//        }
+//    }
+
+//    public void Pop()
+//    {
+//        // Reward the player
+//        GameManager.Instance.AddCurrency(reward);
+
+//        // Notify listeners
+//        OnDestroyed?.Invoke(this);
+
+//        // Actually destroy this balloon object
+//        Destroy(gameObject);
+//    }
+
+//    public void Freeze(float duration)
+//    {
+//        if (immuneToFreeze)
+//            return;
+
+//        isFrozen = true;
+//        freezeDuration = duration;
+//        Debug.Log("BalloonListentingToFreeze: isFrozen: " + isFrozen + ", Freeze duration: " + freezeDuration);
+//    }
+
+//    public void Poison(float duration)
+//    {
+//        if (immuneToPoison)
+//            return;
+
+//        isPoisoned = true;
+//        poisonDuration = duration;
+//        poisonTickTimer = poisonTickInterval;
+//    }
+
+//    public void ApplySlow(float duration, float factor)
+//    {
+//        // If balloon is immune or something, skip
+//        // or if you want to refresh it always, do so
+//        isSlowed = true;
+//        slowDuration = duration;
+//        slowFactor = factor;
+//        speed = originalSpeed * slowFactor;
+//        // Possibly reduce speed by factor?
+//    }
+
+//    // ========================
+//    // Recalculate stats based on Health
+//    // ========================
+//    public void RecalculateAttributesBasedOnHealth()
+//    {
+//        if (health <= 0) return;
+
+//        // (A) Identify which type the balloon is based on current health
+//        // (B) Set speed, reward, immunities, and sprite accordingly
+
+//        if (health == 1)
+//        {
+//            // Red
+//            speed = 2f;    // Movement speed
+//            reward = 5;
+//            immuneToFreeze = false;
+//            immuneToPoison = false;
+//            spriteRenderer.sprite = redBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//        else if (health == 2)
+//        {
+//            // Blue
+//            speed = 2f;
+//            reward = 5;
+//            immuneToFreeze = false;
+//            immuneToPoison = false;
+//            spriteRenderer.sprite = blueBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//        else if (health == 3)
+//        {
+//            // Green
+//            speed = 2f;
+//            reward = 5;
+//            immuneToFreeze = false;
+//            immuneToPoison = false;
+//            spriteRenderer.sprite = greenBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//        else if (health == 4)
+//        {
+//            // Yellow
+//            speed = 2f;
+//            reward = 5;
+//            immuneToFreeze = false;
+//            immuneToPoison = false;
+//            spriteRenderer.sprite = yellowBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//        else if (health == 5)
+//        {
+//            // Pink
+//            speed = 4f;
+//            reward = 5;
+//            immuneToFreeze = false;
+//            immuneToPoison = false;
+//            spriteRenderer.sprite = pinkBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//        else if (health == 6)
+//        {
+//            // Black
+//            speed = 3f;
+//            reward = 5;
+//            immuneToFreeze = true;
+//            immuneToPoison = false;
+//            spriteRenderer.sprite = blackBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//        else if (health == 7)
+//        {
+//            // White
+//            speed = 3f;
+//            reward = 5;
+//            immuneToFreeze = false;
+//            immuneToPoison = true;
+//            spriteRenderer.sprite = whiteBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//        else if (health >= 8 && health <= 10)
+//        {
+//            // Strong
+//            speed = 2f;
+//            reward = 5;
+//            immuneToFreeze = false;
+//            immuneToPoison = false;
+//            // We might want “health = 3” for the actual leftover HP in this tier
+//            spriteRenderer.sprite = strongBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//        else if (health >= 11 && health <= 16)
+//        {
+//            // Stronger
+//            speed = 1.5f;
+//            reward = 5;
+//            immuneToFreeze = false;
+//            immuneToPoison = false;
+//            // e.g., health = 6 in this range
+//            spriteRenderer.sprite = strongerBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//        else if (health >= 17 && health <= 26)
+//        {
+//            // Very Strong
+//            speed = 1f;
+//            reward = 5;
+//            immuneToFreeze = false;
+//            immuneToPoison = false;
+//            spriteRenderer.sprite = veryStrongBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//        else if (health >= 27 && health <= 126)
+//        {
+//            // Small Boss
+//            speed = 1.5f;
+//            reward = 5;
+//            immuneToFreeze = false;
+//            immuneToPoison = false;
+//            spriteRenderer.sprite = smallBossBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//        else if (health >= 127 && health <= 626)
+//        {
+//            // Medium Boss
+//            speed = 1f;
+//            reward = 5;
+//            immuneToFreeze = false;
+//            immuneToPoison = false;
+//            spriteRenderer.sprite = mediumBossBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//        else if (health >= 627 && health <= 3126)
+//        {
+//            // Big Boss
+//            speed = 0.5f;
+//            reward = 5;
+//            immuneToFreeze = false;
+//            immuneToPoison = false;
+//            spriteRenderer.sprite = bigBossBalloonSprite;
+//            originalSpeed = speed;
+//        }
+//    }
+
+//    // Reached the end of the path
+//    public void ReachEnd()
+//    {
+//        OnEndReached?.Invoke(this);
+//        Destroy(gameObject);
+//    }
+//}
+
+
+
+
+
 using UnityEngine;
 using System;
 
@@ -7,7 +344,7 @@ public class Balloon : MonoBehaviour
 {
     [Header("Current Balloon State")]
     public int health = 1;
-    public float speed = 2f;    // Used by BalloonMovement
+    public float speed = 2f; // Used by BalloonMovement
     public int reward = 5;
 
     [Header("Immunities")]
@@ -17,16 +354,19 @@ public class Balloon : MonoBehaviour
     [Header("Status Effects")]
     public bool isFrozen = false;
     public bool isPoisoned = false;
+    public bool isSlowed = false;
 
     private float freezeDuration = 0f;
     private float poisonDuration = 0f;
     private float poisonTickInterval = 1f;
     private float poisonTickTimer = 0f;
+    private float slowDuration = 0f;
+    private float slowFactor = 0.5f;
+    private float originalSpeed = 2f;  // Used to store base speed for slow calculations
 
     private BalloonMovement movement;
     private SpriteRenderer spriteRenderer;
 
-    // We'll store references to different balloon sprites
     [Header("Balloon Sprites")]
     public Sprite redBalloonSprite;
     public Sprite blueBalloonSprite;
@@ -42,13 +382,20 @@ public class Balloon : MonoBehaviour
     public Sprite mediumBossBalloonSprite;
     public Sprite bigBossBalloonSprite;
 
+    // Newly added for visuals:
+    public Sprite frozenBalloonSprite;
+    public Sprite poisonedBalloonSprite;
+
     // Wave logic
     public bool isWaveBalloon = false;
-    public int waveNumber = -1;        // The wave index this balloon belongs to
+    public int waveNumber = -1;
 
     // Events
     public event Action<Balloon> OnDestroyed;
     public event Action<Balloon> OnEndReached;
+
+    // We store the “normal” sprite that corresponds to the current health
+    private Sprite normalSprite;
 
     void Awake()
     {
@@ -58,24 +405,26 @@ public class Balloon : MonoBehaviour
 
     void Start()
     {
-        // Right after we spawn, recalc sprite and stats from current health
         RecalculateAttributesBasedOnHealth();
     }
 
     void Update()
     {
-        // Handle freezing
+        // ==============
+        // 1) Handle Timers
+        // ==============
+
+        // Freezing
         if (isFrozen)
         {
             freezeDuration -= Time.deltaTime;
             if (freezeDuration <= 0f)
             {
                 isFrozen = false;
-                // Optionally revert appearance
             }
         }
 
-        // Handle poisoning
+        // Poisoning
         if (isPoisoned)
         {
             poisonDuration -= Time.deltaTime;
@@ -84,13 +433,57 @@ public class Balloon : MonoBehaviour
             if (poisonTickTimer <= 0f)
             {
                 poisonTickTimer = poisonTickInterval;
-                TakeDamage(1); // 1 damage per tick
+                TakeDamage(1);
             }
-
             if (poisonDuration <= 0f)
             {
                 isPoisoned = false;
             }
+        }
+
+        // Slowing
+        if (isSlowed)
+        {
+            slowDuration -= Time.deltaTime;
+            if (slowDuration <= 0f)
+            {
+                isSlowed = false;
+            }
+        }
+
+        // ==============
+        // 2) Update Speed
+        // ==============
+        // Priority: If Frozen => speed=0, else if Slowed => speed=originalSpeed * slowFactor, else => speed=originalSpeed
+        if (isFrozen)
+        {
+            speed = 0f;
+        }
+        else if (isSlowed)
+        {
+            speed = originalSpeed * slowFactor;
+        }
+        else
+        {
+            speed = originalSpeed;
+        }
+
+        // ==============
+        // 3) Update Sprite
+        // ==============
+        // Priority: if Frozen => frozenBalloonSprite, else if Poisoned => poisonedBalloonSprite, else => normalSprite
+        if (isFrozen && frozenBalloonSprite != null)
+        {
+            spriteRenderer.sprite = frozenBalloonSprite;
+        }
+        else if (isPoisoned && poisonedBalloonSprite != null)
+        {
+            spriteRenderer.sprite = poisonedBalloonSprite;
+        }
+        else
+        {
+            // revert to normal sprite based on current health
+            spriteRenderer.sprite = normalSprite;
         }
     }
 
@@ -104,38 +497,34 @@ public class Balloon : MonoBehaviour
 
         if (health > 0)
         {
-            // Still alive => Recalc stats if crossing a threshold
+            // Recalc if crossing a threshold
             Sprite previousSprite = spriteRenderer.sprite;
             int prevReward = reward;
             RecalculateAttributesBasedOnHealth();
-            if (previousSprite != spriteRenderer.sprite) //If the balloon has changed (for example from "StrongBalloon" to "WhiteBalloon"), add currency
+
+            // If the base sprite changed from e.g. “strong” to “white,” add currency
+            if (previousSprite != spriteRenderer.sprite)
             {
                 GameManager.Instance.AddCurrency(prevReward);
             }
         }
         else
         {
-            // Fully destroyed
+            // Destroy
             Pop();
         }
     }
 
     public void Pop()
     {
-        // Reward the player
         GameManager.Instance.AddCurrency(reward);
-
-        // Notify listeners
         OnDestroyed?.Invoke(this);
-
-        // Actually destroy this balloon object
         Destroy(gameObject);
     }
 
     public void Freeze(float duration)
     {
-        if (immuneToFreeze)
-            return;
+        if (immuneToFreeze) return;
 
         isFrozen = true;
         freezeDuration = duration;
@@ -143,12 +532,19 @@ public class Balloon : MonoBehaviour
 
     public void Poison(float duration)
     {
-        if (immuneToPoison)
-            return;
+        if (immuneToPoison) return;
 
         isPoisoned = true;
         poisonDuration = duration;
         poisonTickTimer = poisonTickInterval;
+    }
+
+    public void ApplySlow(float duration, float factor)
+    {
+        // If balloon is immune or something, skip
+        isSlowed = true;
+        slowDuration = duration;
+        slowFactor = factor;
     }
 
     // ========================
@@ -158,131 +554,129 @@ public class Balloon : MonoBehaviour
     {
         if (health <= 0) return;
 
-        // (A) Identify which type the balloon is based on current health
-        // (B) Set speed, reward, immunities, and sprite accordingly
+        // This sets "speed", "reward", "immuneToFreeze/Poison", and sets the sprite
+        // We store the chosen sprite in “normalSprite”
 
+        // For example:
         if (health == 1)
         {
-            // Red
-            speed = 2f;    // Movement speed
+            speed = 2f;
             reward = 5;
             immuneToFreeze = false;
             immuneToPoison = false;
-            spriteRenderer.sprite = redBalloonSprite;
+            normalSprite = redBalloonSprite;
+            originalSpeed = speed;
         }
         else if (health == 2)
         {
-            // Blue
             speed = 2f;
             reward = 5;
             immuneToFreeze = false;
             immuneToPoison = false;
-            spriteRenderer.sprite = blueBalloonSprite;
+            normalSprite = blueBalloonSprite;
+            originalSpeed = speed;
         }
         else if (health == 3)
         {
-            // Green
             speed = 2f;
             reward = 5;
             immuneToFreeze = false;
             immuneToPoison = false;
-            spriteRenderer.sprite = greenBalloonSprite;
+            normalSprite = greenBalloonSprite;
+            originalSpeed = speed;
         }
         else if (health == 4)
         {
-            // Yellow
             speed = 2f;
             reward = 5;
             immuneToFreeze = false;
             immuneToPoison = false;
-            spriteRenderer.sprite = yellowBalloonSprite;
+            normalSprite = yellowBalloonSprite;
+            originalSpeed = speed;
         }
         else if (health == 5)
         {
-            // Pink
             speed = 4f;
             reward = 5;
             immuneToFreeze = false;
             immuneToPoison = false;
-            spriteRenderer.sprite = pinkBalloonSprite;
+            normalSprite = pinkBalloonSprite;
+            originalSpeed = speed;
         }
         else if (health == 6)
         {
-            // Black
             speed = 3f;
             reward = 5;
             immuneToFreeze = true;
             immuneToPoison = false;
-            spriteRenderer.sprite = blackBalloonSprite;
+            normalSprite = blackBalloonSprite;
+            originalSpeed = speed;
         }
         else if (health == 7)
         {
-            // White
             speed = 3f;
             reward = 5;
             immuneToFreeze = false;
             immuneToPoison = true;
-            spriteRenderer.sprite = whiteBalloonSprite;
+            normalSprite = whiteBalloonSprite;
+            originalSpeed = speed;
         }
         else if (health >= 8 && health <= 10)
         {
-            // Strong
             speed = 2f;
             reward = 5;
             immuneToFreeze = false;
             immuneToPoison = false;
-            // We might want “health = 3” for the actual leftover HP in this tier
-            spriteRenderer.sprite = strongBalloonSprite;
+            normalSprite = strongBalloonSprite;
+            originalSpeed = speed;
         }
         else if (health >= 11 && health <= 16)
         {
-            // Stronger
             speed = 1.5f;
             reward = 5;
             immuneToFreeze = false;
             immuneToPoison = false;
-            // e.g., health = 6 in this range
-            spriteRenderer.sprite = strongerBalloonSprite;
+            normalSprite = strongerBalloonSprite;
+            originalSpeed = speed;
         }
         else if (health >= 17 && health <= 26)
         {
-            // Very Strong
             speed = 1f;
             reward = 5;
             immuneToFreeze = false;
             immuneToPoison = false;
-            spriteRenderer.sprite = veryStrongBalloonSprite;
+            normalSprite = veryStrongBalloonSprite;
+            originalSpeed = speed;
         }
         else if (health >= 27 && health <= 126)
         {
-            // Small Boss
             speed = 1.5f;
             reward = 5;
-            immuneToFreeze = false;
-            immuneToPoison = false;
-            spriteRenderer.sprite = smallBossBalloonSprite;
+            immuneToFreeze = true;
+            immuneToPoison = true;
+            normalSprite = smallBossBalloonSprite;
+            originalSpeed = speed;
         }
         else if (health >= 127 && health <= 626)
         {
-            // Medium Boss
             speed = 1f;
             reward = 5;
-            immuneToFreeze = false;
-            immuneToPoison = false;
-            spriteRenderer.sprite = mediumBossBalloonSprite;
+            immuneToFreeze = true;
+            immuneToPoison = true;
+            normalSprite = mediumBossBalloonSprite;
+            originalSpeed = speed;
         }
         else if (health >= 627 && health <= 3126)
         {
-            // Big Boss
             speed = 0.5f;
             reward = 5;
-            immuneToFreeze = false;
-            immuneToPoison = false;
-            spriteRenderer.sprite = bigBossBalloonSprite;
+            immuneToFreeze = true;
+            immuneToPoison = true;
+            normalSprite = bigBossBalloonSprite;
+            originalSpeed = speed;
         }
     }
 
-    // Reached the end of the path
     public void ReachEnd()
     {
         OnEndReached?.Invoke(this);

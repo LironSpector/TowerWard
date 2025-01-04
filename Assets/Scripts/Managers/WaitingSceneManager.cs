@@ -62,7 +62,7 @@ public class WaitingSceneManager : MonoBehaviour
         string timeString = string.Format("{0:00}:{1:00}", minutes, seconds);
         if (waitingTimeText != null)
         {
-            waitingTimeText.text = timeString;
+            waitingTimeText.text = "Waiting for: " + timeString;
         }
     }
 
