@@ -3,21 +3,18 @@
 //public class Tower : MonoBehaviour
 //{
 //    public TowerData towerData; // Reference to the tower's data
-//    public int level = 1; // Current level
-//    public int maxLevel; // Maximum level (set from towerData)
+//    public int level = 1;       // Current level
+//    public int maxLevel;        // Maximum level (set from towerData)
 
-//    private TowerShooting towerShooting;
-//    private CircleCollider2D rangeCollider; // For shooting range detection
+//    protected BaseTowerShooting towerShooting;  // We'll reference the base shooting script
+//    protected CircleCollider2D rangeCollider;   // For shooting range detection
 
 //    public Vector2 towerGridPosition; // Track this tower's grid position
-
 //    public GameObject rangeIndicator;
 
-
-//    void Awake()
+//    protected virtual void Awake()
 //    {
-//        // Find the RangeIndicator child object (it's in the Awake() method and not Start() because it needs to happen at the very first moment
-//        // after the object is created, and not even 1 frame afterwards)
+//        // Find the RangeIndicator child object
 //        if (rangeIndicator == null)
 //        {
 //            Transform rangeIndicatorTransform = transform.Find("RangeIndicator");
@@ -33,7 +30,7 @@
 //        }
 //    }
 
-//    void Start()
+//    protected virtual void Start()
 //    {
 //        if (towerData == null)
 //        {
@@ -42,20 +39,22 @@
 //        }
 
 //        maxLevel = towerData.levels.Length;
-//        towerShooting = GetComponent<TowerShooting>();
+
+//        towerShooting = GetComponent<BaseTowerShooting>();
 
 //        // Get the range collider for shooting range
 //        rangeCollider = GetComponent<CircleCollider2D>();
 //        if (rangeCollider != null)
 //        {
-//            rangeCollider.isTrigger = true; // Ensure this is a trigger
+//            rangeCollider.isTrigger = true;
 //        }
 
 //        ApplyLevelStats();
 //    }
 
-//    void Update()
+//    protected virtual void Update()
 //    {
+//        //Debug.Log("From within Tower.cs:" + towerGridPosition);
 //        DetectTowerSelection();
 //    }
 
@@ -70,13 +69,10 @@
 //        {
 //            return towerData.levels[level].upgradeCost;
 //        }
-//        else
-//        {
-//            return 0; // No cost if max level reached
-//        }
+//        return 0; // No cost if max level reached
 //    }
 
-//    public void Upgrade()
+//    public virtual void Upgrade()
 //    {
 //        if (CanUpgrade())
 //        {
@@ -85,9 +81,9 @@
 //        }
 //    }
 
-//    void ApplyLevelStats()
+//    protected virtual void ApplyLevelStats()
 //    {
-//        if (towerShooting != null)
+//        if (towerShooting != null && towerData != null && level <= towerData.levels.Length)
 //        {
 //            TowerLevelData levelData = towerData.levels[level - 1];
 //            towerShooting.range = levelData.range;
@@ -97,23 +93,20 @@
 //        }
 //    }
 
-//    // Detect tower selection using the grid-based system
 //    void DetectTowerSelection()
 //    {
 //        if (GameManager.Instance.isGameOver)
 //            return;
 
-//        if (Input.GetMouseButtonDown(0)) // Left-click
+//        if (Input.GetMouseButtonDown(0))
 //        {
 //            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 //            Vector2 gridPosition = GridManager.Instance.SnapToGrid(mousePosition);
-//            //Debug.Log("mousePosition: " + mousePosition + ", gridPosition: " + gridPosition + ", towerGridPosition: " + towerGridPosition);
 
-//            // Check if this tower is located at the clicked position
+//            Debug.Log("gridPosition: " + gridPosition + ", towerGridPosition: " + towerGridPosition);
 //            if (gridPosition == towerGridPosition)
 //            {
-//                // If this tower is at the clicked grid position, show the upgrade panel
-//                UIManager.Instance.ShowTowerPanel(this); // Show the upgrade panel for this tower
+//                UIManager.Instance.ShowTowerPanel(this);
 //            }
 //        }
 //    }
@@ -121,30 +114,17 @@
 //    public int GetSellValue()
 //    {
 //        int totalCost = 0;
-
 //        // Add the cost of the initial tower
 //        totalCost += towerData.levels[0].upgradeCost;
-
-//        // Add the cost of upgrades up to the current level
+//        // Add the cost of upgrades
 //        for (int i = 1; i < level; i++)
 //        {
 //            totalCost += towerData.levels[i].upgradeCost;
 //        }
-
-//        // Return half of the total cost (rounded down)
 //        return totalCost / 2;
 //    }
 
-
-//    //void UpdateRangeIndicator()
-//    //{
-//    //    if (rangeCollider != null)
-//    //    {
-//    //        rangeCollider.radius = towerShooting.range;
-//    //    }
-//    //}
-
-//    void UpdateRangeIndicator()
+//    protected void UpdateRangeIndicator()
 //    {
 //        if (rangeCollider != null)
 //        {
@@ -154,17 +134,14 @@
 //        if (rangeIndicator != null)
 //        {
 //            float diameter = towerShooting.range * 2f;
-//            //Debug.Log("diameter: " + diameter);
 //            rangeIndicator.transform.localScale = new Vector3(diameter, diameter, 1f);
 //        }
 //    }
 
 //    public void ShowRangeIndicator()
 //    {
-//        //Debug.Log("Showing RangeIndicator");
 //        if (rangeIndicator != null)
 //        {
-//            //Debug.Log("and it's not null!");
 //            rangeIndicator.SetActive(true);
 //        }
 //    }
@@ -176,12 +153,7 @@
 //            rangeIndicator.SetActive(false);
 //        }
 //    }
-
-
 //}
-
-
-
 
 
 
@@ -196,15 +168,17 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    public TowerData towerData; // Reference to the tower's data
-    public int level = 1;       // Current level
-    public int maxLevel;        // Maximum level (set from towerData)
+    public TowerData towerData;
+    public int level = 1;
+    public int maxLevel;
 
-    protected BaseTowerShooting towerShooting;  // We'll reference the base shooting script
-    protected CircleCollider2D rangeCollider;   // For shooting range detection
+    // We remove the towerShooting reference from here!
+    protected CircleCollider2D rangeCollider;
 
-    public Vector2 towerGridPosition; // Track this tower's grid position
+    public Vector2 towerGridPosition;
     public GameObject rangeIndicator;
+
+    public bool isFullyPlaced = false;
 
     protected virtual void Awake()
     {
@@ -215,7 +189,7 @@ public class Tower : MonoBehaviour
             if (rangeIndicatorTransform != null)
             {
                 rangeIndicator = rangeIndicatorTransform.gameObject;
-                rangeIndicator.SetActive(false); // Hide by default
+                rangeIndicator.SetActive(false);
             }
             else
             {
@@ -234,21 +208,19 @@ public class Tower : MonoBehaviour
 
         maxLevel = towerData.levels.Length;
 
-        towerShooting = GetComponent<BaseTowerShooting>();
-
-        // Get the range collider for shooting range
+        // If we want a range for AoE or something, set up a circle collider
         rangeCollider = GetComponent<CircleCollider2D>();
         if (rangeCollider != null)
         {
             rangeCollider.isTrigger = true;
         }
 
+        // Let the base tower apply stats or do something minimal
         ApplyLevelStats();
     }
 
     protected virtual void Update()
     {
-        //Debug.Log("From within Tower.cs:" + towerGridPosition);
         DetectTowerSelection();
     }
 
@@ -263,7 +235,7 @@ public class Tower : MonoBehaviour
         {
             return towerData.levels[level].upgradeCost;
         }
-        return 0; // No cost if max level reached
+        return 0;
     }
 
     public virtual void Upgrade()
@@ -275,29 +247,42 @@ public class Tower : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Base method for applying tower level stats.
+    /// Projectile towers override it to set shooting stats, 
+    /// Non-projectile towers might override it if needed for special logic.
+    /// </summary>
     protected virtual void ApplyLevelStats()
     {
-        if (towerShooting != null && towerData != null && level <= towerData.levels.Length)
+        // By default, do nothing or maybe set rangeCollider
+        if (towerData == null || level > towerData.levels.Length) return;
+
+        TowerLevelData levelData = towerData.levels[level - 1];
+
+        // For towers that do area-of-effect or aura, we might still want to do:
+        if (rangeCollider != null)
         {
-            TowerLevelData levelData = towerData.levels[level - 1];
-            towerShooting.range = levelData.range;
-            towerShooting.fireRate = levelData.fireRate;
-            towerShooting.damage = levelData.damage;
-            UpdateRangeIndicator();
+            rangeCollider.radius = levelData.range;
+        }
+
+        // Update range indicator visuals
+        if (rangeIndicator != null)
+        {
+            float diameter = levelData.range * 2f;
+            rangeIndicator.transform.localScale = new Vector3(diameter, diameter, 1f);
         }
     }
 
     void DetectTowerSelection()
     {
-        if (GameManager.Instance.isGameOver)
-            return;
+        if (GameManager.Instance.isGameOver) return;
 
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 gridPosition = GridManager.Instance.SnapToGrid(mousePosition);
 
-            Debug.Log("gridPosition: " + gridPosition + ", towerGridPosition: " + towerGridPosition);
+            // If the user clicked exactly on this tower's grid position
             if (gridPosition == towerGridPosition)
             {
                 UIManager.Instance.ShowTowerPanel(this);
@@ -308,28 +293,12 @@ public class Tower : MonoBehaviour
     public int GetSellValue()
     {
         int totalCost = 0;
-        // Add the cost of the initial tower
         totalCost += towerData.levels[0].upgradeCost;
-        // Add the cost of upgrades
         for (int i = 1; i < level; i++)
         {
             totalCost += towerData.levels[i].upgradeCost;
         }
         return totalCost / 2;
-    }
-
-    protected void UpdateRangeIndicator()
-    {
-        if (rangeCollider != null)
-        {
-            rangeCollider.radius = towerShooting.range;
-        }
-
-        if (rangeIndicator != null)
-        {
-            float diameter = towerShooting.range * 2f;
-            rangeIndicator.transform.localScale = new Vector3(diameter, diameter, 1f);
-        }
     }
 
     public void ShowRangeIndicator()

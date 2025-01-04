@@ -168,6 +168,16 @@ public class TowerPlacement : MonoBehaviour
 
             SetLayerRecursively(pendingTower, LayerMask.NameToLayer("Tower"));
 
+            towerScript.isFullyPlaced = true;
+
+            // If it's a VillageTower, refresh the towers in range
+            VillageTower vTower = towerScript as VillageTower;
+            if (vTower != null)
+            {
+                // This one-time call ensures we buff any towers that were already inside the collider
+                vTower.RefreshTowersInRange();
+            }
+
             isPlacing = false;
             pendingTower = null;
         }

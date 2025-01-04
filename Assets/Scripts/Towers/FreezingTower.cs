@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FreezingTower : Tower
+public class FreezingTower : ProjectileTower
 {
     protected override void Awake()
     {

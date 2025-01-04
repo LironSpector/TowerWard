@@ -54,6 +54,10 @@ public class TowerSelectionUI : MonoBehaviour
     public Button slowingTowerButton;
     public Button poisonTowerButton;
     public Button superTowerButton;
+    public Button moneyTowerButton;
+    public Button destructiveEnergyTowerButton;
+    public Button areaDamageTowerButton;
+    public Button villageTowerButton;
 
     public int basicTowerIndex = 0;
     public int sniperTowerIndex = 1;
@@ -61,6 +65,10 @@ public class TowerSelectionUI : MonoBehaviour
     public int slowingTowerIndex = 3;
     public int poisonTowerIndex = 4;
     public int superTowerIndex = 5;
+    public int moneyTowerIndex = 6;
+    public int destructiveEnergyTowerIndex = 7;
+    public int areaDamageTowerIndex = 8;
+    public int villageTowerIndex = 9;
 
     // We’ll store references to the text for each button
     public TextMeshProUGUI basicTowerPriceText;
@@ -69,6 +77,10 @@ public class TowerSelectionUI : MonoBehaviour
     public TextMeshProUGUI slowingTowerPriceText;
     public TextMeshProUGUI poisonTowerPriceText;
     public TextMeshProUGUI superTowerPriceText;
+    public TextMeshProUGUI moneyTowerPriceText;
+    public TextMeshProUGUI destructiveEnergyTowerPriceText;
+    public TextMeshProUGUI areaDamageTowerPriceText;
+    public TextMeshProUGUI villageTowerPriceText;
 
 
     // We’ll store references to the images for each button to gray them out
@@ -84,6 +96,10 @@ public class TowerSelectionUI : MonoBehaviour
         slowingTowerButton.onClick.AddListener(() => OnTowerButtonClicked(slowingTowerIndex));
         poisonTowerButton.onClick.AddListener(() => OnTowerButtonClicked(poisonTowerIndex));
         superTowerButton.onClick.AddListener(() => OnTowerButtonClicked(superTowerIndex));
+        moneyTowerButton.onClick.AddListener(() => OnTowerButtonClicked(moneyTowerIndex));
+        destructiveEnergyTowerButton.onClick.AddListener(() => OnTowerButtonClicked(destructiveEnergyTowerIndex));
+        areaDamageTowerButton.onClick.AddListener(() => OnTowerButtonClicked(areaDamageTowerIndex));
+        villageTowerButton.onClick.AddListener(() => OnTowerButtonClicked(villageTowerIndex));
         // etc.
 
         // Initialize the price text
@@ -93,6 +109,10 @@ public class TowerSelectionUI : MonoBehaviour
         InitTowerButton(slowingTowerIndex, slowingTowerPriceText);
         InitTowerButton(poisonTowerIndex, poisonTowerPriceText);
         InitTowerButton(superTowerIndex, superTowerPriceText);
+        InitTowerButton(moneyTowerIndex, moneyTowerPriceText);
+        InitTowerButton(destructiveEnergyTowerIndex, destructiveEnergyTowerPriceText);
+        InitTowerButton(areaDamageTowerIndex, areaDamageTowerPriceText);
+        InitTowerButton(villageTowerIndex, villageTowerPriceText);
         // etc.
 
         // Then do an initial refresh to set color based on current currency
@@ -142,6 +162,10 @@ public class TowerSelectionUI : MonoBehaviour
         UpdateTowerButton(slowingTowerIndex, slowingTowerButton, slowingTowerPriceText);
         UpdateTowerButton(poisonTowerIndex, poisonTowerButton, poisonTowerPriceText);
         UpdateTowerButton(superTowerIndex, superTowerButton, superTowerPriceText);
+        UpdateTowerButton(moneyTowerIndex, moneyTowerButton, moneyTowerPriceText);
+        UpdateTowerButton(destructiveEnergyTowerIndex, destructiveEnergyTowerButton, destructiveEnergyTowerPriceText);
+        UpdateTowerButton(areaDamageTowerIndex, areaDamageTowerButton, areaDamageTowerPriceText);
+        UpdateTowerButton(villageTowerIndex, villageTowerButton, villageTowerPriceText);
 
         // etc. for other towers
     }

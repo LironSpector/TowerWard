@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 8653398825386265685}
   m_Layer: 9
   m_Name: FreezingTower
-  m_TagString: Untagged
+  m_TagString: ProjectileTower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -302,6 +302,7 @@ MonoBehaviour:
   maxLevel: 3
   towerGridPosition: {x: 0, y: 0}
   rangeIndicator: {fileID: 8129654520331018562}
+  isFullyPlaced: 0
 --- !u!114 &8653398825386265685
 MonoBehaviour:
   m_ObjectHideFlags: 0

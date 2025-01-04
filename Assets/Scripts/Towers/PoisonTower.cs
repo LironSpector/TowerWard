@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PoisonTower : Tower
+public class PoisonTower : ProjectileTower
 {
     protected override void Awake()
     {

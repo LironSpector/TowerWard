@@ -15,6 +15,8 @@ public class TowerLevelData
     public float range;
     public float fireRate;
     public int damage;
+    public float specialInterval; //For type 2 of towers (not shooting projectiles type)
+    public int specialValue; //For type 2 of towers (not shooting projectiles type)
 
     [Header("Effect Durations (For Freeze/Slow/Poison)")]
     public float freezeDuration;       // e.g., 2.0f
@@ -23,6 +25,12 @@ public class TowerLevelData
     public float poisonDuration;       // e.g., 2.5f
     public float poisonTickInterval;   // e.g., 0.75f
 }
+
+
+
+
+
+
 
 
 

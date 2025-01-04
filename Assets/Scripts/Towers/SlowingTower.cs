@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SlowingTower : Tower
+public class SlowingTower : ProjectileTower
 {
     protected override void Awake()
     {
