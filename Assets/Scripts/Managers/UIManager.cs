@@ -12,8 +12,10 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI towerNameText;
     public TextMeshProUGUI towerLevelText;
     public TextMeshProUGUI upgradeCostText;
+    public TextMeshProUGUI upgradeStatsText;
     public Button upgradeButton;
     public Button sellButton;
+
 
     private Tower selectedTower;
 
@@ -103,6 +105,32 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    //void UpdateTowerPanel()
+    //{
+    //    if (selectedTower != null)
+    //    {
+    //        towerNameText.text = selectedTower.towerData.towerName;
+    //        towerLevelText.text = "Level: " + selectedTower.level;
+
+    //        if (selectedTower.CanUpgrade())
+    //        {
+    //            upgradeCostText.text = "Upgrade Cost: " + selectedTower.GetUpgradeCost();
+    //            upgradeButton.interactable = true;
+    //            upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Upgrade";
+    //        }
+    //        else
+    //        {
+    //            upgradeCostText.text = "Max Level Reached";
+    //            upgradeButton.interactable = false;
+    //            upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Max Level";
+    //        }
+
+    //        // Update the Sell Button text to show refund amount
+    //        int sellValue = selectedTower.GetSellValue();
+    //        sellButton.GetComponentInChildren<TextMeshProUGUI>().text = "Sell ($" + sellValue + ")";
+    //    }
+    //}
+
     void UpdateTowerPanel()
     {
         if (selectedTower != null)
@@ -115,18 +143,148 @@ public class UIManager : MonoBehaviour
                 upgradeCostText.text = "Upgrade Cost: " + selectedTower.GetUpgradeCost();
                 upgradeButton.interactable = true;
                 upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Upgrade";
+
+                // --- NEW CODE: show upgrade stats ---
+                ShowUpgradeDifferences(selectedTower);
             }
             else
             {
                 upgradeCostText.text = "Max Level Reached";
                 upgradeButton.interactable = false;
                 upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Max Level";
+
+                // If max level, clear stats or show something like "No further upgrades"
+                if (upgradeStatsText != null)
+                {
+                    upgradeStatsText.text = "No upgrades Available. Your tower has reaches the maximum improvements!";
+                }
             }
 
             // Update the Sell Button text to show refund amount
             int sellValue = selectedTower.GetSellValue();
             sellButton.GetComponentInChildren<TextMeshProUGUI>().text = "Sell ($" + sellValue + ")";
         }
+        else
+        {
+            // No tower selected
+            if (upgradeStatsText != null)
+            {
+                upgradeStatsText.text = "";
+            }
+        }
+    }
+
+
+    private void ShowUpgradeDifferences(Tower tower)
+    {
+        if (upgradeStatsText == null) return;
+        upgradeStatsText.text = "";
+
+        if (!tower.CanUpgrade()) return;
+
+        TowerData data = tower.towerData;
+        int currentIndex = tower.level - 1;
+        int nextIndex = tower.level;
+
+        TowerLevelData curr = data.levels[currentIndex];
+        TowerLevelData nxt = data.levels[nextIndex];
+
+        // We'll store the lines in a StringBuilder
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+        // Identify tower type for label mapping:
+        bool isMoneyTower = (tower is MoneyTower);
+        bool isAreaDamageTower = (tower is AreaDamageTower);
+        bool isDestructiveEnergy = (tower is DestructiveEnergyTower);
+        bool isVillageTower = (tower is VillageTower);
+
+        // Helper for float fields
+        void AddUpgradeLineFloat(string key, float oldVal, float newVal)
+        {
+            if (Mathf.Approximately(oldVal, newVal)) return; // no change
+            float diff = newVal - oldVal;
+            if (Mathf.Approximately(oldVal, 0f))
+            {
+                if (!Mathf.Approximately(newVal, 0f))
+                    sb.AppendLine($"{key}: from 0 to {newVal}");
+                return;
+            }
+            float pct = (diff / oldVal) * 100f;
+            float rounded = Mathf.Round(pct);
+            string sign = (pct >= 0) ? "+" : "";
+            sb.AppendLine($"{key}: {sign}{rounded}%");
+        }
+
+        // Helper for int fields
+        void AddUpgradeLineInt(string key, int oldVal, int newVal)
+        {
+            if (oldVal == newVal) return;
+            int diff = newVal - oldVal;
+            if (oldVal == 0)
+            {
+                if (newVal != 0)
+                    sb.AppendLine($"{key}: from 0 to {newVal}");
+                return;
+            }
+            float pct = (diff / (float)oldVal) * 100f;
+            float rounded = Mathf.Round(pct);
+            string sign = (pct >= 0) ? "+" : "";
+            sb.AppendLine($"{key}: {sign}{rounded}%");
+        }
+
+        // Now we do each field, but rename specialInterval / specialValue if the tower is type-2
+
+        // -- Range
+        AddUpgradeLineFloat("Range", curr.range, nxt.range);
+
+        // -- Fire Rate
+        AddUpgradeLineFloat("Fire Rate", curr.fireRate, nxt.fireRate);
+
+        // -- Damage
+        AddUpgradeLineInt("Damage", curr.damage, nxt.damage);
+
+        // Next we have "specialInterval" and "specialValue" but the label depends on tower type.
+        string intervalLabel = "specialInterval"; // default
+        string specialValueLabel = "specialValue";    // default
+
+        if (isMoneyTower)
+        {
+            intervalLabel = "Money Interval";
+            specialValueLabel = "Money Production";
+        }
+        else if (isAreaDamageTower)
+        {
+            intervalLabel = "Damage Interval";
+            specialValueLabel = "Damage";
+        }
+        else if (isDestructiveEnergy)
+        {
+            intervalLabel = "Damage Interval";
+            specialValueLabel = "Damage";
+        }
+        else if (isVillageTower)
+        {
+            // VillageTower only uses "specialValue" as "buffPercent" 
+            // We can rename it:
+            specialValueLabel = "Buff Percent";
+            // If you want to hide specialInterval entirely if it’s not used,
+            // you can just skip it. Or label it "Unused".
+            intervalLabel = "Interval (Unused)"; // Or skip
+        }
+
+        // Then we add them as usual
+        AddUpgradeLineFloat(intervalLabel, curr.specialInterval, nxt.specialInterval);
+        AddUpgradeLineInt(specialValueLabel, curr.specialValue, nxt.specialValue);
+
+        // For freeze/slow/poison fields, if you want them all the same logic
+        AddUpgradeLineFloat("Freeze Duration", curr.freezeDuration, nxt.freezeDuration);
+        AddUpgradeLineFloat("Slow Duration", curr.slowDuration, nxt.slowDuration);
+        AddUpgradeLineFloat("Slow Factor", curr.slowFactor, nxt.slowFactor);
+        AddUpgradeLineFloat("Poison Duration", curr.poisonDuration, nxt.poisonDuration);
+        AddUpgradeLineFloat("Poison TickInterval", curr.poisonTickInterval, nxt.poisonTickInterval);
+
+        // Finally set the text
+        upgradeStatsText.text = sb.ToString();
     }
 
 
