@@ -105,32 +105,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    //void UpdateTowerPanel()
-    //{
-    //    if (selectedTower != null)
-    //    {
-    //        towerNameText.text = selectedTower.towerData.towerName;
-    //        towerLevelText.text = "Level: " + selectedTower.level;
-
-    //        if (selectedTower.CanUpgrade())
-    //        {
-    //            upgradeCostText.text = "Upgrade Cost: " + selectedTower.GetUpgradeCost();
-    //            upgradeButton.interactable = true;
-    //            upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Upgrade";
-    //        }
-    //        else
-    //        {
-    //            upgradeCostText.text = "Max Level Reached";
-    //            upgradeButton.interactable = false;
-    //            upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Max Level";
-    //        }
-
-    //        // Update the Sell Button text to show refund amount
-    //        int sellValue = selectedTower.GetSellValue();
-    //        sellButton.GetComponentInChildren<TextMeshProUGUI>().text = "Sell ($" + sellValue + ")";
-    //    }
-    //}
-
     void UpdateTowerPanel()
     {
         if (selectedTower != null)

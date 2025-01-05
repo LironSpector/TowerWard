@@ -24,6 +24,9 @@ public class TowerLevelData
     public float slowFactor;           // e.g., 0.5f
     public float poisonDuration;       // e.g., 2.5f
     public float poisonTickInterval;   // e.g., 0.75f
+
+    [Header("Level-specific sprite")]
+    public Sprite towerLevelSprite; // The image for this tower at this level
 }
 
 

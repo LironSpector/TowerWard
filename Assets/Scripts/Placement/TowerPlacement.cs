@@ -274,8 +274,8 @@ public class TowerPlacement : MonoBehaviour
         };
 
         Vector3Int cellPosition = tilemap.WorldToCell(position);
-        Debug.Log("Cell position is this: " + cellPosition);
-        Debug.Log("Cell position type: " + cellPosition.GetType());
+        //Debug.Log("Cell position is this: " + cellPosition);
+        //Debug.Log("Cell position type: " + cellPosition.GetType());
 
         return balloonPathPositions.Contains(cellPosition);
     }

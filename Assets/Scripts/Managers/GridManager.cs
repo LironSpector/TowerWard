@@ -39,9 +39,9 @@ public class GridManager : MonoBehaviour
         float gridMaxX = gridOriginXRectifiedPosition + (gridWidth * cellSize);
         float gridMinY = gridOriginYRectifiedPosition;
         float gridMaxY = gridOriginYRectifiedPosition + (gridHeight * cellSize);
-        Debug.Log("Grid checks:");
-        Debug.Log("position: " + position);
-        Debug.Log("gridMinX: " + gridMinX + ", gridMaxX: " + gridMaxX + ", gridMinY: " + gridMinY + ", gridMaxY: " + gridMaxY);
+        //Debug.Log("Grid checks:");
+        //Debug.Log("position: " + position);
+        //Debug.Log("gridMinX: " + gridMinX + ", gridMaxX: " + gridMaxX + ", gridMinY: " + gridMinY + ", gridMaxY: " + gridMaxY);
 
         return position.x >= gridMinX && position.x <= gridMaxX && position.y >= gridMinY && position.y <= gridMaxY;
     }

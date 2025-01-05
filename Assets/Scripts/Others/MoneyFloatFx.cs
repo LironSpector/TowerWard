@@ -10,14 +10,12 @@ public class MoneyFloatFx : MonoBehaviour
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
-        Debug.Log("Sr componene: " + sr);
     }
 
     void Update()
     {
         // Move upward
         transform.position += Vector3.up * floatSpeed * Time.deltaTime;
-        Debug.Log("positin isnfsdfhsd: " + transform.position);
 
         // Fade out
         alpha -= fadeSpeed * Time.deltaTime;

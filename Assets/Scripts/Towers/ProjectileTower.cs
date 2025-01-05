@@ -44,6 +44,8 @@ public class ProjectileTower : Tower
             towerShooting.fireRate = levelData.fireRate;
             towerShooting.damage = levelData.damage;
         }
+
+        base.ApplyImageStatus(levelData);
     }
 
     // In ProjectileTower.cs (or Tower.cs)

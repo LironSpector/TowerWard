@@ -63,7 +63,6 @@ public class Projectile : MonoBehaviour
                 switch (effectType)
                 {
                     case ProjectileEffectType.Freeze:
-                        Debug.Log("Freeze Time");
                         balloon.Freeze(effectDuration);
                         break;
                     case ProjectileEffectType.Slow:
@@ -74,7 +73,6 @@ public class Projectile : MonoBehaviour
                         balloon.Poison(effectDuration);
                         break;
                     default:
-                        Debug.Log("Regular Time");
                         break;
                 }
             }

@@ -212,13 +212,13 @@ public class BalloonSpawner : MonoBehaviour
     {
         if (b.isWaveBalloon)
         {
-            Debug.Log("Wave balloon destroyed. Current num balloons: " + waveBalloonsRemaining);
+            //Debug.Log("Wave balloon destroyed. Current num balloons: " + waveBalloonsRemaining);
             waveBalloonsRemaining--;
         }
-        else
-        {
-            Debug.Log("Extra balloon destroyed");
-        }
+        //else
+        //{
+        //    Debug.Log("Extra balloon destroyed");
+        //}
 
         b.OnDestroyed -= OnBalloonDestroyed;
         b.OnEndReached -= OnBalloonDestroyedByEnd;
@@ -230,12 +230,12 @@ public class BalloonSpawner : MonoBehaviour
         if (b.isWaveBalloon)
         {
             waveBalloonsRemaining--;
-            Debug.Log("Wave balloon destroyed. Current num balloons: " + waveBalloonsRemaining);
+            //Debug.Log("Wave balloon destroyed. Current num balloons: " + waveBalloonsRemaining);
         }
-        else
-        {
-            Debug.Log("Extra balloon destroyed");
-        }
+        //else
+        //{
+        //    Debug.Log("Extra balloon destroyed");
+        //}
 
 
         b.OnDestroyed -= OnBalloonDestroyed;
