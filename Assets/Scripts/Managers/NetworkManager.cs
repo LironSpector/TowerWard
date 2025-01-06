@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections;
+using System.Collections.Generic;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -261,17 +263,6 @@ public class NetworkManager : MonoBehaviour
                 });
                 break;
 
-            //case "StartNextWave":
-            //    // waveIndex from the server
-            //    int waveIndex = (int)messageObject["WaveIndex"];
-            //    UnityMainThreadDispatcher.Instance().Enqueue(() =>
-            //    {
-            //        // forcibly set spawner's wave index
-            //        BalloonSpawner.Instance.SetWaveIndex(waveIndex);
-            //        BalloonSpawner.Instance.StartCoroutine(BalloonSpawner.Instance.StartNextWave());
-            //    });
-            //    break;
-
             case "StartNextWave":
                 {
                     int waveIndex = (int)messageObject["WaveIndex"];
@@ -292,6 +283,36 @@ public class NetworkManager : MonoBehaviour
                     GameManager.Instance.OnOpponentGameOver(opponentWon: false, reason: "The other player disconnected");
                 });
                 break;
+
+            case "UseMultiplayerAbility":
+                {
+                    JObject dataObj = (JObject)messageObject["Data"];
+                    string abilityName = dataObj["AbilityName"].ToString();
+
+                    // Check if there's a "FromOpponent" or something
+                    bool fromOpponent = false;
+                    if (dataObj["FromOpponent"] != null)
+                    {
+                        fromOpponent = (bool)dataObj["FromOpponent"];
+                    }
+
+                    // If we have an opponent, or we are the opponent...
+                    // Possibly check: if (opponent != null) forward... 
+                    // But let's see:
+                    if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Multiplayer)
+                    {
+                        // We'll do a local function to handle the effect
+                        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                        {
+                            // If the ability is "NoMoneyForOpponent" or "CloudScreen" and we see "FromOpponent" is not set => we must set it and forward to the opponent
+                            // But typically, the server will do that for us. 
+                            // If we are the *receiving* side of "NoMoneyForOpponent", we do the effect. 
+                            OnMultiplayerAbilityReceived(abilityName);
+                        });
+                    }
+
+                    break;
+                }
 
             case "GameOver":
                 // Deserialize into GameOverMessage
@@ -358,6 +379,78 @@ public class NetworkManager : MonoBehaviour
         stream.Write(messageBytes, 0, messageBytes.Length);
 
         Debug.Log("Sent (with length): " + message);
+    }
+
+
+
+
+    private void OnMultiplayerAbilityReceived(string abilityName)
+    {
+        switch (abilityName)
+        {
+            case "NoMoneyForOpponent":
+                // That means *we* are the ones who got locked from money => For 10s set moneyMultiplier=0 or disallowMoney
+                StartCoroutine(NoMoneyRoutine());
+                break;
+
+            case "CloudScreen":
+                // Show the cloud panel for 10s
+                StartCoroutine(CloudScreenRoutine());
+                break;
+
+            case "FastBalloons":
+                StartCoroutine(FastBalloonsRoutineOpponent());
+                break;
+
+            default:
+                Debug.Log("Unknown or no effect needed for: " + abilityName);
+                break;
+        }
+    }
+
+    private IEnumerator NoMoneyRoutine()
+    {
+        Debug.Log("We are receiving no money for 10s!");
+        // store old multiplier
+        float oldMultiplier = GameManager.Instance.moneyMultiplier;
+        // or define a separate bool "disallowMoney"
+        GameManager.Instance.moneyMultiplier = 0f;
+
+        yield return new WaitForSeconds(10f);
+
+        // revert
+        GameManager.Instance.moneyMultiplier = oldMultiplier;
+    }
+
+    private IEnumerator CloudScreenRoutine()
+    {
+        Debug.Log("CloudScreen effect for 10s!");
+        // Suppose you have a "CloudPanel" in the scene
+
+        SpecialAbilitiesManager.Instance.cloudPanel.SetActive(true);
+
+        yield return new WaitForSeconds(10f);
+
+        SpecialAbilitiesManager.Instance.cloudPanel.SetActive(false);
+    }
+
+    private IEnumerator FastBalloonsRoutineOpponent()
+    {
+        Debug.Log("Opponent's FastBalloons effect - wave speed +50% for 10s");
+
+        GameManager.Instance.allBalloonsSpeedFactor = 1.5f;
+        // Also, if you want balloons that are "sent by the other player" to be faster,
+        // you might define a factor for that. For example:
+        // Some "sentBalloonSpeedFactor = 1.5f"
+        // That depends on how your code spawns opponent-sent balloons vs. wave balloons.
+
+        yield return new WaitForSeconds(10f);
+
+        // revert
+        GameManager.Instance.allBalloonsSpeedFactor = 1f;
+        // or "sentBalloonSpeedFactor = 1f"
+
+        // Done. No local cooldown needed here, because the user on THIS side did not press the button.
     }
 
 

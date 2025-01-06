@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     public bool isGameOver = false; // Track if the game is over
     public float moneyMultiplier = 1f;
+    public float allBalloonsSpeedFactor = 1f;
     public float rangeBuffFactor = 1f;
     public float fireRateBuffFactor = 1f;
 

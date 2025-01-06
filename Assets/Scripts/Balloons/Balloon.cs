@@ -123,11 +123,11 @@ public class Balloon : MonoBehaviour
         }
         else if (isSlowed)
         {
-            speed = originalSpeed * slowFactor;
+            speed = originalSpeed * slowFactor * GameManager.Instance.allBalloonsSpeedFactor;
         }
         else
         {
-            speed = originalSpeed;
+            speed = originalSpeed * GameManager.Instance.allBalloonsSpeedFactor;
         }
 
         // ==============

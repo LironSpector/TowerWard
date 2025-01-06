@@ -25,7 +25,22 @@ public class AreaDamageTower : Tower
         if (timer >= currentInterval)
         {
             timer = 0f;
-            DoAreaDamage();
+
+            bool hasBalloonsInRange = false; //if no balloons are on the range, don't do the damage
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, rangeCollider.radius);
+            foreach (var hit in hits)
+            {
+                if (hit.CompareTag("Balloon"))
+                {
+                    hasBalloonsInRange = true; //Should do the damage
+                    break;
+                }
+            }
+
+            if (hasBalloonsInRange)
+            {
+                DoAreaDamage();
+            }
         }
     }
 

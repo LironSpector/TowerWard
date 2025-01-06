@@ -50,7 +50,6 @@ public class Tower : MonoBehaviour
         }
 
         // Let the base tower apply stats or do something minimal
-        Debug.Log("At the very start!");
         ApplyLevelStats();
     }
 
@@ -78,9 +77,7 @@ public class Tower : MonoBehaviour
         if (CanUpgrade())
         {
             level++;
-            Debug.Log("D");
             ApplyLevelStats();
-            Debug.Log("E");
         }
     }
 
@@ -91,9 +88,7 @@ public class Tower : MonoBehaviour
     /// </summary>
     public virtual void ApplyLevelStats()
     {
-        Debug.Log("AAAAAAAAAAAAAAAAAAA");
         if (towerData == null || level > towerData.levels.Length) return;
-        Debug.Log("BBBBBBBBBBBBBB");
 
         TowerLevelData levelData = towerData.levels[level - 1];
 
@@ -115,10 +110,8 @@ public class Tower : MonoBehaviour
     {
         // 2) Set the sprite (if this tower’s main GameObject has a SpriteRenderer)
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        Debug.Log("sr ==== null: " + (sr == null) + ", levelData.towerLevelSprite == null: " + (levelData.towerLevelSprite == null));
         if (sr != null && levelData.towerLevelSprite != null)
         {
-            Debug.Log("Tempforme!");
             sr.sprite = levelData.towerLevelSprite;
         }
     }
