@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 96
+  controlID: 101
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -192,8 +192,8 @@ MonoBehaviour:
     y: 0
     width: 350
     height: 592
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -813,9 +813,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 007a0100
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: b402ffff7c08ffffe012ffff2c17ffffe81bffffb020ffff6c25ffffc628ffff842dffff6030ffff1c35ffff8438ffff423dffffda40ffff9845ffff6249fffff851fffff054fffffa5cffff4a60ffff6a66ffff4269ffff7071ffff4474ffff2c80ffff0884ffff6093ffff3699ffffceb2ffff0eb5ffff0cc9ffff3cd0ffff16d5ffff94d6ffff2eeaffff2ef0ffff92f7fffff8faffff9c8a0000f88b0000809c0000ce9c00007c9d0000c09d000090d20000ded200008cd30000d0d30000c6df000014e00000c2e0000006e10000faec0000f6ed00004cfa000048fb000084070100d207010080080100c4080100ba14010008150100b6150100f421010042220100f02201002a2f0100782f010026300100643c0100603d01009e490100ec4901009a4a0100d456010022570100d0570100ee6701003c680100ea680100dc7901002a7a0100d87a01001c7b0100
+      m_ExpandedIDs: fab8fdff88b9fdff26befdff32befdff58befdfff02bfeff782efeffda67feff5c68fefffe6cfeff0e6dfeff386dfeff9878feff627bfefffc88feff7e89feff1c8efeff288efeff4e8efeff4698feff0e9cfeff96a6feff90affeff86c2feff0ac5feff5ae1feffeee1feff90e6feffa0e6feffcae6feff9eecfeff12fafeffce3fffff5040ffffee44fffffa44ffff2045ffffa0d6ffff86deffff42e3ffffdce7ffff4ef2ffffbef8fffff8faffff088a0000568a0000048b0000488b00007ca1000078a2000010a50000d2aa000020ab0000ceab000012ac0000c6160100b21701006839010044560100006a0100e484010088d10100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -982,7 +982,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Managers
+    - Assets/Textures/Decoration
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -990,16 +990,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 57
   m_LastFolders:
-  - Assets/Scripts/Managers
+  - Assets/Textures/Decoration
   m_LastFoldersGridSize: 57
   m_LastProjectPath: C:\Users\gilsp\Documents\Spector Family\Liron\Programming\TowerWard
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 434}
-    m_SelectedIDs: 8a880000
-    m_LastClickedID: 34954
-    m_ExpandedIDs: 00000000228800002488000026880000288800002a8800002c8800002e88000030880000328800003488000036880000388800003a8800003c8800003e88000040880000428800004488000046880000488800004a8800004c8800004e88000000ca9a3b
+    scrollPos: {x: 0, y: 674}
+    m_SelectedIDs: ca880000
+    m_LastClickedID: 35018
+    m_ExpandedIDs: 000000002a8800002c8800002e88000030880000328800003488000036880000388800003a8800003c8800003e88000040880000428800004488000046880000488800004a8800004c8800004e8800005088000052880000548800005688000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1027,7 +1027,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000228800002488000026880000288800002a8800002c8800002e88000030880000328800003488000036880000388800003a8800003c8800003e88000040880000428800004488000046880000488800004a8800004c8800004e880000
+    m_ExpandedIDs: 000000002a8800002c8800002e88000030880000328800003488000036880000388800003a8800003c8800003e88000040880000428800004488000046880000488800004a8800004c8800004e88000050880000528800005488000056880000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

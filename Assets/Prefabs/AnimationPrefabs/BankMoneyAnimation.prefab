@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2776650635306322535}
   - component: {fileID: 2629211054359377625}
   m_Layer: 0
-  m_Name: MoneyAnimation
+  m_Name: BankMoneyAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 444320611
   m_SortingLayer: 6
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 599b441e540977e4f8a1547b8fb015ee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7d66f48a506ccd343b6fb71d00b9eee9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,4 +99,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floatSpeed: 1
   fadeSpeed: 1
-  moveUp: 1
+  moveUp: 0
