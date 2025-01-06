@@ -40,11 +40,6 @@ public class BalloonButton : MonoBehaviour
         imageComponent = image.GetComponent<Image>();
     }
 
-    //void OnButtonClicked()
-    //{
-    //    GameManager.Instance.SendBalloonToOpponent(balloonType, cost);
-    //}
-
     void OnButtonClicked()
     {
         // Instead of balloonType, we pass balloonHealth to GameManager

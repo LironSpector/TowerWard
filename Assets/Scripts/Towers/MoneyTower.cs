@@ -29,7 +29,7 @@ public class MoneyTower : Tower
         }
     }
 
-    protected override void ApplyLevelStats()
+    public override void ApplyLevelStats()
     {
         base.ApplyLevelStats(); // sets the range, etc. from towerData
 

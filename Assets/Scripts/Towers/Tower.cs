@@ -89,7 +89,7 @@ public class Tower : MonoBehaviour
     /// Projectile towers override it to set shooting stats, 
     /// Non-projectile towers might override it if needed for special logic.
     /// </summary>
-    protected virtual void ApplyLevelStats()
+    public virtual void ApplyLevelStats()
     {
         Debug.Log("AAAAAAAAAAAAAAAAAAA");
         if (towerData == null || level > towerData.levels.Length) return;

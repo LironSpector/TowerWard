@@ -29,7 +29,7 @@ public class DestructiveEnergyTower : Tower
         }
     }
 
-    protected override void ApplyLevelStats()
+    public override void ApplyLevelStats()
     {
         base.ApplyLevelStats();
         if (towerData != null && level <= towerData.levels.Length)

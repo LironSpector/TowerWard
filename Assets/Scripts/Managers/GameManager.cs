@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
     public GameObject winPanel;
 
     public bool isGameOver = false; // Track if the game is over
+    public float moneyMultiplier = 1f;
+    public float rangeBuffFactor = 1f;
+    public float fireRateBuffFactor = 1f;
 
     // Multiplayer variables
     public enum GameMode { SinglePlayer, Multiplayer }
@@ -134,7 +137,10 @@ public class GameManager : MonoBehaviour
 
     public void AddCurrency(int amount)
     {
-        currency += amount;
+        //currency += amount;
+        // apply multiplier
+        int finalAmount = Mathf.RoundToInt(amount * moneyMultiplier);
+        currency += finalAmount;
         UpdateUI();
 
         RefreshButtonsDisplay();
@@ -168,6 +174,17 @@ public class GameManager : MonoBehaviour
         if (balloonSendingPanel != null)
         {
             balloonSendingPanel.RefreshBalloonButtons();
+        }
+    }
+
+    // If we want to re-apply stats to all towers (so they pick up the new buff factors)
+    public void RefreshAllTowersStats()
+    {
+        foreach (var kvp in occupiedCells)
+        {
+            Tower t = kvp.Value;
+            t.ApplyLevelStats();
+            // For ProjectileTowers, that’ll recalc final range/fireRate using the buff factors
         }
     }
 

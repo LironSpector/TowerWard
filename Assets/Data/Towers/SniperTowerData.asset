@@ -19,26 +19,35 @@ MonoBehaviour:
     range: 6
     fireRate: 0.75
     damage: 3
+    specialInterval: 0
+    specialValue: 0
     freezeDuration: 0
     slowDuration: 0
     slowFactor: 0
     poisonDuration: 0
     poisonTickInterval: 0
+    towerLevelSprite: {fileID: 21300000, guid: 81fe499dc32db0f4c997c8b6edb2e420, type: 3}
   - upgradeCost: 350
     range: 6
     fireRate: 0.75
     damage: 5
+    specialInterval: 0
+    specialValue: 0
     freezeDuration: 0
     slowDuration: 0
     slowFactor: 0
     poisonDuration: 0
     poisonTickInterval: 0
+    towerLevelSprite: {fileID: 21300000, guid: a6e55c9373980c1469b8682fcd7f8ee8, type: 3}
   - upgradeCost: 450
     range: 6
     fireRate: 0.75
     damage: 8
+    specialInterval: 0
+    specialValue: 0
     freezeDuration: 0
     slowDuration: 0
     slowFactor: 0
     poisonDuration: 0
     poisonTickInterval: 0
+    towerLevelSprite: {fileID: 21300000, guid: 135197f9c7e47044aa17d8a5910a9f7d, type: 3}
