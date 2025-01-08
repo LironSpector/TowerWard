@@ -11,6 +11,9 @@ public class MainMenuManager : MonoBehaviour
     {
         Debug.Log("Started Main Menu");
         Debug.Log("A:" + NetworkManager.Instance + ", ");
+
+        AudioManager.Instance.PlayMainMenuMusic();
+
         // Optional: Display connection status
         if (NetworkManager.Instance.isConnected)
         {

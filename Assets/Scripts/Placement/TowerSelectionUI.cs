@@ -125,6 +125,7 @@ public class TowerSelectionUI : MonoBehaviour
         if (!TowerPlacement.Instance.IsPlacing)
         {
             TowerPlacement.Instance.StartPlacement(towerIndex);
+            AudioManager.Instance.PlayTowerPanelChoose();
         }
     }
 

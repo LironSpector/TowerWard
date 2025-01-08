@@ -82,6 +82,8 @@ public class BaseTowerShooting : MonoBehaviour
         // This method does the predictive logic and spawns a projectile
         if (projectilePrefab == null || balloon == null) return null;
 
+        //AudioManager.Instance.PlayProjectileShot(); // pass an index if different towers have different clips
+
         BalloonMovement balloonMov = balloon.GetComponent<BalloonMovement>();
         if (balloonMov == null) return null;
 

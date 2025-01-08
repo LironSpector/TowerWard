@@ -129,6 +129,7 @@ public class Tower : MonoBehaviour
             if (gridPosition == towerGridPosition)
             {
                 UIManager.Instance.ShowTowerPanel(this);
+                AudioManager.Instance.PlayTowerSelection();
             }
         }
     }

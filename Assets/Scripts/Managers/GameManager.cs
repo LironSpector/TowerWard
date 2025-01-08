@@ -66,6 +66,8 @@ public class GameManager : MonoBehaviour
         gameOverPanel.SetActive(false);
         winPanel.SetActive(false);
 
+        AudioManager.Instance.PlayGameMusic();
+
         // Determine game mode
         if (NetworkManager.Instance.isConnected && NetworkManager.Instance.IsMatchmakingRequested)
         {
@@ -203,6 +205,9 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         winPanel.SetActive(true);
 
+        AudioManager.Instance.StopGameMusic();
+        AudioManager.Instance.PlayWinMusic();
+
         // Find the reason text object:
         TextMeshProUGUI winReasonText = winPanel.transform.Find("WinMessageText").GetComponent<TextMeshProUGUI>();
         if (winReasonText != null)
@@ -234,6 +239,8 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.opponentSnapshotPanel.SetActive(false);
         gameOverPanel.SetActive(true);
 
+        AudioManager.Instance.StopGameMusic();
+        AudioManager.Instance.PlayLoseMusic();
 
         NetworkManager.Instance.ResetMatchmaking();
         //BalloonSpawner.Instance.ResetSpawnConfigurations();

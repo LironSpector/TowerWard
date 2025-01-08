@@ -180,6 +180,9 @@ public class Balloon : MonoBehaviour
     public void Pop()
     {
         GameManager.Instance.AddCurrency(reward);
+
+        AudioManager.Instance.PlayBalloonPop();
+
         OnDestroyed?.Invoke(this);
         Destroy(gameObject);
     }

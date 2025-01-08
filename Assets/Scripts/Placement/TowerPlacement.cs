@@ -170,6 +170,8 @@ public class TowerPlacement : MonoBehaviour
 
             towerScript.isFullyPlaced = true;
 
+            AudioManager.Instance.PlayTowerPlacement();
+
             // If it's a VillageTower, refresh the towers in range
             VillageTower vTower = towerScript as VillageTower;
             if (vTower != null)
