@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
 
         AudioManager.Instance.PlayGameMusic();
 
+
         // Determine game mode
         if (NetworkManager.Instance.isConnected && NetworkManager.Instance.IsMatchmakingRequested)
         {
@@ -100,6 +101,9 @@ public class GameManager : MonoBehaviour
 
             StartGame();
         }
+
+        GlobalSettings.ApplyTimeScaleIfPossible();
+
         Debug.Log("CurrentGameMode: " + CurrentGameMode);
     }
 
