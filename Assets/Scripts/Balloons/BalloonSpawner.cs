@@ -30,6 +30,11 @@ public class BalloonSpawner : MonoBehaviour
         }
     }
 
+    public int GetCurrentWaveIndex()
+    {
+        return currentWaveIndex;
+    }
+
     public void StartSpawningWaves()
     {
         // We do nothing automatically for Multi, but Single Player can do wave 0 if we want

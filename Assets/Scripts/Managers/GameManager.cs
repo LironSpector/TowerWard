@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     // Store occupied cell positions and associated towers
     public Dictionary<Vector2, Tower> occupiedCells = new Dictionary<Vector2, Tower>();
 
+    // A dictionary to track where surprise boxes are located
+    public Dictionary<Vector2, SurpriseBox> occupiedBoxCells = new Dictionary<Vector2, SurpriseBox>();
+
     // UI Elements
     public TextMeshProUGUI livesText;
     public TextMeshProUGUI currencyText;
@@ -294,6 +297,30 @@ public class GameManager : MonoBehaviour
     public bool IsCellOccupied(Vector2 position)
     {
         return occupiedCells.ContainsKey(position);
+    }
+
+    // Returns true if there's a tower OR a box on that cell
+    public bool IsCellOccupiedForAnyReason(Vector2 position)
+    {
+        return IsCellOccupied(position) || occupiedBoxCells.ContainsKey(position);
+    }
+
+    // Occupy a cell with a surprise box
+    public void OccupyCellWithBox(Vector2 position, SurpriseBox box)
+    {
+        if (!occupiedBoxCells.ContainsKey(position))
+        {
+            occupiedBoxCells[position] = box;
+        }
+    }
+
+    // Free a cell from a surprise box occupant
+    public void FreeCellFromBox(Vector2 position)
+    {
+        if (occupiedBoxCells.ContainsKey(position))
+        {
+            occupiedBoxCells.Remove(position);
+        }
     }
 
     // Method to mark a cell as occupied by a tower

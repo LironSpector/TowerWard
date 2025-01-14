@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Console
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 41
+  controlID: 65
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -192,8 +192,8 @@ MonoBehaviour:
     y: 0
     width: 350
     height: 592
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -245,8 +245,8 @@ MonoBehaviour:
     y: 592
     width: 1444
     height: 347
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 16}
@@ -273,14 +273,14 @@ MonoBehaviour:
     y: 0
     width: 476
     height: 939
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
   - {fileID: 12}
   m_Selected: 0
-  m_LastSelected: 1
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -815,7 +815,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: f8faffff
+      m_ExpandedIDs: 44c7feffc6c7feffc0cdfeffcccdfeff46cffeff2e01ffffb001ffffae07ffffbe07ffff3c09ffff540bffff240fffff9220ffff9629ffff4276ffff6076ffff6a76ffff4677ffff207bffffe27cffffae84ffffe0d2ffff32f9fffff8faffff847f000058c40000c8cd00000ed000004ed700000efb0000d21e0100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -982,7 +982,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Textures/Buttons
+    - Assets/Prefabs/Settings
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -990,16 +990,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 57
   m_LastFolders:
-  - Assets/Textures/Buttons
+  - Assets/Prefabs/Settings
   m_LastFoldersGridSize: 57
   m_LastProjectPath: C:\Users\gilsp\Documents\Spector Family\Liron\Programming\TowerWard
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 750}
-    m_SelectedIDs: c6880000
-    m_LastClickedID: 35014
-    m_ExpandedIDs: 000000001e89000020890000228900002489000026890000288900002a8900002c8900002e89000030890000328900003489000036890000388900003a8900003c8900003e89000040890000428900004489000046890000488900004a8900004c8900004e890000
+    scrollPos: {x: 0, y: 240}
+    m_SelectedIDs: ecbd0000
+    m_LastClickedID: 48620
+    m_ExpandedIDs: 000000001e89000020890000228900002489000026890000288900002a8900002c8900002e89000030890000328900003489000036890000388900003a8900003c8900003e89000040890000428900004489000046890000488900004a8900004c8900004e89000084920000869200008892000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1052,9 +1052,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: b627ffff
+    m_LastClickedInstanceID: -55370
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300001a7a0000908e000000000000467b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

@@ -207,11 +207,18 @@ public class TowerPlacement : MonoBehaviour
             return false;
         }
 
-        if (GameManager.Instance.IsCellOccupied(gridPosition))
+
+        if (GameManager.Instance.IsCellOccupiedForAnyReason(gridPosition))
         {
             Debug.Log("This cell is already occupied by another tower.");
             return false;
         }
+
+        //if (GameManager.Instance.IsCellOccupied(gridPosition))
+        //{
+        //    Debug.Log("This cell is already occupied by another tower.");
+        //    return false;
+        //}
 
         return true;
     }
@@ -235,7 +242,7 @@ public class TowerPlacement : MonoBehaviour
     //    return false; // Position is not on the balloon path
     //}
 
-    bool IsOnBalloonPath(Vector2 position)
+    public bool IsOnBalloonPath(Vector2 position)
     {
         List<Vector3Int> balloonPathPositions = new List<Vector3Int>
         {

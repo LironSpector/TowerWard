@@ -313,4 +313,32 @@ public class SpecialAbilitiesManager : MonoBehaviour
         isCloudScreenOnCooldown = false;
         cloudScreenButton.interactable = true;
     }
+
+
+    public void ResetAllCooldowns()
+    {
+        // If you track coroutines, you'd stop them or set them to zero
+        // For simplicity, set the bools false + re-enable buttons:
+
+        isDoubleMoneyOnCooldown = false;
+        doubleMoneyButton.interactable = true;
+
+        isTowerBuffOnCooldown = false;
+        towerBuffButton.interactable = true;
+
+        isFastBalloonsOnCooldown = false;
+        fastBalloonsButton.interactable = true;
+
+        isBalloonPriceDiscountOnCooldown = false;
+        balloonPriceDiscountButton.interactable = true;
+
+        isNoMoneyOpponentOnCooldown = false;
+        noMoneyOpponentButton.interactable = true;
+
+        isCloudScreenOnCooldown = false;
+        cloudScreenButton.interactable = true;
+
+        Debug.Log("All special ability cooldowns reset by SurpriseBox!");
+    }
+
 }
