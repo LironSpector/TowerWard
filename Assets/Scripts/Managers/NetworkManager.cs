@@ -450,6 +450,15 @@ public class NetworkManager : MonoBehaviour
             case "LoginSuccess":
                 {
                     JObject d = (JObject)messageObject["Data"];
+
+                    int userId = d["UserId"]?.ToObject<int>() ?? -1;
+                    if (userId != -1)
+                    {
+                        // store in PlayerPrefs or a static field
+                        PlayerPrefs.SetInt("UserId", userId);
+                    }
+
+
                     string accessToken = d["AccessToken"].ToString();
                     string accessTokenExpiry = d["AccessTokenExpiry"].ToString();
                     string refreshToken = d["RefreshToken"].ToString();
@@ -489,6 +498,14 @@ public class NetworkManager : MonoBehaviour
             case "RegisterSuccess":
                 {
                     JObject d = (JObject)messageObject["Data"];
+
+                    int userId = d["UserId"]?.ToObject<int>() ?? -1;
+                    if (userId != -1)
+                    {
+                        PlayerPrefs.SetInt("UserId", userId);
+                    }
+
+
                     string accessToken = d["AccessToken"].ToString();
                     string accessTokenExpiry = d["AccessTokenExpiry"].ToString();
                     string refreshToken = d["RefreshToken"].ToString();
@@ -702,6 +719,30 @@ public class NetworkManager : MonoBehaviour
         SendMessageWithLengthPrefix(msg.ToString());
     }
 
+    public void SendUpdateLastLogin(int userId)
+    {
+        if (!isConnected || !handshakeCompleted)
+        {
+            Debug.LogWarning("[CLIENT] Can't send UpdateLastLogin - not connected or handshake incomplete.");
+            return;
+        }
+
+        // Build JSON
+        JObject msg = new JObject
+        {
+            ["Type"] = "UpdateLastLogin"
+        };
+        JObject dataObj = new JObject
+        {
+            ["UserId"] = userId
+        };
+        msg["Data"] = dataObj;
+
+        SendMessageWithLengthPrefix(msg.ToString());
+        Debug.Log("[CLIENT] Sent UpdateLastLogin with userId=" + userId);
+    }
+
+
 
     public void RequestMatchmaking()
     {
@@ -714,6 +755,13 @@ public class NetworkManager : MonoBehaviour
 
     void OnApplicationQuit()
     {
+        int userId = PlayerPrefs.GetInt("UserId", -1);
+        if (userId != -1 && isConnected)
+        {
+            SendUpdateLastLogin(userId);
+            // Possibly wait briefly, but there's no guarantee it finishes sending
+        }
+
         // Clean up
         if (stream != null)
             stream.Close();

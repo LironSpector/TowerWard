@@ -129,6 +129,13 @@ public class LoginSceneManager : MonoBehaviour
     public void OnLoginSuccess()
     {
         statusText.text = "Login successful!";
+
+        int userId = PlayerPrefs.GetInt("UserId", -1);
+        if (userId != -1)
+        {
+            NetworkManager.Instance.SendUpdateLastLogin(userId);
+        }
+
         // Optionally wait a bit, or directly go to MainMenu
         GoToMainMenu();
     }
@@ -140,6 +147,13 @@ public class LoginSceneManager : MonoBehaviour
     {
         statusText.text = "Registration successful!";
         // Possibly auto login or just say success. 
+
+        int userId = PlayerPrefs.GetInt("UserId", -1);
+        if (userId != -1)
+        {
+            NetworkManager.Instance.SendUpdateLastLogin(userId);
+        }
+
         GoToMainMenu();
     }
 
