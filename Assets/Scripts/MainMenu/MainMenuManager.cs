@@ -57,4 +57,18 @@ public class MainMenuManager : MonoBehaviour
         }
         Application.Quit();
     }
+
+    public void OnLogoutButtonClicked()
+    {
+        // Clear token data so the next time we start the game or go back to login scene, 
+        // we won't skip login
+        PlayerPrefs.DeleteKey("AccessToken");
+        PlayerPrefs.DeleteKey("AccessTokenExpiry");
+        PlayerPrefs.DeleteKey("RefreshToken");
+        PlayerPrefs.DeleteKey("RefreshTokenExpiry");
+
+        // Optional: If you want to load the LoginScene immediately:
+        SceneManager.LoadScene("LoginScene");
+    }
+
 }

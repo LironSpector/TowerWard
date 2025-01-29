@@ -447,6 +447,84 @@ public class NetworkManager : MonoBehaviour
                 });
                 break;
 
+            case "LoginSuccess":
+                {
+                    JObject d = (JObject)messageObject["Data"];
+                    string accessToken = d["AccessToken"].ToString();
+                    string accessTokenExpiry = d["AccessTokenExpiry"].ToString();
+                    string refreshToken = d["RefreshToken"].ToString();
+                    string refreshTokenExpiry = d["RefreshTokenExpiry"].ToString();
+
+                    // Save to PlayerPrefs
+                    PlayerPrefs.SetString("AccessToken", accessToken);
+                    PlayerPrefs.SetString("AccessTokenExpiry", accessTokenExpiry);
+                    PlayerPrefs.SetString("RefreshToken", refreshToken);
+                    PlayerPrefs.SetString("RefreshTokenExpiry", refreshTokenExpiry);
+                    PlayerPrefs.Save();
+
+                    // Notify the LoginSceneManager if it’s present
+                    LoginSceneManager lsm = FindObjectOfType<LoginSceneManager>();
+                    if (lsm != null)
+                    {
+                        // e.g. lsm.OnLoginSuccess();
+                        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                            lsm.OnLoginSuccess()
+                        );
+                    }
+                    break;
+                }
+            case "LoginFail":
+                {
+                    // { "Type":"LoginFail","Data":{"Reason":"..."} }
+                    string reason = messageObject["Data"]["Reason"].ToString();
+                    LoginSceneManager lsm = FindObjectOfType<LoginSceneManager>();
+                    if (lsm != null)
+                    {
+                        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                            lsm.OnLoginFail(reason)
+                        );
+                    }
+                    break;
+                }
+            case "RegisterSuccess":
+                {
+                    JObject d = (JObject)messageObject["Data"];
+                    string accessToken = d["AccessToken"].ToString();
+                    string accessTokenExpiry = d["AccessTokenExpiry"].ToString();
+                    string refreshToken = d["RefreshToken"].ToString();
+                    string refreshTokenExpiry = d["RefreshTokenExpiry"].ToString();
+
+                    // Store in PlayerPrefs
+                    PlayerPrefs.SetString("AccessToken", accessToken);
+                    PlayerPrefs.SetString("AccessTokenExpiry", accessTokenExpiry);
+                    PlayerPrefs.SetString("RefreshToken", refreshToken);
+                    PlayerPrefs.SetString("RefreshTokenExpiry", refreshTokenExpiry);
+                    PlayerPrefs.Save();
+
+                    // Notify 
+                    LoginSceneManager lsm = FindObjectOfType<LoginSceneManager>();
+                    if (lsm != null)
+                    {
+                        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                            lsm.OnRegisterSuccess()
+                        );
+                    }
+                    break;
+                }
+            case "RegisterFail":
+                {
+                    // { "Type":"RegisterFail","Data":{"Reason":"..."} }
+                    string reason = messageObject["Data"]["Reason"].ToString();
+                    LoginSceneManager lsm = FindObjectOfType<LoginSceneManager>();
+                    if (lsm != null)
+                    {
+                        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                            lsm.OnRegisterFail(reason)
+                        );
+                    }
+                    break;
+                }
+
             // Handle other message types
             default:
                 Debug.LogWarning("Unknown message type received: " + messageType);
@@ -578,6 +656,51 @@ public class NetworkManager : MonoBehaviour
     }
 
 
+    public void LoginUser(string username, string password)
+    {
+        if (!isConnected)
+        {
+            Debug.LogWarning("[CLIENT] Not connected to server. Can't login.");
+            return;
+        }
+
+        // Build JSON
+        // e.g. { "Type":"LoginUser", "Data": { "Username":"...", "Password":"..." } }
+        JObject msg = new JObject
+        {
+            ["Type"] = "LoginUser"
+        };
+        JObject dataObj = new JObject
+        {
+            ["Username"] = username,
+            ["Password"] = password
+        };
+        msg["Data"] = dataObj;
+
+        SendMessageWithLengthPrefix(msg.ToString());
+    }
+
+    public void RegisterUser(string username, string password)
+    {
+        if (!isConnected)
+        {
+            Debug.LogWarning("[CLIENT] Not connected to server. Can't register.");
+            return;
+        }
+
+        JObject msg = new JObject
+        {
+            ["Type"] = "RegisterUser"
+        };
+        JObject dataObj = new JObject
+        {
+            ["Username"] = username,
+            ["Password"] = password
+        };
+        msg["Data"] = dataObj;
+
+        SendMessageWithLengthPrefix(msg.ToString());
+    }
 
 
     public void RequestMatchmaking()
