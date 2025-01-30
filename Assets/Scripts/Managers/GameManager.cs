@@ -52,6 +52,9 @@ public class GameManager : MonoBehaviour
 
     public GameObject universalBalloonPrefab;
 
+    private float gameStartTime; // we'll store Time.time when the game starts
+    public int OpponentUserId = -1;
+
     void Awake()
     {
         // Singleton pattern
@@ -123,6 +126,8 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
+        gameStartTime = Time.time;
+
         // Initialize game components common to both modes
         BalloonSpawner.Instance.StartSpawningWaves();
 
@@ -204,6 +209,39 @@ public class GameManager : MonoBehaviour
         currencyText.text = currency.ToString();
     }
 
+    //public void WinGame(string reason) //The player has won
+    //{
+    //    if (isGameOver)
+    //        return;
+
+    //    isGameOver = true;
+    //    winPanel.SetActive(true);
+
+    //    AudioManager.Instance.StopGameMusic();
+    //    AudioManager.Instance.PlayWinMusic();
+
+    //    // Find the reason text object:
+    //    TextMeshProUGUI winReasonText = winPanel.transform.Find("WinMessageText").GetComponent<TextMeshProUGUI>();
+    //    if (winReasonText != null)
+    //    {
+    //        winReasonText.text = reason;
+    //    }
+
+
+    //    NetworkManager.Instance.ResetMatchmaking();
+    //    //BalloonSpawner.Instance.ResetSpawnConfigurations();
+
+    //    Time.timeScale = 0; // Pause the game
+
+    //    if (CurrentGameMode == GameMode.Multiplayer)
+    //    {
+    //        // Notify the server of the game over
+    //        string message = "{\"Type\":\"GameOver\",\"Data\":{\"Won\":true}}";
+    //        //NetworkManager.Instance.SendMessage(message);
+    //        NetworkManager.Instance.SendMessageWithLengthPrefix(message);
+    //    }
+    //}
+
     public void WinGame(string reason)
     {
         if (isGameOver)
@@ -215,29 +253,98 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.StopGameMusic();
         AudioManager.Instance.PlayWinMusic();
 
-        // Find the reason text object:
+        // reason text
         TextMeshProUGUI winReasonText = winPanel.transform.Find("WinMessageText").GetComponent<TextMeshProUGUI>();
         if (winReasonText != null)
         {
             winReasonText.text = reason;
         }
 
-
         NetworkManager.Instance.ResetMatchmaking();
-        //BalloonSpawner.Instance.ResetSpawnConfigurations();
+        Time.timeScale = 0;
 
-        Time.timeScale = 0; // Pause the game
-
+        // 1) Notify the other client that I (local) won => "GameOver" with {Won=true}
         if (CurrentGameMode == GameMode.Multiplayer)
         {
-            // Notify the server of the game over
             string message = "{\"Type\":\"GameOver\",\"Data\":{\"Won\":true}}";
-            //NetworkManager.Instance.SendMessage(message);
             NetworkManager.Instance.SendMessageWithLengthPrefix(message);
         }
+
+        // 2) Send "GameOverDetailed" => only do it in Single Player or if I'm the winner in Multiplayer
+        // Since I'm the winner here, I'll do it in every scenario: single or multi.
+        int localUserId = PlayerPrefs.GetInt("UserId", -1);
+
+        // OpponentUserId might be from your "MatchFound" logic, or else set -1 => null
+        int? user2Id = null;
+        //if (CurrentGameMode == GameMode.Multiplayer && OpponentUserId > 0)
+        //{
+        //    user2Id = OpponentUserId;
+        //}
+        if (CurrentGameMode == GameMode.Multiplayer)
+        {
+            user2Id = PlayerPrefs.GetInt("OpponentUserId", -1);
+            if (user2Id == -1)
+                user2Id = null;
+
+            PlayerPrefs.DeleteKey("OpponentUserId");
+            PlayerPrefs.Save();
+        }
+
+        // localUserId is the winner
+        int? wonUserId = localUserId;
+
+        // final wave
+        int finalWave = BalloonSpawner.Instance.GetCurrentWaveIndex();
+        // time played
+        int timePlayed = (int)(Time.time - gameStartTime);
+
+        // "SinglePlayer" or "Multiplayer"
+        string mode = (CurrentGameMode == GameMode.SinglePlayer) ? "SinglePlayer" : "Multiplayer";
+
+        // 3) Send the detailed message
+        NetworkManager.Instance.SendGameOverDetailed(
+            user1Id: localUserId,
+            user2Id: user2Id,
+            mode: mode,
+            wonUserId: wonUserId,
+            finalWave: finalWave,
+            timePlayed: timePlayed
+        );
     }
 
-    void GameOver()
+    //void GameOver() //The player has lost (game over in terms of losing)
+    //{
+    //    if (isGameOver)
+    //        return;
+
+    //    isGameOver = true;
+    //    UIManager.Instance.opponentSnapshotPanel.SetActive(false);
+    //    gameOverPanel.SetActive(true);
+
+    //    AudioManager.Instance.StopGameMusic();
+    //    AudioManager.Instance.PlayLoseMusic();
+
+    //    NetworkManager.Instance.ResetMatchmaking();
+    //    //BalloonSpawner.Instance.ResetSpawnConfigurations();
+
+    //    Time.timeScale = 0; // Pause the game
+
+    //    if (CurrentGameMode == GameMode.Multiplayer)
+    //    {
+    //        if (snapshotCoroutine != null)
+    //        {
+    //            StopCoroutine(snapshotCoroutine);
+    //            snapshotCoroutine = null;
+    //        }
+
+    //        // Notify the server of the game over
+    //        string message = "{\"Type\":\"GameOver\",\"Data\":{\"Won\":false}}";
+    //        //NetworkManager.Instance.SendMessage(message);
+    //        NetworkManager.Instance.SendMessageWithLengthPrefix(message);
+    //    }
+    //}
+
+    void GameOver() //The player has lost (game over in terms of losing)
     {
         if (isGameOver)
             return;
@@ -256,6 +363,9 @@ public class GameManager : MonoBehaviour
 
         if (CurrentGameMode == GameMode.Multiplayer)
         {
+            PlayerPrefs.DeleteKey("OpponentUserId");
+            PlayerPrefs.Save();
+
             if (snapshotCoroutine != null)
             {
                 StopCoroutine(snapshotCoroutine);
@@ -266,6 +376,31 @@ public class GameManager : MonoBehaviour
             string message = "{\"Type\":\"GameOver\",\"Data\":{\"Won\":false}}";
             //NetworkManager.Instance.SendMessage(message);
             NetworkManager.Instance.SendMessageWithLengthPrefix(message);
+
+            // In MULTIPLAYER, we do NOT send "GameOverDetailed" => that’s done only by the winner (in order to not create the same game session twice).
+            // So do nothing more here
+        }
+        else
+        {
+            // 3) SINGLE PLAYER => if we lost, we still create the session
+            int localUserId = PlayerPrefs.GetInt("UserId", -1);
+            int? user2Id = null; // No opponent
+
+            // There's no winner in single player if you want (or store localUserId if you consider the game "lost"?)
+            int? wonUserId = null; // or if you want the wave to "win," set it to null
+
+            int finalWave = BalloonSpawner.Instance.GetCurrentWaveIndex();
+            int timePlayed = (int)(Time.time - gameStartTime);
+            string mode = "SinglePlayer";
+
+            NetworkManager.Instance.SendGameOverDetailed(
+                user1Id: localUserId,
+                user2Id: user2Id,
+                mode: mode,
+                wonUserId: wonUserId,
+                finalWave: finalWave,
+                timePlayed: timePlayed
+            );
         }
     }
 

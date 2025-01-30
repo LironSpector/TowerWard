@@ -283,50 +283,59 @@ public class NetworkManager : MonoBehaviour
 
         switch (messageType)
         {
+            // ------- Previous "MatchFound" case (before JWT server change and opponent user id getting) -------
+            //case "MatchFound":
+            //    // Handle MatchFound message
+            //    UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            //    {
+            //        Debug.Log("Match found!");
+            //        // Check if MatchmakingManager exists
+            //        if (MatchmakingManager.Instance != null)
+            //        {
+            //            MatchmakingManager.Instance.OnMatchFound();
+            //        }
+            //        else if (GameManager.Instance != null)
+            //        {
+            //            GameManager.Instance.OnMatchFound();
+            //        }
+            //        else
+            //        {
+            //            Debug.LogError("No handler found for MatchFound message.");
+            //        }
+            //    });
+            //    break;
+
             case "MatchFound":
-                //// Handle MatchFound message
-                //UnityMainThreadDispatcher.Instance().Enqueue(() =>
-                //{
-                //    Debug.Log("Match found!");
-                //    Debug.Log("Game Manager: " + GameManager.Instance);
-
-                //    if (GameManager.Instance == null)
-                //    {
-                //        Debug.LogWarning("GameManager.Instance is null. Attempting to find it...");
-                //        GameManager.Instance = FindObjectOfType<GameManager>();
-
-                //        if (GameManager.Instance == null)
-                //        {
-                //            Debug.LogError("GameManager could not be found in the scene!");
-                //            return; // Avoid calling OnMatchFound if GameManager still doesn't exist
-                //        }
-                //    }
-
-                //    GameManager.Instance.OnMatchFound();
-                //});
-                //break;
-
-
-
-                // Handle MatchFound message
-                UnityMainThreadDispatcher.Instance().Enqueue(() =>
                 {
-                    Debug.Log("Match found!");
-                    // Check if MatchmakingManager exists
-                    if (MatchmakingManager.Instance != null)
+                    // e.g. { "Type":"MatchFound", "Data":{"OpponentId":999} }
+                    JObject dataObj = (JObject)messageObject["Data"];
+                    int oppId = dataObj["OpponentId"]?.ToObject<int>() ?? -1;
+
+                    UnityMainThreadDispatcher.Instance().Enqueue(() =>
                     {
-                        MatchmakingManager.Instance.OnMatchFound();
-                    }
-                    else if (GameManager.Instance != null)
-                    {
-                        GameManager.Instance.OnMatchFound();
-                    }
-                    else
-                    {
-                        Debug.LogError("No handler found for MatchFound message.");
-                    }
-                });
-                break;
+                        Debug.Log($"Match found! OpponentId = {oppId}");
+
+                        if (MatchmakingManager.Instance != null)
+                        {
+                            MatchmakingManager.Instance.OnMatchFound();
+                            PlayerPrefs.SetInt("OpponentUserId", oppId);
+                            PlayerPrefs.Save();
+                        }
+                        else if (GameManager.Instance != null)
+                        {
+                            GameManager.Instance.OnMatchFound();
+                            PlayerPrefs.SetInt("OpponentUserId", oppId);
+                            PlayerPrefs.Save();
+                            GameManager.Instance.OpponentUserId = oppId;
+                        }
+                        else
+                        {
+                            Debug.LogError("No handler found for MatchFound message.");
+                        }
+                    });
+                    break;
+                }
+
 
             case "SendBalloon":
                 {
@@ -542,6 +551,56 @@ public class NetworkManager : MonoBehaviour
                     break;
                 }
 
+            case "AutoLoginSuccess":
+                {
+                    JObject d = (JObject)messageObject["Data"];
+                    int userId = d["UserId"].ToObject<int>();
+
+                    Debug.Log("[CLIENT] AutoLoginSuccess => userId=" + userId);
+
+                    // Optionally store in PlayerPrefs so we have it
+                    PlayerPrefs.SetInt("UserId", userId);
+                    PlayerPrefs.Save();
+
+                    // Also set a field in GameManager or somewhere
+                    // For instance, if you want:
+                    //if (GameManager.Instance != null)
+                    //{
+                    //    // Suppose you have a "public int LocalUserId" in GameManager
+                    //    GameManager.Instance.LocalUserId = userId;
+                    //}
+
+                    // We must skip the LoginScene => call the method to load MainMenu
+                    var loginSceneManager = FindObjectOfType<LoginSceneManager>();
+                    if (loginSceneManager != null)
+                    {
+                        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                        {
+                            // "GoToMainMenu()" or "LoadMainMenu()" in the login manager
+                            loginSceneManager.GoToMainMenu();
+                        });
+                    }
+                    break;
+                }
+
+            case "AutoLoginFail":
+                {
+                    string reason = messageObject["Data"]["Reason"].ToString();
+                    Debug.LogWarning("[CLIENT] AutoLoginFail => " + reason);
+
+                    // Show login panel
+                    var loginSceneManager = FindObjectOfType<LoginSceneManager>();
+                    if (loginSceneManager != null)
+                    {
+                        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                        {
+                            loginSceneManager.ShowLoginPanel();
+                        });
+                    }
+                    break;
+                }
+
+
             // Handle other message types
             default:
                 Debug.LogWarning("Unknown message type received: " + messageType);
@@ -740,6 +799,64 @@ public class NetworkManager : MonoBehaviour
 
         SendMessageWithLengthPrefix(msg.ToString());
         Debug.Log("[CLIENT] Sent UpdateLastLogin with userId=" + userId);
+    }
+
+
+    public void SendGameOverDetailed(
+        int user1Id,
+        int? user2Id,
+        string mode,
+        int? wonUserId,
+        int finalWave,
+        int timePlayed
+    )
+    {
+        if (!isConnected || !handshakeCompleted) return;
+
+        JObject msg = new JObject
+        {
+            ["Type"] = "GameOverDetailed"
+        };
+
+        JObject dataObj = new JObject
+        {
+            ["User1Id"] = user1Id,
+            ["User2Id"] = user2Id,  // or null
+            ["Mode"] = mode,
+            ["WonUserId"] = wonUserId, // or null
+            ["FinalWave"] = finalWave,
+            ["TimePlayed"] = timePlayed
+        };
+        msg["Data"] = dataObj;
+
+        SendMessageWithLengthPrefix(msg.ToString());
+        Debug.Log($"[CLIENT] Sent GameOverDetailed with user1Id={user1Id}, user2Id={user2Id}, finalWave={finalWave}, timePlayed={timePlayed}");
+    }
+
+
+    public void SendAutoLogin(string accessToken)
+    {
+        Debug.Log("[CLIENT] First and foremost!!!");
+        if (!isConnected || !handshakeCompleted)
+        {
+            Debug.Log("[CLIENT] Not connected/handshake not done, can't AutoLogin");
+            Debug.LogWarning("[CLIENT] Not connected/handshake not done, can't AutoLogin");
+            return;
+        }
+        Debug.LogWarning("[CLIENT] handshake is done, can try to AutoLogin");
+
+        JObject msg = new JObject
+        {
+            ["Type"] = "AutoLogin"
+        };
+        JObject dataObj = new JObject
+        {
+            ["AccessToken"] = accessToken
+        };
+        msg["Data"] = dataObj;
+
+        SendMessageWithLengthPrefix(msg.ToString());
+        Debug.Log("[CLIENT] Sent AutoLogin with token length=" + accessToken.Length);
     }
 
 
