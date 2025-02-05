@@ -30,29 +30,45 @@ public class LoginSceneManager : MonoBehaviour
         // We'll see if we have a locally stored token in PlayerPrefs 
         // and if it's still valid. If it is, skip to MainMenu.
 
-        Debug.Log("Before initial check");
-        if (CheckExistingTokenValid()) //Still check to maybe save time validating with the server
-        {
-            Debug.Log("Passed initial check");
-            string token = PlayerPrefs.GetString("AccessToken", "");
-            Debug.Log("Access token is this: " + token);
-            //Debug.Log("Passed initial check 2");
-            //NetworkManager.Instance.SendAutoLogin(token);
-            //Debug.Log("Passed initial check 3");
-            // Start a coroutine to delay the execution by 1 second
-            StartCoroutine(DelayedAutoLogin(token));
-        }
-        else
-        {
-            // Show the login panel by default
-            ShowLoginPanel();
-        }
+        ShowLoginPanel();
+
+        Debug.Log("Passed initial check");
+        string token = PlayerPrefs.GetString("AccessToken", "");
+        string refreshToken = PlayerPrefs.GetString("RefreshToken", "");
+        Debug.Log("Access token is this: " + token);
+        Debug.Log("Refresh token is this: " + refreshToken);
+        //Debug.Log("Passed initial check 2");
+        //NetworkManager.Instance.SendAutoLogin(token);
+        //Debug.Log("Passed initial check 3");
+        // Start a coroutine to delay the execution by 1 second
+        StartCoroutine(DelayedAutoLogin(token, refreshToken));
+
+
+
+        //Old code, probably will not be needed:
+        //Debug.Log("Before initial check");
+        //if (CheckExistingTokenValid()) //Still check to maybe save time validating with the server
+        //{
+        //    Debug.Log("Passed initial check");
+        //    string token = PlayerPrefs.GetString("AccessToken", "");
+        //    Debug.Log("Access token is this: " + token);
+        //    //Debug.Log("Passed initial check 2");
+        //    //NetworkManager.Instance.SendAutoLogin(token);
+        //    //Debug.Log("Passed initial check 3");
+        //    // Start a coroutine to delay the execution by 1 second
+        //    StartCoroutine(DelayedAutoLogin(token));
+        //}
+        //else
+        //{
+        //    // Show the login panel by default
+        //    ShowLoginPanel();
+        //}
     }
 
-    private IEnumerator DelayedAutoLogin(string token)
+    private IEnumerator DelayedAutoLogin(string token, string refreshToken)
     {
         yield return new WaitForSeconds(1f); // Wait for 1 second
-        NetworkManager.Instance.SendAutoLogin(token);
+        NetworkManager.Instance.SendAutoLogin(token, refreshToken);
         Debug.Log("Passed initial check 3");
     }
 

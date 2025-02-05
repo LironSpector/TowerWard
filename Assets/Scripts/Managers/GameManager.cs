@@ -53,7 +53,6 @@ public class GameManager : MonoBehaviour
     public GameObject universalBalloonPrefab;
 
     private float gameStartTime; // we'll store Time.time when the game starts
-    public int OpponentUserId = -1;
 
     void Awake()
     {
@@ -276,10 +275,7 @@ public class GameManager : MonoBehaviour
 
         // OpponentUserId might be from your "MatchFound" logic, or else set -1 => null
         int? user2Id = null;
-        //if (CurrentGameMode == GameMode.Multiplayer && OpponentUserId > 0)
-        //{
-        //    user2Id = OpponentUserId;
-        //}
+
         if (CurrentGameMode == GameMode.Multiplayer)
         {
             user2Id = PlayerPrefs.GetInt("OpponentUserId", -1);
