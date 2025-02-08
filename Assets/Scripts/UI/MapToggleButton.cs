@@ -25,8 +25,10 @@ public class MapToggleButton : MonoBehaviour
         {
             toggleMapButtonText.text = "Hide Map";
             // Send "ShowSnapshots" message to the server => Opponent will start capturing
-            string msg = "{\"Type\":\"ShowSnapshots\"}";
-            NetworkManager.Instance.SendMessageWithLengthPrefix(msg);
+            NetworkManager.Instance.SendAuthenticatedMessage("ShowSnapshots", null);
+            //string msg = "{\"Type\":\"ShowSnapshots\"}";
+            //NetworkManager.Instance.SendMessageWithLengthPrefix(msg);
+
             // Also show the snapshot UI (top-left) for us to see the incoming snapshots
             UIManager.Instance.SetOpponentSnapshotPanel(true);
             UIManager.Instance.SetOpponentSnapshotAlpha(0.8f);
@@ -35,8 +37,10 @@ public class MapToggleButton : MonoBehaviour
         {
             toggleMapButtonText.text = "Show Map";
             // Send "HideSnapshots" => Opponent stops capturing
-            string msg = "{\"Type\":\"HideSnapshots\"}";
-            NetworkManager.Instance.SendMessageWithLengthPrefix(msg);
+            NetworkManager.Instance.SendAuthenticatedMessage("HideSnapshots", null);
+            //string msg = "{\"Type\":\"HideSnapshots\"}";
+            //NetworkManager.Instance.SendMessageWithLengthPrefix(msg);
+
             // Hide snapshot UI for us
             UIManager.Instance.SetOpponentSnapshotPanel(false);
         }

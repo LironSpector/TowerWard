@@ -741,6 +741,51 @@ public class NetworkManager : MonoBehaviour
     }
 
 
+    private JObject BuildMessageWithToken(string messageType, JObject data)
+    {
+        // Grab tokens from PlayerPrefs
+        string accessToken = PlayerPrefs.GetString("AccessToken", "");
+        string refreshToken = PlayerPrefs.GetString("RefreshToken", "");
+
+        // The overall message format:
+        // {
+        //   "Type": "<messageType>",
+        //   "TokenData": {
+        //       "AccessToken": "<token>",
+        //       "RefreshToken": "<rToken>"
+        //   },
+        //   "Data": { ...data... }
+        // }
+
+        JObject msg = new JObject
+        {
+            ["Type"] = messageType
+        };
+
+        // Token part
+        JObject tokenObj = new JObject
+        {
+            ["AccessToken"] = accessToken,
+            ["RefreshToken"] = refreshToken
+        };
+        msg["TokenData"] = tokenObj;
+
+        // The actual message data
+        msg["Data"] = data ?? new JObject();
+        return msg;
+    }
+
+    public void SendAuthenticatedMessage(string messageType, JObject data)
+    {
+        // 1) Construct the JSON with tokens
+        JObject finalMsg = BuildMessageWithToken(messageType, data);
+
+        // 2) Convert to string & send via AES
+        string plainJson = finalMsg.ToString();
+        SendMessageWithLengthPrefix(plainJson);
+    }
+
+
     public void LoginUser(string username, string password)
     {
         if (!isConnected)
@@ -751,18 +796,22 @@ public class NetworkManager : MonoBehaviour
 
         // Build JSON
         // e.g. { "Type":"LoginUser", "Data": { "Username":"...", "Password":"..." } }
-        JObject msg = new JObject
-        {
-            ["Type"] = "LoginUser"
-        };
+
+        //JObject msg = new JObject
+        //{
+        //    ["Type"] = "LoginUser"
+        //};
         JObject dataObj = new JObject
         {
             ["Username"] = username,
             ["Password"] = password
         };
-        msg["Data"] = dataObj;
+        //msg["Data"] = dataObj;
 
-        SendMessageWithLengthPrefix(msg.ToString());
+
+        SendAuthenticatedMessage("LoginUser", dataObj);
+
+        //SendMessageWithLengthPrefix(msg.ToString());
     }
 
     public void RegisterUser(string username, string password)
@@ -773,18 +822,20 @@ public class NetworkManager : MonoBehaviour
             return;
         }
 
-        JObject msg = new JObject
-        {
-            ["Type"] = "RegisterUser"
-        };
+        //JObject msg = new JObject
+        //{
+        //    ["Type"] = "RegisterUser"
+        //};
         JObject dataObj = new JObject
         {
             ["Username"] = username,
             ["Password"] = password
         };
-        msg["Data"] = dataObj;
+        //msg["Data"] = dataObj;
 
-        SendMessageWithLengthPrefix(msg.ToString());
+        SendAuthenticatedMessage("RegisterUser", dataObj);
+
+        //SendMessageWithLengthPrefix(msg.ToString());
     }
 
     public void SendUpdateLastLogin(int userId)
@@ -796,17 +847,19 @@ public class NetworkManager : MonoBehaviour
         }
 
         // Build JSON
-        JObject msg = new JObject
-        {
-            ["Type"] = "UpdateLastLogin"
-        };
+        //JObject msg = new JObject
+        //{
+        //    ["Type"] = "UpdateLastLogin"
+        //};
         JObject dataObj = new JObject
         {
             ["UserId"] = userId
         };
-        msg["Data"] = dataObj;
+        //msg["Data"] = dataObj;
 
-        SendMessageWithLengthPrefix(msg.ToString());
+        SendAuthenticatedMessage("UpdateLastLogin", dataObj);
+
+        //SendMessageWithLengthPrefix(msg.ToString());
         Debug.Log("[CLIENT] Sent UpdateLastLogin with userId=" + userId);
     }
 
@@ -822,10 +875,10 @@ public class NetworkManager : MonoBehaviour
     {
         if (!isConnected || !handshakeCompleted) return;
 
-        JObject msg = new JObject
-        {
-            ["Type"] = "GameOverDetailed"
-        };
+        //JObject msg = new JObject
+        //{
+        //    ["Type"] = "GameOverDetailed"
+        //};
 
         JObject dataObj = new JObject
         {
@@ -836,9 +889,11 @@ public class NetworkManager : MonoBehaviour
             ["FinalWave"] = finalWave,
             ["TimePlayed"] = timePlayed
         };
-        msg["Data"] = dataObj;
+        //msg["Data"] = dataObj;
 
-        SendMessageWithLengthPrefix(msg.ToString());
+        SendAuthenticatedMessage("GameOverDetailed", dataObj);
+
+        //SendMessageWithLengthPrefix(msg.ToString());
         Debug.Log($"[CLIENT] Sent GameOverDetailed with user1Id={user1Id}, user2Id={user2Id}, finalWave={finalWave}, timePlayed={timePlayed}");
     }
 
@@ -854,18 +909,20 @@ public class NetworkManager : MonoBehaviour
         }
         Debug.LogWarning("[CLIENT] handshake is done, can try to AutoLogin");
 
-        JObject msg = new JObject
-        {
-            ["Type"] = "AutoLogin"
-        };
+        //JObject msg = new JObject
+        //{
+        //    ["Type"] = "AutoLogin"
+        //};
         JObject dataObj = new JObject
         {
             ["AccessToken"] = accessToken,
             ["RefreshToken"] = refreshToken,
         };
-        msg["Data"] = dataObj;
+        //msg["Data"] = dataObj;
 
-        SendMessageWithLengthPrefix(msg.ToString());
+        SendAuthenticatedMessage("AutoLogin", dataObj);
+
+        //SendMessageWithLengthPrefix(msg.ToString());
         Debug.Log("[CLIENT] Sent AutoLogin with token length=" + accessToken.Length);
     }
 
@@ -875,9 +932,11 @@ public class NetworkManager : MonoBehaviour
     {
         IsMatchmakingRequested = true;
 
-        string message = "{\"Type\":\"MatchmakingRequest\"}";
-        //SendMessage(message);
-        SendMessageWithLengthPrefix(message);
+        //string message = "{\"Type\":\"MatchmakingRequest\"}";
+
+        SendAuthenticatedMessage("MatchmakingRequest", null);
+
+        //SendMessageWithLengthPrefix(message);
     }
 
     void OnApplicationQuit()

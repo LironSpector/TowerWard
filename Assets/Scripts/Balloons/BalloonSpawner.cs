@@ -2,6 +2,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Linq;
 
 public class BalloonSpawner : MonoBehaviour
 {
@@ -145,8 +148,15 @@ public class BalloonSpawner : MonoBehaviour
                 //    Debug.Log($"Finished waiting");
                 //}
 
-                string waveDone = $"{{\"Type\":\"WaveDone\",\"WaveIndex\":{currentWaveIndex}}}";
-                NetworkManager.Instance.SendMessageWithLengthPrefix(waveDone);
+
+                //string waveDone = $"{{\"Type\":\"WaveDone\",\"WaveIndex\":{currentWaveIndex}}}";
+                //NetworkManager.Instance.SendMessageWithLengthPrefix(waveDone);
+
+                JObject dataObj = new JObject
+                {
+                    ["WaveIndex"] = currentWaveIndex,
+                };
+                NetworkManager.Instance.SendAuthenticatedMessage("WaveDone", dataObj);
             }
         }
     }

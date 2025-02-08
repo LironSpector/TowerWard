@@ -265,8 +265,14 @@ public class GameManager : MonoBehaviour
         // 1) Notify the other client that I (local) won => "GameOver" with {Won=true}
         if (CurrentGameMode == GameMode.Multiplayer)
         {
-            string message = "{\"Type\":\"GameOver\",\"Data\":{\"Won\":true}}";
-            NetworkManager.Instance.SendMessageWithLengthPrefix(message);
+            //string message = "{\"Type\":\"GameOver\",\"Data\":{\"Won\":true}}";
+            //NetworkManager.Instance.SendMessageWithLengthPrefix(message);
+
+            JObject dataObj = new JObject
+            {
+                ["Won"] = true,
+            };
+            NetworkManager.Instance.SendAuthenticatedMessage("GameOver", dataObj);
         }
 
         // 2) Send "GameOverDetailed" => only do it in Single Player or if I'm the winner in Multiplayer
@@ -369,9 +375,14 @@ public class GameManager : MonoBehaviour
             }
 
             // Notify the server of the game over
-            string message = "{\"Type\":\"GameOver\",\"Data\":{\"Won\":false}}";
-            //NetworkManager.Instance.SendMessage(message);
-            NetworkManager.Instance.SendMessageWithLengthPrefix(message);
+            //string message = "{\"Type\":\"GameOver\",\"Data\":{\"Won\":false}}";
+            //NetworkManager.Instance.SendMessageWithLengthPrefix(message);
+
+            JObject dataObj = new JObject
+            {
+                ["Won"] = false,
+            };
+            NetworkManager.Instance.SendAuthenticatedMessage("GameOver", dataObj);
 
             // In MULTIPLAYER, we do NOT send "GameOverDetailed" => that’s done only by the winner (in order to not create the same game session twice).
             // So do nothing more here
@@ -501,18 +512,27 @@ public class GameManager : MonoBehaviour
             // Prepare message
             // Instead of "BalloonType", we do "BalloonHealth"
             // We also keep "Cost" if needed, or you might omit it.
-            var message = new
-            {
-                Type = "SendBalloon",
-                Data = new
-                {
-                    BalloonHealth = balloonHealth,
-                    Cost = cost
-                }
-            };
 
-            string jsonMessage = JsonConvert.SerializeObject(message);
-            NetworkManager.Instance.SendMessageWithLengthPrefix(jsonMessage);
+            //var message = new
+            //{
+            //    Type = "SendBalloon",
+            //    Data = new
+            //    {
+            //        BalloonHealth = balloonHealth,
+            //        Cost = cost
+            //    }
+            //};
+
+            //string jsonMessage = JsonConvert.SerializeObject(message);
+            //NetworkManager.Instance.SendMessageWithLengthPrefix(jsonMessage);
+
+            JObject dataObj = new JObject
+            {
+                ["BalloonHealth"] = balloonHealth,
+                ["Cost"] = cost,
+            };
+            NetworkManager.Instance.SendAuthenticatedMessage("SendBalloon", dataObj);
+
             //Debug.Log($"Sent balloon with health {balloonHealth} to opponent.");
         }
         else

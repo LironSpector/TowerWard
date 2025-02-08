@@ -185,16 +185,22 @@ public class SpecialAbilitiesManager : MonoBehaviour
         isFastBalloonsOnCooldown = true;
         fastBalloonsButton.interactable = false;
 
-        var msg = new
+        //var msg = new
+        //{
+        //    Type = "UseMultiplayerAbility",
+        //    Data = new
+        //    {
+        //        AbilityName = "FastBalloons"
+        //    }
+        //};
+        //string json = JsonConvert.SerializeObject(msg);
+        //NetworkManager.Instance.SendMessageWithLengthPrefix(json);
+
+        JObject dataObj = new JObject
         {
-            Type = "UseMultiplayerAbility",
-            Data = new
-            {
-                AbilityName = "FastBalloons"
-            }
+            ["AbilityName"] = "FastBalloons",
         };
-        string json = JsonConvert.SerializeObject(msg);
-        NetworkManager.Instance.SendMessageWithLengthPrefix(json);
+        NetworkManager.Instance.SendAuthenticatedMessage("UseMultiplayerAbility", dataObj);
     }
 
     private void OnBalloonPriceDiscountClicked()
@@ -251,16 +257,22 @@ public class SpecialAbilitiesManager : MonoBehaviour
         noMoneyOpponentButton.interactable = false;
 
         // Send message to server => it will forward to the opponent
-        var msg = new
+        //var msg = new
+        //{
+        //    Type = "UseMultiplayerAbility",
+        //    Data = new
+        //    {
+        //        AbilityName = "NoMoneyForOpponent"
+        //    }
+        //};
+        //string json = JsonConvert.SerializeObject(msg);
+        //NetworkManager.Instance.SendMessageWithLengthPrefix(json);
+
+        JObject dataObj = new JObject
         {
-            Type = "UseMultiplayerAbility",
-            Data = new
-            {
-                AbilityName = "NoMoneyForOpponent"
-            }
+            ["AbilityName"] = "NoMoneyForOpponent",
         };
-        string json = JsonConvert.SerializeObject(msg);
-        NetworkManager.Instance.SendMessageWithLengthPrefix(json);
+        NetworkManager.Instance.SendAuthenticatedMessage("UseMultiplayerAbility", dataObj);
 
         // We do NOT do anything locally (since the effect is for the OPPONENT).
         StartCoroutine(NoMoneyOpponentRoutine());
@@ -288,16 +300,23 @@ public class SpecialAbilitiesManager : MonoBehaviour
         cloudScreenButton.interactable = false;
 
         // Send message => server => opponent => opponent shows the clouds
-        var msg = new
+        //var msg = new
+        //{
+        //    Type = "UseMultiplayerAbility",
+        //    Data = new
+        //    {
+        //        AbilityName = "CloudScreen"
+        //    }
+        //};
+        //string json = JsonConvert.SerializeObject(msg);
+        //NetworkManager.Instance.SendMessageWithLengthPrefix(json);
+
+        JObject dataObj = new JObject
         {
-            Type = "UseMultiplayerAbility",
-            Data = new
-            {
-                AbilityName = "CloudScreen"
-            }
+            ["AbilityName"] = "CloudScreen",
         };
-        string json = JsonConvert.SerializeObject(msg);
-        NetworkManager.Instance.SendMessageWithLengthPrefix(json);
+        NetworkManager.Instance.SendAuthenticatedMessage("UseMultiplayerAbility", dataObj);
+
 
         StartCoroutine(CloudScreenRoutine());
     }
