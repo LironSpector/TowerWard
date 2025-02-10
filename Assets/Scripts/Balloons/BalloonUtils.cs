@@ -1,82 +1,122 @@
-//using UnityEngine;
+using UnityEngine;
 
-//public class BalloonUtils : MonoBehaviour
-//{
-//    // Singleton instance
-//    private static BalloonUtils _instance;
-//    public static BalloonUtils Instance
-//    {
-//        get
-//        {
-//            if (_instance == null)
-//            {
-//                Debug.LogError("BalloonUtils instance is not initialized. Ensure the script is added to a GameObject in the scene.");
-//            }
-//            return _instance;
-//        }
-//    }
+public static class BalloonUtils
+{
+    /// <summary>
+    /// Returns a BalloonStats struct containing speed, reward, immunities, and the
+    /// sprite for a balloon of a given health.
+    /// </summary>
+    public static BalloonStats GetStatsForHealth(Balloon balloon, int health)
+    {
+        // We'll fill in a 'stats' object by referencing balloon's sprites
+        // and your existing health thresholds.
+        BalloonStats stats = new BalloonStats();
 
-//    // Balloon prefabs
-//    public GameObject redBalloonPrefab;
-//    public GameObject blueBalloonPrefab;
-//    public GameObject greenBalloonPrefab;
-//    public GameObject yellowBalloonPrefab;
-//    public GameObject pinkBalloonPrefab;
-//    public GameObject blackBalloonPrefab;
-//    public GameObject whiteBalloonPrefab;
-//    public GameObject strongBalloonPrefab;
-//    public GameObject strongerBalloonPrefab;
-//    public GameObject veryStrongBalloonPrefab;
-//    public GameObject smallBossBalloonPrefab;
-//    public GameObject mediumBossBalloonPrefab;
-//    public GameObject bigBossBalloonPrefab;
+        if (health == 1)
+        {
+            stats.Speed = 2f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = false;
+            stats.ImmuneToPoison = false;
+            stats.NormalSprite = balloon.redBalloonSprite;
+        }
+        else if (health == 2)
+        {
+            stats.Speed = 2f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = false;
+            stats.ImmuneToPoison = false;
+            stats.NormalSprite = balloon.blueBalloonSprite;
+        }
+        else if (health == 3)
+        {
+            stats.Speed = 2f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = false;
+            stats.ImmuneToPoison = false;
+            stats.NormalSprite = balloon.greenBalloonSprite;
+        }
+        else if (health == 4)
+        {
+            stats.Speed = 2f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = false;
+            stats.ImmuneToPoison = false;
+            stats.NormalSprite = balloon.yellowBalloonSprite;
+        }
+        else if (health == 5)
+        {
+            stats.Speed = 4f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = false;
+            stats.ImmuneToPoison = false;
+            stats.NormalSprite = balloon.pinkBalloonSprite;
+        }
+        else if (health == 6)
+        {
+            stats.Speed = 3f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = true;
+            stats.ImmuneToPoison = false;
+            stats.NormalSprite = balloon.blackBalloonSprite;
+        }
+        else if (health == 7)
+        {
+            stats.Speed = 3f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = false;
+            stats.ImmuneToPoison = true;
+            stats.NormalSprite = balloon.whiteBalloonSprite;
+        }
+        else if (health >= 8 && health <= 10)
+        {
+            stats.Speed = 2f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = false;
+            stats.ImmuneToPoison = false;
+            stats.NormalSprite = balloon.strongBalloonSprite;
+        }
+        else if (health >= 11 && health <= 16)
+        {
+            stats.Speed = 1.5f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = false;
+            stats.ImmuneToPoison = false;
+            stats.NormalSprite = balloon.strongerBalloonSprite;
+        }
+        else if (health >= 17 && health <= 26)
+        {
+            stats.Speed = 1f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = false;
+            stats.ImmuneToPoison = false;
+            stats.NormalSprite = balloon.veryStrongBalloonSprite;
+        }
+        else if (health >= 27 && health <= 126)
+        {
+            stats.Speed = 1.5f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = true;
+            stats.ImmuneToPoison = true;
+            stats.NormalSprite = balloon.smallBossBalloonSprite;
+        }
+        else if (health >= 127 && health <= 626)
+        {
+            stats.Speed = 1f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = true;
+            stats.ImmuneToPoison = true;
+            stats.NormalSprite = balloon.mediumBossBalloonSprite;
+        }
+        else if (health >= 627 && health <= 3126)
+        {
+            stats.Speed = 0.5f;
+            stats.Reward = 5;
+            stats.ImmuneToFreeze = true;
+            stats.ImmuneToPoison = true;
+            stats.NormalSprite = balloon.bigBossBalloonSprite;
+        }
 
-//    // Ensures the Singleton instance is set up.
-//    private void Awake()
-//    {
-//        if (_instance != null && _instance != this)
-//        {
-//            Debug.LogWarning("Multiple BalloonUtils instances found! Destroying duplicate.");
-//            Destroy(gameObject);
-//            return;
-//        }
-
-//        _instance = this;
-//    }
-
-//    public GameObject GetBalloonPrefabByName(string balloonType)
-//    {
-//        switch (balloonType)
-//        {
-//            case "RedBalloon":
-//                return redBalloonPrefab;
-//            case "BlueBalloon":
-//                return blueBalloonPrefab;
-//            case "GreenBalloon":
-//                return greenBalloonPrefab;
-//            case "YellowBalloon":
-//                return yellowBalloonPrefab;
-//            case "PinkBalloon":
-//                return pinkBalloonPrefab;
-//            case "BlackBalloon":
-//                return blackBalloonPrefab;
-//            case "WhiteBalloon":
-//                return whiteBalloonPrefab;
-//            case "StrongBalloon":
-//                return strongBalloonPrefab;
-//            case "StrongerBalloon":
-//                return strongerBalloonPrefab;
-//            case "VeryStrongBalloon":
-//                return veryStrongBalloonPrefab;
-//            case "SmallBossBalloon":
-//                return smallBossBalloonPrefab;
-//            case "MediumBossBalloon":
-//                return mediumBossBalloonPrefab;
-//            case "BigBossBalloon":
-//                return bigBossBalloonPrefab;
-//            default:
-//                Debug.LogWarning($"Balloon type '{balloonType}' not recognized.");
-//                return null;
-//        }
-//    }
-//}
+        return stats;
+    }
+}

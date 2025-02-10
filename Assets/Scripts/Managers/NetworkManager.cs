@@ -617,26 +617,6 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-
-    //Previous "SendMessageWithLengthPrefix" - before implementing encryption:
-    //public void SendMessageWithLengthPrefix(string message)
-    //{
-    //    if (!isConnected) return;
-
-    //    byte[] messageBytes = Encoding.UTF8.GetBytes(message);
-    //    byte[] lengthBytes = BitConverter.GetBytes(messageBytes.Length);
-
-    //    // Send length first
-    //    stream.Write(lengthBytes, 0, lengthBytes.Length);
-    //    // Then send message
-    //    stream.Write(messageBytes, 0, messageBytes.Length);
-
-    //    Debug.Log("Sent (with length): " + message);
-    //}
-
-
-
-
     /// <summary>
     /// Sends a JSON string *un*encrypted with length prefix (used in handshake).
     /// </summary>
@@ -726,18 +706,11 @@ public class NetworkManager : MonoBehaviour
         Debug.Log("Opponent's FastBalloons effect - wave speed +50% for 10s");
 
         GameManager.Instance.allBalloonsSpeedFactor = 1.5f;
-        // Also, if you want balloons that are "sent by the other player" to be faster,
-        // you might define a factor for that. For example:
-        // Some "sentBalloonSpeedFactor = 1.5f"
-        // That depends on how your code spawns opponent-sent balloons vs. wave balloons.
 
         yield return new WaitForSeconds(10f);
 
         // revert
         GameManager.Instance.allBalloonsSpeedFactor = 1f;
-        // or "sentBalloonSpeedFactor = 1f"
-
-        // Done. No local cooldown needed here, because the user on THIS side did not press the button.
     }
 
 

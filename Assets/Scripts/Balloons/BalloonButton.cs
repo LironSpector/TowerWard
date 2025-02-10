@@ -27,19 +27,6 @@ public class BalloonButton : MonoBehaviour
         imageComponent = image.GetComponent<Image>();
 
         DisplayBalloonPrice();
-        //costText = GetComponentInChildren<TextMeshProUGUI>();
-        //if (costText != null)
-        //{
-        //    if (cost > 999) //There is no space for more than $ + 3 numbers
-        //    {
-        //        double costToDisplay = cost * tempDiscountFactor / 1000.0;
-        //        costText.text = "$" + costToDisplay.ToString() + "K";
-        //    }
-        //    else
-        //    {
-        //        costText.text = "$" + (cost * tempDiscountFactor).ToString();
-        //    }
-        //}
     }
 
     private void DisplayBalloonPrice()

@@ -151,8 +151,6 @@ public class GameManager : MonoBehaviour
 
     public void AddCurrency(int amount)
     {
-        //currency += amount;
-        // apply multiplier
         int finalAmount = Mathf.RoundToInt(amount * moneyMultiplier);
         currency += finalAmount;
         UpdateUI();
@@ -207,39 +205,6 @@ public class GameManager : MonoBehaviour
         livesText.text = lives.ToString();
         currencyText.text = currency.ToString();
     }
-
-    //public void WinGame(string reason) //The player has won
-    //{
-    //    if (isGameOver)
-    //        return;
-
-    //    isGameOver = true;
-    //    winPanel.SetActive(true);
-
-    //    AudioManager.Instance.StopGameMusic();
-    //    AudioManager.Instance.PlayWinMusic();
-
-    //    // Find the reason text object:
-    //    TextMeshProUGUI winReasonText = winPanel.transform.Find("WinMessageText").GetComponent<TextMeshProUGUI>();
-    //    if (winReasonText != null)
-    //    {
-    //        winReasonText.text = reason;
-    //    }
-
-
-    //    NetworkManager.Instance.ResetMatchmaking();
-    //    //BalloonSpawner.Instance.ResetSpawnConfigurations();
-
-    //    Time.timeScale = 0; // Pause the game
-
-    //    if (CurrentGameMode == GameMode.Multiplayer)
-    //    {
-    //        // Notify the server of the game over
-    //        string message = "{\"Type\":\"GameOver\",\"Data\":{\"Won\":true}}";
-    //        //NetworkManager.Instance.SendMessage(message);
-    //        NetworkManager.Instance.SendMessageWithLengthPrefix(message);
-    //    }
-    //}
 
     public void WinGame(string reason)
     {
@@ -313,38 +278,6 @@ public class GameManager : MonoBehaviour
             timePlayed: timePlayed
         );
     }
-
-    //void GameOver() //The player has lost (game over in terms of losing)
-    //{
-    //    if (isGameOver)
-    //        return;
-
-    //    isGameOver = true;
-    //    UIManager.Instance.opponentSnapshotPanel.SetActive(false);
-    //    gameOverPanel.SetActive(true);
-
-    //    AudioManager.Instance.StopGameMusic();
-    //    AudioManager.Instance.PlayLoseMusic();
-
-    //    NetworkManager.Instance.ResetMatchmaking();
-    //    //BalloonSpawner.Instance.ResetSpawnConfigurations();
-
-    //    Time.timeScale = 0; // Pause the game
-
-    //    if (CurrentGameMode == GameMode.Multiplayer)
-    //    {
-    //        if (snapshotCoroutine != null)
-    //        {
-    //            StopCoroutine(snapshotCoroutine);
-    //            snapshotCoroutine = null;
-    //        }
-
-    //        // Notify the server of the game over
-    //        string message = "{\"Type\":\"GameOver\",\"Data\":{\"Won\":false}}";
-    //        //NetworkManager.Instance.SendMessage(message);
-    //        NetworkManager.Instance.SendMessageWithLengthPrefix(message);
-    //    }
-    //}
 
     void GameOver() //The player has lost (game over in terms of losing)
     {
@@ -574,7 +507,6 @@ public class GameManager : MonoBehaviour
         // Compress the PNG data
         byte[] compressedBytes = CompressData(jpgBytes);
         string imageData = Convert.ToBase64String(compressedBytes);
-        //string imageData = Convert.ToBase64String(pngBytes);
 
         //Debug.Log("Length comparison: ---------> " + jpgBytes.Length + ", " + compressedBytes.Length);
         //Debug.Log("Image Data initialy is: " + imageData);
