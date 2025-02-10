@@ -121,7 +121,7 @@ public class SurpriseBoxManager : MonoBehaviour
                     continue;
 
                 // 2) Check if it's on the balloon path
-                if (TowerPlacement.Instance.IsOnBalloonPath(cellPos))
+                if (TowerPlacementUtils.IsOnBalloonPath(cellPos, TowerPlacement.Instance.tilemap, TowerPlacement.Instance.balloonPathPositions))
                     continue;
 
                 // 3) Check if occupied by tower or box

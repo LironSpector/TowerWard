@@ -9,7 +9,6 @@ public class GridManager : MonoBehaviour
     public float gridOriginX = 0f;
     public float gridOriginY = 0f;
     public float cellSize = 0.5f;
-    //public float cellSize = 0.5625f;
 
     void Awake()
     {
@@ -24,7 +23,6 @@ public class GridManager : MonoBehaviour
         float snappedX = Mathf.Floor((position.x - gridOriginX) / cellSize) * cellSize + cellSize / 2 + gridOriginX;
         float snappedY = Mathf.Floor((position.y - gridOriginY) / cellSize) * cellSize + cellSize / 2 + gridOriginY;
 
-        //return new Vector2(snappedX + 0.185f, snappedY + 0.28125f);
         return new Vector2(snappedX, snappedY);
     }
 

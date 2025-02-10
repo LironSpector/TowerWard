@@ -79,22 +79,13 @@ public class SpecialAbilitiesManager : MonoBehaviour
         SetupButtonColorBlock(noMoneyOpponentButton);
         SetupButtonColorBlock(cloudScreenButton);
 
+
         // If single-player => hide these 4 multiplayer buttons
-        if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.SinglePlayer)
-        {
-            fastBalloonsButton.gameObject.SetActive(false);
-            balloonPriceDiscountButton.gameObject.SetActive(false);
-            noMoneyOpponentButton.gameObject.SetActive(false);
-            cloudScreenButton.gameObject.SetActive(false);
-        }
-        else
-        {
-            // If multiplayer => show them
-            fastBalloonsButton.gameObject.SetActive(true);
-            balloonPriceDiscountButton.gameObject.SetActive(true);
-            noMoneyOpponentButton.gameObject.SetActive(true);
-            cloudScreenButton.gameObject.SetActive(true);
-        }
+        bool isMultiplayer = (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Multiplayer);
+        fastBalloonsButton.gameObject.SetActive(isMultiplayer);
+        balloonPriceDiscountButton.gameObject.SetActive(isMultiplayer);
+        noMoneyOpponentButton.gameObject.SetActive(isMultiplayer);
+        cloudScreenButton.gameObject.SetActive(isMultiplayer);
     }
 
     private void SetupButtonColorBlock(Button btn)
