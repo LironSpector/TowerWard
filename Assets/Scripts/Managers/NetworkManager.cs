@@ -323,7 +323,8 @@ public class NetworkManager : MonoBehaviour
                         }
                         else if (GameManager.Instance != null)
                         {
-                            GameManager.Instance.OnMatchFound();
+                            GameManager.Instance.flowController.OnMatchFound();
+                            //GameManager.Instance.OnMatchFound();
                             PlayerPrefs.SetInt("OpponentUserId", oppId);
                             PlayerPrefs.Save();
                         }
@@ -376,9 +377,8 @@ public class NetworkManager : MonoBehaviour
                 // Tells *THIS CLIENT* to start capturing snapshots
                 UnityMainThreadDispatcher.Instance().Enqueue(() =>
                 {
-                    GameManager.Instance.EnableSnapshotSending(true);
-                    // We'll define EnableSnapshotSending in GameManager 
-                    // to start the coroutine if not already running
+                    GameManager.Instance.snapshotManager.EnableSnapshotSending(true);
+                    //GameManager.Instance.EnableSnapshotSending(true);
                 });
                 break;
 
@@ -386,7 +386,8 @@ public class NetworkManager : MonoBehaviour
                 // Tells *THIS CLIENT* to stop capturing snapshots
                 UnityMainThreadDispatcher.Instance().Enqueue(() =>
                 {
-                    GameManager.Instance.EnableSnapshotSending(false);
+                    GameManager.Instance.snapshotManager.EnableSnapshotSending(false);
+                    //GameManager.Instance.EnableSnapshotSending(false);
                 });
                 break;
 
@@ -407,7 +408,8 @@ public class NetworkManager : MonoBehaviour
                 UnityMainThreadDispatcher.Instance().Enqueue(() =>
                 {
                     // The other player disconnected, we automatically win
-                    GameManager.Instance.OnOpponentGameOver(opponentWon: false, reason: "The other player disconnected");
+                    GameManager.Instance.flowController.OnOpponentGameOver(opponentWon: false, reason: "The other player disconnected");
+                    //GameManager.Instance.OnOpponentGameOver(opponentWon: false, reason: "The other player disconnected");
                 });
                 break;
 
@@ -451,7 +453,8 @@ public class NetworkManager : MonoBehaviour
                 // Handle opponent game over
                 UnityMainThreadDispatcher.Instance().Enqueue(() =>
                 {
-                    GameManager.Instance.OnOpponentGameOver(opponentWon);
+                    GameManager.Instance.flowController.OnOpponentGameOver(opponentWon);
+                    //GameManager.Instance.OnOpponentGameOver(opponentWon);
                 });
                 break;
 

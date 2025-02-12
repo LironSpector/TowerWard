@@ -180,7 +180,8 @@ public class TowerPlacement : MonoBehaviour
         GameManager.Instance.SpendCurrency(cost);
 
         // Mark cell as occupied
-        GameManager.Instance.OccupyCell(gridPosition, towerScript);
+        GameManager.Instance.cellManager.OccupyCell(gridPosition, towerScript);
+        //GameManager.Instance.OccupyCell(gridPosition, towerScript);
 
         // Set final layer "Tower"
         pendingTower.layer = LayerMask.NameToLayer("Tower");
@@ -220,11 +221,16 @@ public class TowerPlacement : MonoBehaviour
 
         // 3) Check if cell is already occupied
         Vector2 gridPos = GridManager.Instance.SnapToGrid(position);
-        if (GameManager.Instance.IsCellOccupiedForAnyReason(gridPos))
+        if (GameManager.Instance.cellManager.IsCellOccupiedForAnyReason(gridPos))
         {
             Debug.Log("This cell is already occupied.");
             return false;
         }
+        //if (GameManager.Instance.IsCellOccupiedForAnyReason(gridPos))
+        //{
+        //    Debug.Log("This cell is already occupied.");
+        //    return false;
+        //}
 
         return true;
     }

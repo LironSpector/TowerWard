@@ -3497,6 +3497,9 @@ GameObject:
   m_Component:
   - component: {fileID: 526024724}
   - component: {fileID: 526024723}
+  - component: {fileID: 526024727}
+  - component: {fileID: 526024726}
+  - component: {fileID: 526024725}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3518,20 +3521,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lives: 20
   currency: 1000
-  livesText: {fileID: 283725393}
-  currencyText: {fileID: 242890620}
-  gameOverPanel: {fileID: 1429572373}
-  winPanel: {fileID: 885927981}
-  isGameOver: 0
   moneyMultiplier: 1
   allBalloonsSpeedFactor: 1
   rangeBuffFactor: 1
   fireRateBuffFactor: 1
+  livesText: {fileID: 283725393}
+  currencyText: {fileID: 242890620}
+  gameOverPanel: {fileID: 1429572373}
+  winPanel: {fileID: 885927981}
   balloonSendingPanel: {fileID: 1802190359}
+  toggleMapButton: {fileID: 65090115}
   mapCamera: {fileID: 2145095571}
   mapRenderTexture: {fileID: 8400000, guid: 82ca992d9e13c664887266df5e4fbc37, type: 2}
-  toggleMapButton: {fileID: 65090115}
   universalBalloonPrefab: {fileID: 4145948176449361689, guid: 27202993b8ffc2445ada88d7720127ec, type: 3}
+  isGameOver: 0
+  flowController: {fileID: 526024727}
+  cellManager: {fileID: 526024726}
+  snapshotManager: {fileID: 526024725}
 --- !u!4 &526024724
 Transform:
   m_ObjectHideFlags: 0
@@ -3547,6 +3553,42 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &526024725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526024722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b228faff5e3cd5f4eb988fcc01ef4d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &526024726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526024722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 422eff1590841ca4fa3032ad77dfc8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &526024727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526024722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc46bbb9448614499c3b87277473253, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &573332684
 GameObject:
   m_ObjectHideFlags: 0
@@ -8568,6 +8610,77 @@ MonoBehaviour:
   gridWidth: 24
   gridHeight: 14
   tilemap: {fileID: 1657119377}
+  balloonPathPositions:
+  - {x: -10, y: 2, z: 0}
+  - {x: -9, y: 2, z: 0}
+  - {x: -8, y: 2, z: 0}
+  - {x: -7, y: 2, z: 0}
+  - {x: -6, y: 2, z: 0}
+  - {x: -5, y: 2, z: 0}
+  - {x: -4, y: 2, z: 0}
+  - {x: -3, y: 2, z: 0}
+  - {x: -2, y: 2, z: 0}
+  - {x: -1, y: 2, z: 0}
+  - {x: 0, y: 2, z: 0}
+  - {x: 1, y: 2, z: 0}
+  - {x: 2, y: 2, z: 0}
+  - {x: 3, y: 2, z: 0}
+  - {x: 4, y: 2, z: 0}
+  - {x: 5, y: 2, z: 0}
+  - {x: 6, y: 2, z: 0}
+  - {x: 7, y: 2, z: 0}
+  - {x: 8, y: 2, z: 0}
+  - {x: 9, y: 2, z: 0}
+  - {x: 9, y: 1, z: 0}
+  - {x: 9, y: 0, z: 0}
+  - {x: 9, y: -1, z: 0}
+  - {x: 9, y: -2, z: 0}
+  - {x: 9, y: -3, z: 0}
+  - {x: 8, y: -3, z: 0}
+  - {x: 7, y: -3, z: 0}
+  - {x: 6, y: -3, z: 0}
+  - {x: 5, y: -3, z: 0}
+  - {x: 4, y: -3, z: 0}
+  - {x: 3, y: -3, z: 0}
+  - {x: 3, y: -2, z: 0}
+  - {x: 3, y: -1, z: 0}
+  - {x: 3, y: 0, z: 0}
+  - {x: 2, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: -2, y: 0, z: 0}
+  - {x: -3, y: 0, z: 0}
+  - {x: -4, y: 0, z: 0}
+  - {x: -5, y: 0, z: 0}
+  - {x: -6, y: 0, z: 0}
+  - {x: -7, y: 0, z: 0}
+  - {x: -8, y: 0, z: 0}
+  - {x: -8, y: -1, z: 0}
+  - {x: -8, y: -2, z: 0}
+  - {x: -8, y: -3, z: 0}
+  - {x: -8, y: -4, z: 0}
+  - {x: -7, y: -4, z: 0}
+  - {x: -6, y: -4, z: 0}
+  - {x: -5, y: -4, z: 0}
+  - {x: -4, y: -4, z: 0}
+  - {x: -3, y: -4, z: 0}
+  - {x: -2, y: -4, z: 0}
+  - {x: -1, y: -4, z: 0}
+  - {x: 0, y: -4, z: 0}
+  - {x: 0, y: -5, z: 0}
+  - {x: 0, y: -6, z: 0}
+  - {x: 0, y: -7, z: 0}
+  - {x: -1, y: -7, z: 0}
+  - {x: -2, y: -7, z: 0}
+  - {x: -3, y: -7, z: 0}
+  - {x: -4, y: -7, z: 0}
+  - {x: -5, y: -7, z: 0}
+  - {x: -6, y: -7, z: 0}
+  - {x: -7, y: -7, z: 0}
+  - {x: -8, y: -7, z: 0}
+  - {x: -9, y: -7, z: 0}
+  - {x: -10, y: -7, z: 0}
 --- !u!4 &1389398361
 Transform:
   m_ObjectHideFlags: 0

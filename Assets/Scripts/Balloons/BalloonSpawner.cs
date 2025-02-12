@@ -85,7 +85,8 @@ public class BalloonSpawner : MonoBehaviour
             if (currentWaveIndex >= waves.Count)
             {
                 yield return new WaitForSeconds(5f);
-                GameManager.Instance.WinGame("You've defeated all the waves");
+                GameManager.Instance.flowController.WinGame("You've defeated all the waves");
+                //GameManager.Instance.WinGame("You've defeated all the waves");
             }
             else
             {
@@ -99,7 +100,8 @@ public class BalloonSpawner : MonoBehaviour
             if (currentWaveIndex >= waves.Count)
             {
                 yield return new WaitForSeconds(5f);
-                GameManager.Instance.WinGame("You've defeated all the waves");
+                GameManager.Instance.flowController.WinGame("You've defeated all the waves");
+                //GameManager.Instance.WinGame("You've defeated all the waves");
             }
             else
             {

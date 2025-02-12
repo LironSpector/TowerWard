@@ -125,8 +125,10 @@ public class SurpriseBoxManager : MonoBehaviour
                     continue;
 
                 // 3) Check if occupied by tower or box
-                if (GameManager.Instance.IsCellOccupiedForAnyReason(cellPos))
+                if (GameManager.Instance.cellManager.IsCellOccupiedForAnyReason(cellPos))
                     continue;
+                //if (GameManager.Instance.IsCellOccupiedForAnyReason(cellPos))
+                //    continue;
 
                 // If we reach here => it's a valid free cell
                 possibleCells.Add(cellPos);

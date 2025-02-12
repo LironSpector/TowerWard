@@ -139,7 +139,8 @@ public class SpecialAbilitiesManager : MonoBehaviour
         GameManager.Instance.fireRateBuffFactor = 1.5f;
 
         // 2) Refresh stats => each tower re-calculates range/fireRate
-        GameManager.Instance.RefreshAllTowersStats();
+        GameManager.Instance.cellManager.RefreshAllTowersStats();
+        //GameManager.Instance.RefreshAllTowersStats();
 
         StartCoroutine(TowerBuffRoutine());
     }
@@ -154,7 +155,8 @@ public class SpecialAbilitiesManager : MonoBehaviour
         GameManager.Instance.fireRateBuffFactor = 1f;
 
         // re-apply stats
-        GameManager.Instance.RefreshAllTowersStats();
+        GameManager.Instance.cellManager.RefreshAllTowersStats();
+        //GameManager.Instance.RefreshAllTowersStats();
 
         // wait cooldown
         yield return new WaitForSeconds(towerBuffCooldown);

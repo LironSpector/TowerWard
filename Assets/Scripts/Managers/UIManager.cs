@@ -95,7 +95,8 @@ public class UIManager : MonoBehaviour
             GameManager.Instance.AddCurrency(refundAmount);
 
             // Free the occupied cell
-            GameManager.Instance.FreeCell(selectedTower.towerGridPosition);
+            GameManager.Instance.cellManager.FreeCell(selectedTower.towerGridPosition);
+            //GameManager.Instance.FreeCell(selectedTower.towerGridPosition);
 
             // Destroy the tower
             Destroy(selectedTower.gameObject);
