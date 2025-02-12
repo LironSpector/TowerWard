@@ -43,7 +43,8 @@ public class LoginSceneManager : MonoBehaviour
     private IEnumerator DelayedAutoLogin(string token, string refreshToken)
     {
         yield return new WaitForSeconds(1f); // Wait for 1 second
-        NetworkManager.Instance.SendAutoLogin(token, refreshToken);
+        NetworkManager.Instance.messageSender.SendAutoLogin(token, refreshToken);
+        //NetworkManager.Instance.SendAutoLogin(token, refreshToken);
         Debug.Log("Passed initial check 3");
     }
 
@@ -91,7 +92,8 @@ public class LoginSceneManager : MonoBehaviour
         }
 
         // Send login request to the server
-        NetworkManager.Instance.LoginUser(username, password);
+        NetworkManager.Instance.messageSender.LoginUser(username, password);
+        //NetworkManager.Instance.LoginUser(username, password);
     }
 
     // Called by the "Register" button OnClick
@@ -114,7 +116,8 @@ public class LoginSceneManager : MonoBehaviour
             return;
         }
 
-        NetworkManager.Instance.RegisterUser(username, password);
+        NetworkManager.Instance.messageSender.RegisterUser(username, password);
+        //NetworkManager.Instance.RegisterUser(username, password);
     }
 
     public void ShowLoginPanel()
@@ -142,7 +145,8 @@ public class LoginSceneManager : MonoBehaviour
         int userId = PlayerPrefs.GetInt("UserId", -1);
         if (userId != -1)
         {
-            NetworkManager.Instance.SendUpdateLastLogin(userId);
+            NetworkManager.Instance.messageSender.SendUpdateLastLogin(userId);
+            //NetworkManager.Instance.SendUpdateLastLogin(userId);
         }
 
         GoToMainMenu();
@@ -158,7 +162,8 @@ public class LoginSceneManager : MonoBehaviour
         int userId = PlayerPrefs.GetInt("UserId", -1);
         if (userId != -1)
         {
-            NetworkManager.Instance.SendUpdateLastLogin(userId);
+            NetworkManager.Instance.messageSender.SendUpdateLastLogin(userId);
+            //NetworkManager.Instance.SendUpdateLastLogin(userId);
         }
 
         GoToMainMenu();

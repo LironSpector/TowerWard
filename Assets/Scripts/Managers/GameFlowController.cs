@@ -60,7 +60,8 @@ public class GameFlowController : MonoBehaviour
                 ["Won"] = true,
             };
 
-            NetworkManager.Instance.SendAuthenticatedMessage("GameOver", dataObj);
+            NetworkManager.Instance.messageSender.SendAuthenticatedMessage("GameOver", dataObj);
+            //NetworkManager.Instance.SendAuthenticatedMessage("GameOver", dataObj);
         }
 
         // 2) Send "GameOverDetailed" => only do it in Single Player or if I'm the winner in Multiplayer
@@ -85,7 +86,7 @@ public class GameFlowController : MonoBehaviour
         string mode = (gameManager.CurrentGameMode == GameManager.GameMode.SinglePlayer) ? "SinglePlayer" : "Multiplayer";
 
         // 3) Send the detailed message
-        NetworkManager.Instance.SendGameOverDetailed(
+        NetworkManager.Instance.messageSender.SendGameOverDetailed(
             user1Id: localUserId,
             user2Id: user2Id,
             mode: mode,
@@ -93,6 +94,14 @@ public class GameFlowController : MonoBehaviour
             finalWave: finalWave,
             timePlayed: timePlayed
         );
+        //NetworkManager.Instance.SendGameOverDetailed(
+        //    user1Id: localUserId,
+        //    user2Id: user2Id,
+        //    mode: mode,
+        //    wonUserId: wonUserId,
+        //    finalWave: finalWave,
+        //    timePlayed: timePlayed
+        //);
     }
 
     public void GameOver() //The player has lost (game over in terms of losing)
@@ -130,7 +139,8 @@ public class GameFlowController : MonoBehaviour
                 ["Won"] = false,
             };
 
-            NetworkManager.Instance.SendAuthenticatedMessage("GameOver", dataObj);
+            NetworkManager.Instance.messageSender.SendAuthenticatedMessage("GameOver", dataObj);
+            //NetworkManager.Instance.SendAuthenticatedMessage("GameOver", dataObj);
 
             // In MULTIPLAYER, we do NOT send "GameOverDetailed" => that’s done only by the winner (in order to not create the same game session twice).
             // So do nothing more here
@@ -146,7 +156,7 @@ public class GameFlowController : MonoBehaviour
             int timePlayed = (int)gameManager.GetGameTimeElapsed();
             string mode = "SinglePlayer";
 
-            NetworkManager.Instance.SendGameOverDetailed(
+            NetworkManager.Instance.messageSender.SendGameOverDetailed(
                 user1Id: localUserId,
                 user2Id: user2Id,
                 mode: mode,
@@ -154,6 +164,14 @@ public class GameFlowController : MonoBehaviour
                 finalWave: finalWave,
                 timePlayed: timePlayed
             );
+            //NetworkManager.Instance.SendGameOverDetailed(
+            //    user1Id: localUserId,
+            //    user2Id: user2Id,
+            //    mode: mode,
+            //    wonUserId: wonUserId,
+            //    finalWave: finalWave,
+            //    timePlayed: timePlayed
+            //);
         }
     }
 

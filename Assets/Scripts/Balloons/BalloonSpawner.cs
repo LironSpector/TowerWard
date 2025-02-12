@@ -114,7 +114,8 @@ public class BalloonSpawner : MonoBehaviour
                 {
                     ["WaveIndex"] = currentWaveIndex,
                 };
-                NetworkManager.Instance.SendAuthenticatedMessage("WaveDone", dataObj);
+                NetworkManager.Instance.messageSender.SendAuthenticatedMessage("WaveDone", dataObj);
+                //NetworkManager.Instance.SendAuthenticatedMessage("WaveDone", dataObj);
             }
         }
     }

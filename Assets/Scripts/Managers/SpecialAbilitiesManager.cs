@@ -193,7 +193,8 @@ public class SpecialAbilitiesManager : MonoBehaviour
         {
             ["AbilityName"] = "FastBalloons",
         };
-        NetworkManager.Instance.SendAuthenticatedMessage("UseMultiplayerAbility", dataObj);
+        NetworkManager.Instance.messageSender.SendAuthenticatedMessage("UseMultiplayerAbility", dataObj);
+        //NetworkManager.Instance.SendAuthenticatedMessage("UseMultiplayerAbility", dataObj);
     }
 
     private void OnBalloonPriceDiscountClicked()
@@ -265,7 +266,8 @@ public class SpecialAbilitiesManager : MonoBehaviour
         {
             ["AbilityName"] = "NoMoneyForOpponent",
         };
-        NetworkManager.Instance.SendAuthenticatedMessage("UseMultiplayerAbility", dataObj);
+        NetworkManager.Instance.messageSender.SendAuthenticatedMessage("UseMultiplayerAbility", dataObj);
+        //NetworkManager.Instance.SendAuthenticatedMessage("UseMultiplayerAbility", dataObj);
 
         // We do NOT do anything locally (since the effect is for the OPPONENT).
         StartCoroutine(NoMoneyOpponentRoutine());
@@ -308,7 +310,8 @@ public class SpecialAbilitiesManager : MonoBehaviour
         {
             ["AbilityName"] = "CloudScreen",
         };
-        NetworkManager.Instance.SendAuthenticatedMessage("UseMultiplayerAbility", dataObj);
+        NetworkManager.Instance.messageSender.SendAuthenticatedMessage("UseMultiplayerAbility", dataObj);
+        //NetworkManager.Instance.SendAuthenticatedMessage("UseMultiplayerAbility", dataObj);
 
 
         StartCoroutine(CloudScreenRoutine());

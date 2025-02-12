@@ -200,7 +200,8 @@ public class GameManager : MonoBehaviour
                 ["BalloonHealth"] = balloonHealth,
                 ["Cost"] = cost,
             };
-            NetworkManager.Instance.SendAuthenticatedMessage("SendBalloon", dataObj);
+            NetworkManager.Instance.messageSender.SendAuthenticatedMessage("SendBalloon", dataObj);
+            //NetworkManager.Instance.SendAuthenticatedMessage("SendBalloon", dataObj);
 
             //Debug.Log($"Sent balloon with health {balloonHealth} to opponent.");
         }

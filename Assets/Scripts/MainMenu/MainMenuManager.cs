@@ -55,7 +55,8 @@ public class MainMenuManager : MonoBehaviour
             int userId = PlayerPrefs.GetInt("UserId", -1);
             if (userId != -1)
             {
-                NetworkManager.Instance.SendUpdateLastLogin(userId);
+                NetworkManager.Instance.messageSender.SendUpdateLastLogin(userId);
+                //NetworkManager.Instance.SendUpdateLastLogin(userId);
             }
 
             NetworkManager.Instance.DisconnectAndQuit();
@@ -70,7 +71,8 @@ public class MainMenuManager : MonoBehaviour
         int userId = PlayerPrefs.GetInt("UserId", -1);
         if (userId != -1)
         {
-            NetworkManager.Instance.SendUpdateLastLogin(userId);
+            NetworkManager.Instance.messageSender.SendUpdateLastLogin(userId);
+            //NetworkManager.Instance.SendUpdateLastLogin(userId);
         }
 
         // Clear token data (and userId) so the next time we start the game or go back to login scene, 
