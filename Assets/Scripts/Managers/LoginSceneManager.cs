@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // If using TextMeshPro
+using TMPro; // For using TextMeshPro
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
@@ -33,9 +33,7 @@ public class LoginSceneManager : MonoBehaviour
         string refreshToken = PlayerPrefs.GetString("RefreshToken", "");
         Debug.Log("Access token is this: " + token);
         Debug.Log("Refresh token is this: " + refreshToken);
-        //Debug.Log("Passed initial check 2");
-        //NetworkManager.Instance.SendAutoLogin(token);
-        //Debug.Log("Passed initial check 3");
+
         // Start a coroutine to delay the execution by 1 second
         StartCoroutine(DelayedAutoLogin(token, refreshToken));
     }
@@ -47,36 +45,6 @@ public class LoginSceneManager : MonoBehaviour
         //NetworkManager.Instance.SendAutoLogin(token, refreshToken);
         Debug.Log("Passed initial check 3");
     }
-
-    /// <summary>
-    /// Checks if there's an AccessToken + Expiry in PlayerPrefs. 
-    /// If it's still in the future, we consider it valid. 
-    /// (This is a simple approach; in real code, you might parse the JWT or do a server check.)
-    /// </summary>
-    //private bool CheckExistingTokenValid()
-    //{
-    //    string accessToken = PlayerPrefs.GetString("AccessToken", "");
-    //    string expiryString = PlayerPrefs.GetString("AccessTokenExpiry", "");
-    //    // if we never stored the expiry, this might be blank.
-
-    //    if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(expiryString))
-    //    {
-    //        Debug.Log("It is null or empty");
-    //        return false; // no token
-    //    }
-
-    //    if (DateTime.TryParse(expiryString, out DateTime expiry))
-    //    {
-    //        // If it's still valid
-    //        if (DateTime.UtcNow < expiry)
-    //        {
-    //            Debug.Log("[LoginSceneManager] Found unexpired token in PlayerPrefs.");
-    //            return true;
-    //        }
-    //    }
-    //    Debug.Log("It is expired");
-    //    return false;
-    //}
 
     // Called by the "Login" button OnClick
     public void OnClickLogin()
@@ -93,7 +61,6 @@ public class LoginSceneManager : MonoBehaviour
 
         // Send login request to the server
         NetworkManager.Instance.messageSender.LoginUser(username, password);
-        //NetworkManager.Instance.LoginUser(username, password);
     }
 
     // Called by the "Register" button OnClick
@@ -117,7 +84,6 @@ public class LoginSceneManager : MonoBehaviour
         }
 
         NetworkManager.Instance.messageSender.RegisterUser(username, password);
-        //NetworkManager.Instance.RegisterUser(username, password);
     }
 
     public void ShowLoginPanel()
@@ -146,7 +112,6 @@ public class LoginSceneManager : MonoBehaviour
         if (userId != -1)
         {
             NetworkManager.Instance.messageSender.SendUpdateLastLogin(userId);
-            //NetworkManager.Instance.SendUpdateLastLogin(userId);
         }
 
         GoToMainMenu();
@@ -163,7 +128,6 @@ public class LoginSceneManager : MonoBehaviour
         if (userId != -1)
         {
             NetworkManager.Instance.messageSender.SendUpdateLastLogin(userId);
-            //NetworkManager.Instance.SendUpdateLastLogin(userId);
         }
 
         GoToMainMenu();
