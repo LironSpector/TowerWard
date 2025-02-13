@@ -12,7 +12,6 @@ public class MatchmakingManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
             Debug.Log("MatchmakingManager has awaken!");
         }
         else

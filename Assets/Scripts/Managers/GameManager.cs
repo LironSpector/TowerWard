@@ -116,7 +116,6 @@ public class GameManager : MonoBehaviour
         if (lives <= 0)
         {
             flowController.GameOver();
-            //GameOver();
         }
     }
 
@@ -178,30 +177,12 @@ public class GameManager : MonoBehaviour
         {
             SpendCurrency(cost);
 
-            // Prepare message
-            // Instead of "BalloonType", we do "BalloonHealth"
             // We also keep "Cost" if needed, or you might omit it.
-
-            //var message = new
-            //{
-            //    Type = "SendBalloon",
-            //    Data = new
-            //    {
-            //        BalloonHealth = balloonHealth,
-            //        Cost = cost
-            //    }
-            //};
-
-            //string jsonMessage = JsonConvert.SerializeObject(message);
-            //NetworkManager.Instance.SendMessageWithLengthPrefix(jsonMessage);
-
             JObject dataObj = new JObject
             {
                 ["BalloonHealth"] = balloonHealth,
-                ["Cost"] = cost,
             };
             NetworkManager.Instance.messageSender.SendAuthenticatedMessage("SendBalloon", dataObj);
-            //NetworkManager.Instance.SendAuthenticatedMessage("SendBalloon", dataObj);
 
             //Debug.Log($"Sent balloon with health {balloonHealth} to opponent.");
         }

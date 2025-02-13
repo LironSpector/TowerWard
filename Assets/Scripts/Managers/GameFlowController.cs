@@ -52,16 +52,12 @@ public class GameFlowController : MonoBehaviour
         // 1) Notify the other client that I (local) won => "GameOver" with {Won=true}
         if (gameManager.CurrentGameMode == GameManager.GameMode.Multiplayer)
         {
-            //string message = "{\"Type\":\"GameOver\",\"Data\":{\"Won\":true}}";
-            //NetworkManager.Instance.SendMessageWithLengthPrefix(message);
-
             JObject dataObj = new JObject
             {
                 ["Won"] = true,
             };
 
             NetworkManager.Instance.messageSender.SendAuthenticatedMessage("GameOver", dataObj);
-            //NetworkManager.Instance.SendAuthenticatedMessage("GameOver", dataObj);
         }
 
         // 2) Send "GameOverDetailed" => only do it in Single Player or if I'm the winner in Multiplayer
@@ -94,14 +90,6 @@ public class GameFlowController : MonoBehaviour
             finalWave: finalWave,
             timePlayed: timePlayed
         );
-        //NetworkManager.Instance.SendGameOverDetailed(
-        //    user1Id: localUserId,
-        //    user2Id: user2Id,
-        //    mode: mode,
-        //    wonUserId: wonUserId,
-        //    finalWave: finalWave,
-        //    timePlayed: timePlayed
-        //);
     }
 
     public void GameOver() //The player has lost (game over in terms of losing)
@@ -131,16 +119,12 @@ public class GameFlowController : MonoBehaviour
             }
 
             // Notify the server of the game over (and I lost)
-            //string message = "{\"Type\":\"GameOver\",\"Data\":{\"Won\":false}}";
-            //NetworkManager.Instance.SendMessageWithLengthPrefix(message);
-
             JObject dataObj = new JObject
             {
                 ["Won"] = false,
             };
 
             NetworkManager.Instance.messageSender.SendAuthenticatedMessage("GameOver", dataObj);
-            //NetworkManager.Instance.SendAuthenticatedMessage("GameOver", dataObj);
 
             // In MULTIPLAYER, we do NOT send "GameOverDetailed" => that’s done only by the winner (in order to not create the same game session twice).
             // So do nothing more here
@@ -164,14 +148,6 @@ public class GameFlowController : MonoBehaviour
                 finalWave: finalWave,
                 timePlayed: timePlayed
             );
-            //NetworkManager.Instance.SendGameOverDetailed(
-            //    user1Id: localUserId,
-            //    user2Id: user2Id,
-            //    mode: mode,
-            //    wonUserId: wonUserId,
-            //    finalWave: finalWave,
-            //    timePlayed: timePlayed
-            //);
         }
     }
 

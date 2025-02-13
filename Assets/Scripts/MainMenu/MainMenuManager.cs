@@ -56,11 +56,9 @@ public class MainMenuManager : MonoBehaviour
             if (userId != -1)
             {
                 NetworkManager.Instance.messageSender.SendUpdateLastLogin(userId);
-                //NetworkManager.Instance.SendUpdateLastLogin(userId);
             }
 
             NetworkManager.Instance.DisconnectAndQuit();
-            //NetworkManager.Instance.Disconnect(); // you can write a custom Disconnect method
         }
         Application.Quit();
     }
@@ -72,7 +70,6 @@ public class MainMenuManager : MonoBehaviour
         if (userId != -1)
         {
             NetworkManager.Instance.messageSender.SendUpdateLastLogin(userId);
-            //NetworkManager.Instance.SendUpdateLastLogin(userId);
         }
 
         // Clear token data (and userId) so the next time we start the game or go back to login scene, 
@@ -84,8 +81,7 @@ public class MainMenuManager : MonoBehaviour
         PlayerPrefs.DeleteKey("UserId");
         PlayerPrefs.Save();
 
-        // Optional: If you want to load the LoginScene immediately:
-        SceneManager.LoadScene("LoginScene");
+        SceneManager.LoadScene("LoginScene"); // Go back to the LoginScene immediately
     }
 
 }

@@ -6,8 +6,7 @@ public class MoneyTower : Tower
     private float currentInterval = 5f;   // from towerData.levels[level-1].specialInterval
     private int currentMoneyGive = 10;    // from towerData.levels[level-1].specialValue
 
-    // Assign in Inspector - a small prefab with a money sprite + a script that floats/fades out
-    public GameObject moneyFxPrefab;
+    public GameObject moneyFxPrefab; // Assign in Inspector - a small prefab with a money sprite + a script that floats/fades out
 
     protected override void Start()
     {

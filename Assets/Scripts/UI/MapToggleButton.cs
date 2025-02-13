@@ -3,7 +3,7 @@ using TMPro;
 
 public class MapToggleButton : MonoBehaviour
 {
-    private bool isShowingMap = false; // Our local knowledge: are we currently seeing the opponent’s map?
+    private bool isShowingMap = false; // are we currently seeing the opponent’s map?
 
     public TextMeshProUGUI toggleMapButtonText;
 
@@ -26,10 +26,6 @@ public class MapToggleButton : MonoBehaviour
             toggleMapButtonText.text = "Hide Map";
             // Send "ShowSnapshots" message to the server => Opponent will start capturing
             NetworkManager.Instance.messageSender.SendAuthenticatedMessage("ShowSnapshots", null);
-            //NetworkManager.Instance.SendAuthenticatedMessage("ShowSnapshots", null);
-
-            //string msg = "{\"Type\":\"ShowSnapshots\"}";
-            //NetworkManager.Instance.SendMessageWithLengthPrefix(msg);
 
             // Also show the snapshot UI (top-left) for us to see the incoming snapshots
             UIManager.Instance.SetOpponentSnapshotPanel(true);
@@ -40,10 +36,6 @@ public class MapToggleButton : MonoBehaviour
             toggleMapButtonText.text = "Show Map";
             // Send "HideSnapshots" => Opponent stops capturing
             NetworkManager.Instance.messageSender.SendAuthenticatedMessage("HideSnapshots", null);
-            //NetworkManager.Instance.SendAuthenticatedMessage("HideSnapshots", null);
-
-            //string msg = "{\"Type\":\"HideSnapshots\"}";
-            //NetworkManager.Instance.SendMessageWithLengthPrefix(msg);
 
             // Hide snapshot UI for us
             UIManager.Instance.SetOpponentSnapshotPanel(false);

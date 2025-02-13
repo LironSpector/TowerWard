@@ -76,7 +76,6 @@ public class SnapshotManager : MonoBehaviour
 
         string jsonMessage = JsonConvert.SerializeObject(snapshotMessage);
         NetworkManager.Instance.messageSender.SendMessageWithLengthPrefix(jsonMessage);
-        //NetworkManager.Instance.SendMessageWithLengthPrefix(jsonMessage);
 
         //Works without it, but maybe add this to free memory:
         //Destroy(snapshot);

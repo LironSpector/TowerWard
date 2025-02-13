@@ -96,7 +96,6 @@ public class UIManager : MonoBehaviour
 
             // Free the occupied cell
             GameManager.Instance.cellManager.FreeCell(selectedTower.towerGridPosition);
-            //GameManager.Instance.FreeCell(selectedTower.towerGridPosition);
 
             // Destroy the tower
             Destroy(selectedTower.gameObject);

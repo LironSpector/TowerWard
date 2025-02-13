@@ -42,7 +42,6 @@ public class LoginSceneManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f); // Wait for 1 second
         NetworkManager.Instance.messageSender.SendAutoLogin(token, refreshToken);
-        //NetworkManager.Instance.SendAutoLogin(token, refreshToken);
         Debug.Log("Passed initial check 3");
     }
 

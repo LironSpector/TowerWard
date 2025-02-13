@@ -18,8 +18,6 @@ public class BankManager : MonoBehaviour
     private bool isInvesting = false;    // track if we already have an ongoing investment
     private int investedAmount = 0;      // how much was invested
 
-    public GameObject moneyFxPrefab;
-
     void Start()
     {
         // Hook up event listeners
@@ -84,24 +82,6 @@ public class BankManager : MonoBehaviour
             investedAmount = amount;
             isInvesting = true;
 
-            //MoneyFloatFx (not working):
-            //if (moneyFxPrefab != null)
-            //{
-            //    Debug.Log("ABC");
-            //    // For example, spawn at the tower's position or slightly above
-            //    Vector3 spawnPos = transform.position + new Vector3(0, 4.5f, 0);
-            //    GameObject instance = Instantiate(moneyFxPrefab, spawnPos, Quaternion.identity);
-
-            //    // Access the MoneyFloatFx component on the instantiated prefab
-            //    MoneyFloatFx moneyFloatFx = instance.GetComponent<MoneyFloatFx>();
-            //    if (moneyFloatFx != null)
-            //    {
-            //        Debug.Log("ABC");
-            //        // Set moveUp to true
-            //        moneyFloatFx.moveUp = false;
-            //    }
-            //}
-
             Debug.Log($"Invested {amount} currency in the bank. It will return in {investDuration} seconds with a multiplier of {investReturnMultiplier}.");
 
             // Optionally hide input & submit again
@@ -129,22 +109,6 @@ public class BankManager : MonoBehaviour
         // Return money * 1.2
         int finalAmount = Mathf.RoundToInt(investedAmount * investReturnMultiplier);
         GameManager.Instance.AddCurrency(finalAmount);
-
-        //MoneyFloatFx (not working):
-        //if (moneyFxPrefab != null)
-        //{
-        //    // For example, spawn at the tower's position or slightly above
-        //    Vector3 spawnPos = transform.position + new Vector3(-0, 0.5f, 0);
-        //    GameObject instance = Instantiate(moneyFxPrefab, spawnPos, Quaternion.identity);
-
-        //    // Access the MoneyFloatFx component on the instantiated prefab
-        //    MoneyFloatFx moneyFloatFx = instance.GetComponent<MoneyFloatFx>();
-        //    if (moneyFloatFx != null)
-        //    {
-        //        // Set moveUp to true
-        //        moneyFloatFx.moveUp = true;
-        //    }
-        //}
 
         Debug.Log($"Investment of {investedAmount} is returned as {finalAmount}.");
 

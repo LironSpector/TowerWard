@@ -32,10 +32,6 @@ public class NetworkMessageSender : MonoBehaviour
         net.stream.Write(messageBytes, 0, messageBytes.Length);
 
 
-        //Debug.Log("[CLIENT] Sent ENCRYPTED: " + plainJson);
-
-        //net.SendEncrypted(cipherBase64);
-
         //Debug.Log("[CLIENT] Sent ENCRYPTED => " + plainJson);
     }
 

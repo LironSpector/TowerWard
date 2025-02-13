@@ -15,7 +15,6 @@ public class SurpriseBox : MonoBehaviour
 
         // Occupy that cell in GameManager
         GameManager.Instance.cellManager.OccupyCellWithBox(cellPosition, this);
-        //GameManager.Instance.OccupyCellWithBox(cellPosition, this);
     }
 
     // If user clicks the box
@@ -29,7 +28,6 @@ public class SurpriseBox : MonoBehaviour
 
             // Free the cell
             GameManager.Instance.cellManager.FreeCellFromBox(cellPosition);
-            //GameManager.Instance.FreeCellFromBox(cellPosition);
 
             // Let the manager know
             SurpriseBoxManager.Instance.OnBoxClaimed(this);
@@ -46,7 +44,6 @@ public class SurpriseBox : MonoBehaviour
         {
             // Free the cell
             GameManager.Instance.cellManager.FreeCellFromBox(cellPosition);
-            //GameManager.Instance.FreeCellFromBox(cellPosition);
         }
         Destroy(gameObject);
     }
