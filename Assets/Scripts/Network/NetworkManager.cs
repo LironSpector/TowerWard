@@ -15,7 +15,8 @@ public class NetworkManager : MonoBehaviour
     public static NetworkManager Instance;
 
     [Header("Server Connection")]
-    [SerializeField] private string serverIP = "10.100.102.11";
+    //[SerializeField] private string serverIP = "10.100.102.11";
+    [SerializeField] private string serverIP = "10.100.102.7"; //Make sure to also change it from the Inspector in Unity if it changes
     //private string serverIP = "127.0.0.1";
     [SerializeField] private int port = 5555;
 

@@ -41,6 +41,10 @@ public class LoginSceneManager : MonoBehaviour
     private IEnumerator DelayedAutoLogin(string token, string refreshToken)
     {
         yield return new WaitForSeconds(1f); // Wait for 1 second
+
+        Debug.Log("Connected? " + NetworkManager.Instance.isConnected);
+        Debug.Log("isHandshakeCompleted? " + NetworkManager.Instance.isHandshakeCompleted);
+
         NetworkManager.Instance.messageSender.SendAutoLogin(token, refreshToken);
         Debug.Log("Passed initial check 3");
     }

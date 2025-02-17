@@ -2350,6 +2350,10 @@ PrefabInstance:
       value: NetworkManager
       objectReference: {fileID: 0}
     - target: {fileID: 5804894479830548423, guid: f835258cfc4850e4a973eec9ef5be078, type: 3}
+      propertyPath: serverIP
+      value: 10.100.102.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5804894479830548423, guid: f835258cfc4850e4a973eec9ef5be078, type: 3}
       propertyPath: messageSender
       value: 
       objectReference: {fileID: 115139982}
