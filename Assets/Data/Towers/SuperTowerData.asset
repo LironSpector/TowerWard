@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SuperTowerData
   m_EditorClassIdentifier: 
   towerName: Basic Tower
-  towerSprite: {fileID: 21300000, guid: 1e7fc35eea5267540bea979712f38b40, type: 3}
+  towerSprite: {fileID: 21300000, guid: a111643aaa6034f49a61e32f8b9e7509, type: 3}
   levels:
   - upgradeCost: 100
     range: 1.25
@@ -26,7 +26,7 @@ MonoBehaviour:
     slowFactor: 0
     poisonDuration: 0
     poisonTickInterval: 0
-    towerLevelSprite: {fileID: 21300000, guid: 81fe499dc32db0f4c997c8b6edb2e420, type: 3}
+    towerLevelSprite: {fileID: 21300000, guid: a111643aaa6034f49a61e32f8b9e7509, type: 3}
   - upgradeCost: 150
     range: 1.25
     fireRate: 2.5
@@ -38,7 +38,7 @@ MonoBehaviour:
     slowFactor: 0
     poisonDuration: 0
     poisonTickInterval: 0
-    towerLevelSprite: {fileID: 21300000, guid: a6e55c9373980c1469b8682fcd7f8ee8, type: 3}
+    towerLevelSprite: {fileID: 21300000, guid: 1770c89c86eb26f4593c03fb261752e8, type: 3}
   - upgradeCost: 200
     range: 2.5
     fireRate: 10
@@ -50,4 +50,4 @@ MonoBehaviour:
     slowFactor: 0
     poisonDuration: 0
     poisonTickInterval: 0
-    towerLevelSprite: {fileID: 21300000, guid: 135197f9c7e47044aa17d8a5910a9f7d, type: 3}
+    towerLevelSprite: {fileID: 21300000, guid: 97f659a2226b7464aafa168dbf4eff42, type: 3}

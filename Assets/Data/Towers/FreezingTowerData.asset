@@ -13,32 +13,41 @@ MonoBehaviour:
   m_Name: FreezingTowerData
   m_EditorClassIdentifier: 
   towerName: Basic Tower
-  towerSprite: {fileID: 21300000, guid: 1e7fc35eea5267540bea979712f38b40, type: 3}
+  towerSprite: {fileID: 21300000, guid: 7cf185d13853403469af8d99d49647ce, type: 3}
   levels:
   - upgradeCost: 100
     range: 1.25
     fireRate: 1
     damage: 1
+    specialInterval: 0
+    specialValue: 0
     freezeDuration: 2
     slowDuration: 0
     slowFactor: 0
     poisonDuration: 0
     poisonTickInterval: 0
+    towerLevelSprite: {fileID: 21300000, guid: 7cf185d13853403469af8d99d49647ce, type: 3}
   - upgradeCost: 150
     range: 1.25
     fireRate: 2.5
     damage: 1
+    specialInterval: 0
+    specialValue: 0
     freezeDuration: 5
     slowDuration: 0
     slowFactor: 0
     poisonDuration: 0
     poisonTickInterval: 0
+    towerLevelSprite: {fileID: 21300000, guid: 60e2439cf8958314eaefafbeb9078b7e, type: 3}
   - upgradeCost: 200
     range: 2.5
     fireRate: 4
     damage: 1
+    specialInterval: 0
+    specialValue: 0
     freezeDuration: 10
     slowDuration: 0
     slowFactor: 0
     poisonDuration: 0
     poisonTickInterval: 0
+    towerLevelSprite: {fileID: 21300000, guid: 61d6e15d02eea664592cf041fed3b5cb, type: 3}

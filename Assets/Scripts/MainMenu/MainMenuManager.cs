@@ -7,6 +7,11 @@ public class MainMenuManager : MonoBehaviour
 {
     public TextMeshProUGUI connectionStatusText;
 
+    // Add a reference to the tutorial manager.
+    // If you prefer, you can use a singleton pattern or `FindObjectOfType<TutorialUIManager>()`,
+    // but let's keep it a public reference for clarity.
+    public TutorialUIManager tutorialUIManager;
+
     void Start()
     {
         Debug.Log("Started Main Menu");
@@ -38,7 +43,7 @@ public class MainMenuManager : MonoBehaviour
             // Request matchmaking
             NetworkManager.Instance.RequestMatchmaking();
 
-            // Load the game scene
+            // Load the WaitingScene
             SceneManager.LoadScene("WaitingScene");
         }
         else
@@ -72,8 +77,7 @@ public class MainMenuManager : MonoBehaviour
             NetworkManager.Instance.messageSender.SendUpdateLastLogin(userId);
         }
 
-        // Clear token data (and userId) so the next time we start the game or go back to login scene, 
-        // we won't skip login
+        // Clear token data (and userId) so the next time we start the game or go back to login scene, we won't skip login
         PlayerPrefs.DeleteKey("AccessToken");
         PlayerPrefs.DeleteKey("AccessTokenExpiry");
         PlayerPrefs.DeleteKey("RefreshToken");
@@ -84,4 +88,16 @@ public class MainMenuManager : MonoBehaviour
         SceneManager.LoadScene("LoginScene"); // Go back to the LoginScene immediately
     }
 
+    public void OnTutorialButtonClicked()
+    {
+        // If we have a reference to the tutorial manager, show the tutorial.
+        if (tutorialUIManager != null)
+        {
+            tutorialUIManager.ShowTutorial();
+        }
+        else
+        {
+            Debug.LogWarning("TutorialUIManager reference is not assigned in MainMenuManager!");
+        }
+    }
 }
