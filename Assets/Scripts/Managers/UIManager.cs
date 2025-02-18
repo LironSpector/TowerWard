@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [Header("Tower Panel References")]
     public GameObject towerPanel;
     public TextMeshProUGUI towerNameText;
     public TextMeshProUGUI towerLevelText;
@@ -15,10 +16,18 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI upgradeStatsText;
     public Button upgradeButton;
     public Button sellButton;
+    public Image towerIconImage;
 
+    [Header("Player Panel References")]
+    public GameObject playerPanel;
+    public TextMeshProUGUI waveNumberText;
+    public Button exitGameButton;
+    public Button settingsButton;
+    public SettingsPanel settingsPanel;
 
     private Tower selectedTower;
 
+    [Header("Opponent Snapshot")]
     public RawImage opponentSnapshotImage; // Assign in Inspector
     public GameObject opponentSnapshotPanel; // Assign in Inspector
 
@@ -30,19 +39,34 @@ public class UIManager : MonoBehaviour
         else
             Destroy(gameObject);
 
+        // By default, show the Player Panel (no tower selected)
+        playerPanel.SetActive(true);
+        // By default, hide the Tower Panel
         towerPanel.SetActive(false);
+
+        // Hook up the buttons
+        if (exitGameButton != null)
+            exitGameButton.onClick.AddListener(OnExitGameButtonClicked);
+
+        if (settingsButton != null)
+            settingsButton.onClick.AddListener(OnSettingsButtonClicked);
     }
 
     public void ShowTowerPanel(Tower tower)
     {
+        // Hide Player Panel
+        if (playerPanel != null)
+            playerPanel.SetActive(false);
+
+        // Hide range indicator from previously selected tower, if any
         if (selectedTower != null)
-        {
             selectedTower.HideRangeIndicator(); // Hide previous tower's range indicator
-        }
 
         selectedTower = tower;
         selectedTower.ShowRangeIndicator(); // Show selected tower's range indicator
         UpdateTowerPanel();
+
+        // Show Tower Panel
         towerPanel.SetActive(true);
     }
 
@@ -55,9 +79,11 @@ public class UIManager : MonoBehaviour
         }
 
         towerPanel.SetActive(false);
+
+        // Show the Player Panel again
+        if (playerPanel != null)
+            playerPanel.SetActive(true);
     }
-
-
 
     public void OnUpgradeButtonClicked()
     {
@@ -112,13 +138,22 @@ public class UIManager : MonoBehaviour
             towerNameText.text = selectedTower.towerData.towerName;
             towerLevelText.text = "Level: " + selectedTower.level;
 
+            // 1) Display the main tower sprite (from TowerData)
+            if (towerIconImage != null)
+            {
+                Debug.Log("Not null!");
+                towerIconImage.sprite = selectedTower.towerData.towerSprite;
+            }
+            else
+                Debug.Log("Is null!");
+
+            // 2) Update upgrade button and text
             if (selectedTower.CanUpgrade())
             {
                 upgradeCostText.text = "Upgrade Cost: " + selectedTower.GetUpgradeCost();
                 upgradeButton.interactable = true;
                 upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Upgrade";
 
-                // --- NEW CODE: show upgrade stats ---
                 ShowUpgradeDifferences(selectedTower);
             }
             else
@@ -130,11 +165,11 @@ public class UIManager : MonoBehaviour
                 // If max level, clear stats or show something like "No further upgrades"
                 if (upgradeStatsText != null)
                 {
-                    upgradeStatsText.text = "No upgrades Available. Your tower has reaches the maximum improvements!";
+                    upgradeStatsText.text = "No upgrades available. Tower is at max level!";
                 }
             }
 
-            // Update the Sell Button text to show refund amount
+            // 3) Update the Sell Button text to show refund amount
             int sellValue = selectedTower.GetSellValue();
             sellButton.GetComponentInChildren<TextMeshProUGUI>().text = "Sell ($" + sellValue + ")";
         }
@@ -144,6 +179,10 @@ public class UIManager : MonoBehaviour
             if (upgradeStatsText != null)
             {
                 upgradeStatsText.text = "";
+            }
+            if (towerIconImage != null)
+            {
+                towerIconImage.sprite = null; // Clear the tower image if no tower is selected
             }
         }
     }
@@ -276,6 +315,39 @@ public class UIManager : MonoBehaviour
             }
         }
 
+        // If PlayerPanel is active, continuously update wave number
+        if (playerPanel.activeSelf && waveNumberText != null)
+        {
+            // Adjust according to how you track waves:
+            int waveIndex = BalloonSpawner.Instance.GetCurrentWaveIndex();
+            waveNumberText.text = waveIndex.ToString();
+        }
+
+    }
+
+    // Called when "Exit" is clicked in PlayerPanel
+    private void OnExitGameButtonClicked()
+    {
+        // This replicates logic from MainMenuManager.OnExitButtonClicked()
+        if (NetworkManager.Instance != null && NetworkManager.Instance.isConnected)
+        {
+            int userId = PlayerPrefs.GetInt("UserId", -1);
+            if (userId != -1)
+            {
+                NetworkManager.Instance.messageSender.SendUpdateLastLogin(userId);
+            }
+            NetworkManager.Instance.DisconnectAndQuit();
+        }
+        Application.Quit();
+    }
+
+    // Called when "Settings" is clicked in PlayerPanel
+    private void OnSettingsButtonClicked()
+    {
+        if (settingsPanel != null)
+        {
+            settingsPanel.ShowSettings();
+        }
     }
 
     public void SetOpponentSnapshotPanel(bool isActive)  //Also used in intention to: "bool isMultiplayer"

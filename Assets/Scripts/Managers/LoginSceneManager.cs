@@ -110,8 +110,8 @@ public class LoginSceneManager : MonoBehaviour
     public void ShowLoginPanel()
     {
         loginPanel.SetActive(true);
-        // registerPanel.SetActive(false);
-        registerPanel.SetActive(true); // For testing
+        registerPanel.SetActive(false);
+        //registerPanel.SetActive(true); // For testing
         statusText.text = "";
     }
 
