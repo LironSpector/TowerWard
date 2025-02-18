@@ -13,32 +13,41 @@ MonoBehaviour:
   m_Name: PoisonTowerData
   m_EditorClassIdentifier: 
   towerName: Basic Tower
-  towerSprite: {fileID: 21300000, guid: 1e7fc35eea5267540bea979712f38b40, type: 3}
+  towerSprite: {fileID: 21300000, guid: 7c2988d43ed32fd41bdfd4b818336eba, type: 3}
   levels:
   - upgradeCost: 100
     range: 1.25
     fireRate: 1
     damage: 1
+    specialInterval: 0
+    specialValue: 0
     freezeDuration: 0
     slowDuration: 0
     slowFactor: 0
     poisonDuration: 2
     poisonTickInterval: 1
+    towerLevelSprite: {fileID: 21300000, guid: 7c2988d43ed32fd41bdfd4b818336eba, type: 3}
   - upgradeCost: 150
     range: 1.25
     fireRate: 2.5
     damage: 1
+    specialInterval: 0
+    specialValue: 0
     freezeDuration: 0
     slowDuration: 0
     slowFactor: 0
     poisonDuration: 5
     poisonTickInterval: 1
+    towerLevelSprite: {fileID: 21300000, guid: 9b3a85afe40025c4f90548518b82e9f3, type: 3}
   - upgradeCost: 200
     range: 2.5
     fireRate: 4
     damage: 1
+    specialInterval: 0
+    specialValue: 0
     freezeDuration: 0
     slowDuration: 0
     slowFactor: 0
     poisonDuration: 10
     poisonTickInterval: 1
+    towerLevelSprite: {fileID: 21300000, guid: 63cd66a8174086642b2f28b243f37c16, type: 3}
