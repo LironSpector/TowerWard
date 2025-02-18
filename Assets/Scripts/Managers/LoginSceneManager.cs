@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 
-
 public class LoginSceneManager : MonoBehaviour
 {
     [Header("Panels")]
@@ -52,6 +51,7 @@ public class LoginSceneManager : MonoBehaviour
     // Called by the "Login" button OnClick
     public void OnClickLogin()
     {
+        // Grab input
         string username = loginUsernameField.text;
         string password = loginPasswordField.text;
 
@@ -62,6 +62,13 @@ public class LoginSceneManager : MonoBehaviour
             return;
         }
 
+        // Basic malicious pattern checks (client-side)
+        if (!InputValidator.IsSafeInput(username) || !InputValidator.IsSafeInput(password))
+        {
+            statusText.text = "Invalid or potentially dangerous input detected. Please try again.";
+            return;
+        }
+
         // Send login request to the server
         NetworkManager.Instance.messageSender.LoginUser(username, password);
     }
@@ -69,6 +76,7 @@ public class LoginSceneManager : MonoBehaviour
     // Called by the "Register" button OnClick
     public void OnClickRegister()
     {
+        // Grab input
         string username = registerUsernameField.text;
         string password = registerPasswordField.text;
         string confirmPassword = registerConfirmPasswordField.text;
@@ -79,6 +87,16 @@ public class LoginSceneManager : MonoBehaviour
             statusText.text = "Please fill in all fields.";
             return;
         }
+
+        // Basic malicious pattern checks
+        if (!InputValidator.IsSafeInput(username) ||
+            !InputValidator.IsSafeInput(password) ||
+            !InputValidator.IsSafeInput(confirmPassword))
+        {
+            statusText.text = "Invalid or potentially dangerous input detected. Please try again.";
+            return;
+        }
+
         if (!password.Equals(confirmPassword))
         {
             // Password mismatch
@@ -92,8 +110,8 @@ public class LoginSceneManager : MonoBehaviour
     public void ShowLoginPanel()
     {
         loginPanel.SetActive(true);
-        //registerPanel.SetActive(false);
-        registerPanel.SetActive(true); //For testing
+        // registerPanel.SetActive(false);
+        registerPanel.SetActive(true); // For testing
         statusText.text = "";
     }
 
