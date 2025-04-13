@@ -1,14 +1,32 @@
 using UnityEngine;
 
+/// <summary>
+/// Description:
+/// Provides utility methods for balloons, such as obtaining the appropriate statistics
+/// (movement speed, reward, immunities, and default sprite) based on the balloon's health.
+/// The GetStatsForHealth method uses predefined health thresholds to determine which attributes
+/// to return in a BalloonStats struct.
+/// </summary>
 public static class BalloonUtils
 {
     /// <summary>
-    /// Returns a BalloonStats struct containing speed, reward, immunities, and the
-    /// sprite for a balloon of a given health.
+    /// Returns a <see cref="BalloonStats"/> struct containing the speed, reward, immunities,
+    /// and normal sprite for a balloon of a given health.
+    /// The method uses a series of conditional checks against health thresholds to populate the stats.
     /// </summary>
+    /// <param name="balloon">
+    /// A reference to the <see cref="Balloon"/> instance. It provides access to the sprite references
+    /// that are used to set the balloon's visual appearance.
+    /// </param>
+    /// <param name="health">
+    /// The current health value of the balloon.
+    /// </param>
+    /// <returns>
+    /// A <see cref="BalloonStats"/> struct with values appropriate for the provided health.
+    /// </returns>
     public static BalloonStats GetStatsForHealth(Balloon balloon, int health)
     {
-        // Fill in a 'stats' object by referencing balloon's sprites and health thresholds.
+        // Initialize the stats object.
         BalloonStats stats = new BalloonStats();
 
         if (health == 1)

@@ -3,13 +3,18 @@ using Newtonsoft.Json.Linq;
 using System.Collections;
 
 /// <summary>
-/// Processes decrypted JSON messages from the server (the 'HandleMessage' switch).
-/// Also includes coroutines for special abilities, etc.
+/// Description:
+/// Processes decrypted JSON messages received from the server by switching on the message type and delegating to the appropriate handler methods.
+/// Also contains coroutines for handling special multiplayer abilities such as "NoMoneyForOpponent", "CloudScreen", and "FastBalloons".
 /// </summary>
 public class NetworkMessageHandler : MonoBehaviour
 {
     private NetworkManager net;
 
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// Retrieves the NetworkManager component attached to the same GameObject.
+    /// </summary>
     void Awake()
     {
         net = GetComponent<NetworkManager>();
@@ -17,7 +22,9 @@ public class NetworkMessageHandler : MonoBehaviour
 
     /// <summary>
     /// Main entry point for handling a decrypted JSON message from the server.
+    /// Parses the message and invokes the specific handler based on the "Type" field.
     /// </summary>
+    /// <param name="data">A decrypted JSON string received from the server.</param>
     public void HandleMessage(string data)
     {
         Debug.Log("[CLIENT] Decrypted message: " + data);
@@ -93,9 +100,13 @@ public class NetworkMessageHandler : MonoBehaviour
         }
     }
 
-    // -----------------------------
-    //  Individual Handlers
-    // -----------------------------
+    #region Individual Handlers
+
+    /// <summary>
+    /// Handles the "MatchFound" message by extracting the opponent's ID, saving it in PlayerPrefs,
+    /// and notifying the MatchmakingManager or GameFlowController.
+    /// </summary>
+    /// <param name="msgObj">The JSON object containing match found data.</param>
     private void HandleMatchFound(JObject msgObj)
     {
         JObject dataObj = (JObject)msgObj["Data"];
@@ -124,6 +135,11 @@ public class NetworkMessageHandler : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Handles the "SendBalloon" message by extracting the balloon health data
+    /// and instructs the GameManager to spawn an opponent balloon with that health.
+    /// </summary>
+    /// <param name="msgObj">The JSON object containing balloon sending data.</param>
     private void HandleSendBalloon(JObject msgObj)
     {
         JObject dataObj = (JObject)msgObj["Data"];
@@ -135,13 +151,16 @@ public class NetworkMessageHandler : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Handles the "GameSnapshot" message by deserializing the snapshot data and instructing the UIManager
+    /// to update the opponent snapshot display.
+    /// </summary>
+    /// <param name="msgObj">The JSON object containing the game snapshot data.</param>
     private void HandleGameSnapshot(JObject msgObj)
     {
-        // Deserialize into GameSnapshotMessage
+        // Deserialize into GameSnapshotMessage.
         GameSnapshotMessage snapshotMsg = msgObj.ToObject<GameSnapshotMessage>();
-
         string imageData = snapshotMsg.Data.ImageData;
-        //Debug.Log("imageData: " + imageData);
 
         UnityMainThreadDispatcher.Instance().Enqueue(() =>
         {
@@ -149,6 +168,9 @@ public class NetworkMessageHandler : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Handles the "ShowSnapshots" message by enabling snapshot sending.
+    /// </summary>
     private void HandleShowSnapshots()
     {
         UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -157,6 +179,9 @@ public class NetworkMessageHandler : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Handles the "HideSnapshots" message by disabling snapshot sending.
+    /// </summary>
     private void HandleHideSnapshots()
     {
         UnityMainThreadDispatcher.Instance().Enqueue(() =>
@@ -165,6 +190,11 @@ public class NetworkMessageHandler : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Handles the "StartNextWave" message by retrieving the next wave index
+    /// and starting the corresponding coroutine on the BalloonSpawner.
+    /// </summary>
+    /// <param name="msgObj">The JSON object containing the wave index.</param>
     private void HandleStartNextWave(JObject msgObj)
     {
         int waveIndex = (int)msgObj["WaveIndex"];
@@ -175,44 +205,50 @@ public class NetworkMessageHandler : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Handles the "OpponentDisconnected" message by triggering a win for the local player.
+    /// </summary>
     private void HandleOpponentDisconnected()
     {
         UnityMainThreadDispatcher.Instance().Enqueue(() =>
         {
-            // We automatically win
+            // Auto-win if opponent is disconnected.
             GameManager.Instance.flowController.OnOpponentGameOver(opponentWon: false,
                 reason: "The other player disconnected");
         });
     }
 
+    /// <summary>
+    /// Handles the "UseMultiplayerAbility" message by extracting the ability name
+    /// and initiating the corresponding coroutine to apply its effect.
+    /// </summary>
+    /// <param name="msgObj">The JSON object containing the ability data.</param>
     private void HandleUseMultiplayerAbility(JObject msgObj)
     {
         JObject dataObj = (JObject)msgObj["Data"];
         string abilityName = dataObj["AbilityName"]?.ToString();
 
-        // Check if there's a "FromOpponent" or something
         bool fromOpponent = false;
         if (dataObj["FromOpponent"] != null)
         {
             fromOpponent = (bool)dataObj["FromOpponent"];
         }
 
-        // If we have an opponent, or we are the opponent...
-        // Possibly check: if (opponent != null) forward... 
-        // But let's see:
+        // In multiplayer mode, handle the received ability.
         if (GameManager.Instance.CurrentGameMode == GameManager.GameMode.Multiplayer)
         {
-            // We'll do a local function to handle the effect
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                // If the ability is "NoMoneyForOpponent" or "CloudScreen" and we see "FromOpponent" is not set => we must set it and forward to the opponent
-                // But typically, the server will do that for us. 
-                // If we are the *receiving* side of "NoMoneyForOpponent", we do the effect. 
                 OnMultiplayerAbilityReceived(abilityName);
             });
         }
     }
 
+    /// <summary>
+    /// Handles the "GameOver" message by deserializing the game over data
+    /// and calling the appropriate method on the GameFlowController.
+    /// </summary>
+    /// <param name="msgObj">The JSON object containing the game over data.</param>
     private void HandleGameOver(JObject msgObj)
     {
         GameOverMessage gameOverMsg = msgObj.ToObject<GameOverMessage>();
@@ -224,6 +260,11 @@ public class NetworkMessageHandler : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Handles the "LoginSuccess" message by storing authentication tokens and user ID,
+    /// and notifying the LoginSceneManager of successful login.
+    /// </summary>
+    /// <param name="msgObj">The JSON object containing login success data.</param>
     private void HandleLoginSuccess(JObject msgObj)
     {
         JObject dataObj = (JObject)msgObj["Data"];
@@ -252,6 +293,10 @@ public class NetworkMessageHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the "LoginFail" message by retrieving the failure reason and notifying the LoginSceneManager.
+    /// </summary>
+    /// <param name="msgObj">The JSON object containing login failure data.</param>
     private void HandleLoginFail(JObject msgObj)
     {
         string reason = msgObj["Data"]["Reason"]?.ToString();
@@ -264,6 +309,10 @@ public class NetworkMessageHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the "RegisterSuccess" message by storing authentication data and notifying the LoginSceneManager.
+    /// </summary>
+    /// <param name="msgObj">The JSON object containing registration success data.</param>
     private void HandleRegisterSuccess(JObject msgObj)
     {
         JObject d = (JObject)msgObj["Data"];
@@ -294,6 +343,10 @@ public class NetworkMessageHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the "RegisterFail" message by retrieving the failure reason and notifying the LoginSceneManager.
+    /// </summary>
+    /// <param name="msgObj">The JSON object containing registration failure data.</param>
     private void HandleRegisterFail(JObject msgObj)
     {
         string reason = msgObj["Data"]["Reason"]?.ToString();
@@ -306,6 +359,10 @@ public class NetworkMessageHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the "AutoLoginSuccess" message by updating user authentication tokens and transitioning to the Main Menu.
+    /// </summary>
+    /// <param name="msgObj">The JSON object containing auto-login success data.</param>
     private void HandleAutoLoginSuccess(JObject msgObj)
     {
         JObject d = (JObject)msgObj["Data"];
@@ -320,7 +377,7 @@ public class NetworkMessageHandler : MonoBehaviour
 
         PlayerPrefs.SetInt("UserId", userId);
 
-        // Store updated tokens
+        // Store updated tokens.
         if (!string.IsNullOrEmpty(newAccessToken))
             PlayerPrefs.SetString("AccessToken", newAccessToken);
         if (!string.IsNullOrEmpty(newAccessTokenExpiry))
@@ -332,7 +389,7 @@ public class NetworkMessageHandler : MonoBehaviour
 
         PlayerPrefs.Save();
 
-        // Skip the LoginScene => call the method to load MainMenu
+        // Skip the LoginScene and load the MainMenu.
         var loginSceneManager = FindObjectOfType<LoginSceneManager>();
         if (loginSceneManager != null)
         {
@@ -343,6 +400,10 @@ public class NetworkMessageHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the "AutoLoginFail" message by showing the Login panel.
+    /// </summary>
+    /// <param name="msgObj">The JSON object containing auto-login failure data.</param>
     private void HandleAutoLoginFail(JObject msgObj)
     {
         string reason = msgObj["Data"]["Reason"]?.ToString();
@@ -358,25 +419,30 @@ public class NetworkMessageHandler : MonoBehaviour
         }
     }
 
+    #endregion
 
-    // ---------------------------------------------------------
-    //  Multiplayer Ability Coroutines
-    // ---------------------------------------------------------
+    #region Multiplayer Ability Coroutines
+
+    /// <summary>
+    /// Processes a received multiplayer ability by starting the corresponding coroutine to apply its effect.
+    /// </summary>
+    /// <param name="abilityName">The name of the ability received from the server.</param>
     private void OnMultiplayerAbilityReceived(string abilityName)
     {
         switch (abilityName)
         {
             case "NoMoneyForOpponent":
-                // That means *we* are the ones who got locked from money => For 10s set moneyMultiplier=0 or disallowMoney
+                // Apply an effect that sets the money multiplier to 0 for 10 seconds.
                 StartCoroutine(NoMoneyRoutine());
                 break;
 
             case "CloudScreen":
-                // Show the cloud panel for 10s
+                // Display a cloud effect for 10 seconds.
                 StartCoroutine(CloudScreenRoutine());
                 break;
 
             case "FastBalloons":
+                // Temporarily increase the opponent's balloon speed by 50% for 10 seconds.
                 StartCoroutine(FastBalloonsRoutineOpponent());
                 break;
 
@@ -386,6 +452,10 @@ public class NetworkMessageHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Coroutine that temporarily sets the money multiplier to 0 for 10 seconds, simulating a "No Money" effect.
+    /// </summary>
+    /// <returns>An IEnumerator for the coroutine.</returns>
     private IEnumerator NoMoneyRoutine()
     {
         Debug.Log("We are receiving no money for 10s!");
@@ -394,10 +464,14 @@ public class NetworkMessageHandler : MonoBehaviour
 
         yield return new WaitForSeconds(10f);
 
-        // revert
+        // Revert the money multiplier to its original value.
         GameManager.Instance.moneyMultiplier = oldMultiplier;
     }
 
+    /// <summary>
+    /// Coroutine that activates a cloud panel effect for 10 seconds to simulate a "CloudScreen" effect.
+    /// </summary>
+    /// <returns>An IEnumerator for the coroutine.</returns>
     private IEnumerator CloudScreenRoutine()
     {
         Debug.Log("CloudScreen effect for 10s!");
@@ -409,6 +483,11 @@ public class NetworkMessageHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Coroutine that temporarily increases the speed factor for opponent balloons by 50% for 10 seconds,
+    /// simulating a "FastBalloons" effect.
+    /// </summary>
+    /// <returns>An IEnumerator for the coroutine.</returns>
     private IEnumerator FastBalloonsRoutineOpponent()
     {
         Debug.Log("Opponent's FastBalloons effect - wave speed +50% for 10s");
@@ -416,7 +495,9 @@ public class NetworkMessageHandler : MonoBehaviour
 
         yield return new WaitForSeconds(10f);
 
-        // revert
+        // Revert the speed factor to normal.
         GameManager.Instance.allBalloonsSpeedFactor = 1f;
     }
+
+    #endregion
 }

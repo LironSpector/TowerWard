@@ -1,37 +1,100 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
+using TMPro;
 using System.IO;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Linq;
 
+/// <summary>
+/// Description:
+/// Manages UI elements for various game functions, including tower panel display and updates, player panel updates,
+/// handling opponent snapshot display in multiplayer mode, and processing UI button clicks such as exit and settings.
+/// It also decompresses and updates the opponent's snapshot image using compressed data.
+/// </summary>
 public class UIManager : MonoBehaviour
 {
+    /// <summary>
+    /// Singleton instance of the UIManager.
+    /// </summary>
     public static UIManager Instance;
 
     [Header("Tower Panel References")]
+    /// <summary>
+    /// Panel containing tower details and controls.
+    /// </summary>
     public GameObject towerPanel;
+    /// <summary>
+    /// Text element showing the tower's name.
+    /// </summary>
     public TextMeshProUGUI towerNameText;
+    /// <summary>
+    /// Text element displaying the tower's current level.
+    /// </summary>
     public TextMeshProUGUI towerLevelText;
+    /// <summary>
+    /// Text element for the upgrade cost.
+    /// </summary>
     public TextMeshProUGUI upgradeCostText;
+    /// <summary>
+    /// Text element for showing upgrade differences/statistics.
+    /// </summary>
     public TextMeshProUGUI upgradeStatsText;
+    /// <summary>
+    /// Button to upgrade the selected tower.
+    /// </summary>
     public Button upgradeButton;
+    /// <summary>
+    /// Button to sell the selected tower.
+    /// </summary>
     public Button sellButton;
+    /// <summary>
+    /// Image displaying the tower icon.
+    /// </summary>
     public Image towerIconImage;
 
     [Header("Player Panel References")]
+    /// <summary>
+    /// Panel containing general player controls.
+    /// </summary>
     public GameObject playerPanel;
+    /// <summary>
+    /// Text element displaying the current wave number.
+    /// </summary>
     public TextMeshProUGUI waveNumberText;
+    /// <summary>
+    /// Button to exit the game.
+    /// </summary>
     public Button exitGameButton;
+    /// <summary>
+    /// Button to open the settings panel.
+    /// </summary>
     public Button settingsButton;
+    /// <summary>
+    /// Reference to the settings panel.
+    /// </summary>
     public SettingsPanel settingsPanel;
 
+    // The currently selected tower.
     private Tower selectedTower;
 
     [Header("Opponent Snapshot")]
+    /// <summary>
+    /// RawImage used to display the opponent's snapshot.
+    /// </summary>
     public RawImage opponentSnapshotImage; // Assign in Inspector
+    /// <summary>
+    /// Panel that contains the opponent's snapshot UI.
+    /// </summary>
     public GameObject opponentSnapshotPanel; // Assign in Inspector
 
-
+    /// <summary>
+    /// Awake is called when the script instance is loaded.
+    /// Implements the singleton pattern and initializes UI panel states.
+    /// </summary>
     void Awake()
     {
         if (Instance == null)
@@ -39,52 +102,63 @@ public class UIManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        // By default, show the Player Panel (no tower selected)
+        // Show the Player Panel and hide the Tower Panel by default.
         playerPanel.SetActive(true);
-        // By default, hide the Tower Panel
         towerPanel.SetActive(false);
 
-        // Hook up the buttons
+        // Hook up button events.
         if (exitGameButton != null)
             exitGameButton.onClick.AddListener(OnExitGameButtonClicked);
-
         if (settingsButton != null)
             settingsButton.onClick.AddListener(OnSettingsButtonClicked);
     }
 
+    /// <summary>
+    /// Shows the tower panel for the specified tower, updating UI elements with its data.
+    /// Hides the player panel and displays the tower's range indicator.
+    /// </summary>
+    /// <param name="tower">The tower to display information for.</param>
     public void ShowTowerPanel(Tower tower)
     {
-        // Hide Player Panel
+        // Hide Player Panel.
         if (playerPanel != null)
             playerPanel.SetActive(false);
 
-        // Hide range indicator from previously selected tower, if any
+        // Hide range indicator of any previously selected tower.
         if (selectedTower != null)
-            selectedTower.HideRangeIndicator(); // Hide previous tower's range indicator
+            selectedTower.HideRangeIndicator();
 
         selectedTower = tower;
-        selectedTower.ShowRangeIndicator(); // Show selected tower's range indicator
+        selectedTower.ShowRangeIndicator();
         UpdateTowerPanel();
 
-        // Show Tower Panel
+        // Show Tower Panel.
         towerPanel.SetActive(true);
     }
 
+    /// <summary>
+    /// Hides the tower panel and clears the currently selected tower.
+    /// Restores the Player Panel.
+    /// </summary>
     public void HideTowerPanel()
     {
         if (selectedTower != null)
         {
-            selectedTower.HideRangeIndicator(); // Hide selected tower's range indicator
+            selectedTower.HideRangeIndicator();
             selectedTower = null;
         }
 
         towerPanel.SetActive(false);
 
-        // Show the Player Panel again
+        // Show the Player Panel.
         if (playerPanel != null)
             playerPanel.SetActive(true);
     }
 
+    /// <summary>
+    /// Called when the Upgrade button is clicked.
+    /// Upgrades the selected tower if affordable and available.
+    /// </summary>
     public void OnUpgradeButtonClicked()
     {
         if (GameManager.Instance.isGameOver)
@@ -102,11 +176,15 @@ public class UIManager : MonoBehaviour
             else
             {
                 Debug.Log("Not enough currency to upgrade.");
-                // Optionally display a message to the player
+                // Optionally, display a message to the player.
             }
         }
     }
 
+    /// <summary>
+    /// Called when the Sell button is clicked.
+    /// Sells the selected tower, refunds currency, frees its grid cell, and destroys the tower.
+    /// </summary>
     public void OnSellButtonClicked()
     {
         if (GameManager.Instance.isGameOver)
@@ -114,23 +192,25 @@ public class UIManager : MonoBehaviour
 
         if (selectedTower != null)
         {
-            // Calculate the refund amount
+            // Calculate refund amount.
             int refundAmount = selectedTower.GetSellValue();
-
-            // Add currency to the player
             GameManager.Instance.AddCurrency(refundAmount);
 
-            // Free the occupied cell
+            // Free the grid cell occupied by the tower.
             GameManager.Instance.cellManager.FreeCell(selectedTower.towerGridPosition);
 
-            // Destroy the tower
+            // Destroy the tower GameObject.
             Destroy(selectedTower.gameObject);
 
-            // Hide the tower panel
+            // Hide the Tower Panel.
             HideTowerPanel();
         }
     }
 
+    /// <summary>
+    /// Updates the tower panel UI with data from the selected tower.
+    /// Displays tower name, level, upgrade cost, upgrade differences, and sell value.
+    /// </summary>
     void UpdateTowerPanel()
     {
         if (selectedTower != null)
@@ -138,22 +218,23 @@ public class UIManager : MonoBehaviour
             towerNameText.text = selectedTower.towerData.towerName;
             towerLevelText.text = "Level: " + selectedTower.level;
 
-            // 1) Display the main tower sprite (from TowerData)
+            // Display the main tower sprite.
             if (towerIconImage != null)
             {
                 Debug.Log("Not null!");
                 towerIconImage.sprite = selectedTower.towerData.towerSprite;
             }
             else
+            {
                 Debug.Log("Is null!");
+            }
 
-            // 2) Update upgrade button and text
+            // Update upgrade button state and text.
             if (selectedTower.CanUpgrade())
             {
                 upgradeCostText.text = "Upgrade Cost: " + selectedTower.GetUpgradeCost();
                 upgradeButton.interactable = true;
                 upgradeButton.GetComponentInChildren<TextMeshProUGUI>().text = "Upgrade";
-
                 ShowUpgradeDifferences(selectedTower);
             }
             else
@@ -169,7 +250,7 @@ public class UIManager : MonoBehaviour
                 }
             }
 
-            // 3) Update the Sell Button text to show refund amount
+            // Update the Sell button to show refund amount.
             int sellValue = selectedTower.GetSellValue();
             sellButton.GetComponentInChildren<TextMeshProUGUI>().text = "Sell ($" + sellValue + ")";
         }
@@ -177,22 +258,21 @@ public class UIManager : MonoBehaviour
         {
             // No tower selected
             if (upgradeStatsText != null)
-            {
                 upgradeStatsText.text = "";
-            }
             if (towerIconImage != null)
-            {
-                towerIconImage.sprite = null; // Clear the tower image if no tower is selected
-            }
+                towerIconImage.sprite = null;
         }
     }
 
-
+    /// <summary>
+    /// Displays upgrade differences between the current and next level for the selected tower.
+    /// Uses a StringBuilder to create a multi-line string showing percentage changes for various stats.
+    /// </summary>
+    /// <param name="tower">The tower to display upgrade differences for.</param>
     private void ShowUpgradeDifferences(Tower tower)
     {
         if (upgradeStatsText == null) return;
         upgradeStatsText.text = "";
-
         if (!tower.CanUpgrade()) return;
 
         TowerData data = tower.towerData;
@@ -202,10 +282,8 @@ public class UIManager : MonoBehaviour
         TowerLevelData curr = data.levels[currentIndex];
         TowerLevelData nxt = data.levels[nextIndex];
 
-        // We'll store the lines in a StringBuilder
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
-        // Identify tower type for label mapping:
         bool isMoneyTower = (tower is MoneyTower);
         bool isAreaDamageTower = (tower is AreaDamageTower);
         bool isDestructiveEnergy = (tower is DestructiveEnergyTower);
@@ -214,7 +292,7 @@ public class UIManager : MonoBehaviour
         // Helper for float fields
         void AddUpgradeLineFloat(string key, float oldVal, float newVal)
         {
-            if (Mathf.Approximately(oldVal, newVal)) return; // no change
+            if (Mathf.Approximately(oldVal, newVal)) return;
             float diff = newVal - oldVal;
             if (Mathf.Approximately(oldVal, 0f))
             {
@@ -245,20 +323,14 @@ public class UIManager : MonoBehaviour
             sb.AppendLine($"{key}: {sign}{rounded}%");
         }
 
-        // Now we do each field, but rename specialInterval / specialValue if the tower is type-2
-
-        // -- Range
+        // Add standard upgrade differences.
         AddUpgradeLineFloat("Range", curr.range, nxt.range);
-
-        // -- Fire Rate
         AddUpgradeLineFloat("Fire Rate", curr.fireRate, nxt.fireRate);
-
-        // -- Damage
         AddUpgradeLineInt("Damage", curr.damage, nxt.damage);
 
-        // Next we have "specialInterval" and "specialValue" but the label depends on tower type.
-        string intervalLabel = "specialInterval"; // default
-        string specialValueLabel = "specialValue";    // default
+        // Determine labels based on tower type.
+        string intervalLabel = "specialInterval";
+        string specialValueLabel = "specialValue";
 
         if (isMoneyTower)
         {
@@ -277,53 +349,55 @@ public class UIManager : MonoBehaviour
         }
         else if (isVillageTower)
         {
-            specialValueLabel = "Buff Percent"; // VillageTower only uses "specialValue" as "buffPercent" 
-            intervalLabel = "Interval (Unused)"; // Not used
+            specialValueLabel = "Buff Percent";
+            intervalLabel = "Interval (Unused)";
         }
 
-        // Then we add them as usual
         AddUpgradeLineFloat(intervalLabel, curr.specialInterval, nxt.specialInterval);
         AddUpgradeLineInt(specialValueLabel, curr.specialValue, nxt.specialValue);
 
-        // For freeze/slow/poison fields
+        // Add upgrade differences for status effects.
         AddUpgradeLineFloat("Freeze Duration", curr.freezeDuration, nxt.freezeDuration);
         AddUpgradeLineFloat("Slow Duration", curr.slowDuration, nxt.slowDuration);
         AddUpgradeLineFloat("Slow Factor", curr.slowFactor, nxt.slowFactor);
         AddUpgradeLineFloat("Poison Duration", curr.poisonDuration, nxt.poisonDuration);
         AddUpgradeLineFloat("Poison TickInterval", curr.poisonTickInterval, nxt.poisonTickInterval);
 
-        // Finally set the text
         upgradeStatsText.text = sb.ToString();
     }
 
-
+    /// <summary>
+    /// Called once per frame.
+    /// Hides the tower panel if the user clicks outside of it and updates the wave number displayed on the player panel.
+    /// </summary>
     void Update()
     {
-        // Hide the panel if the player clicks outside of it
+        // Hide the tower panel if the player clicks outside its bounds.
         if (towerPanel.activeSelf && Input.GetMouseButtonDown(0))
         {
             if (!RectTransformUtility.RectangleContainsScreenPoint(
-                towerPanel.GetComponent<RectTransform>(),
-                Input.mousePosition,
-                null))
+                    towerPanel.GetComponent<RectTransform>(),
+                    Input.mousePosition,
+                    null))
             {
                 HideTowerPanel();
             }
         }
 
-        // If PlayerPanel is active, continuously update wave number
+        // Update the wave number in the player panel continuously.
         if (playerPanel.activeSelf && waveNumberText != null)
         {
             int waveIndex = BalloonSpawner.Instance.GetCurrentWaveIndex();
             waveNumberText.text = waveIndex.ToString();
         }
-
     }
 
-    // Called when "Exit" is clicked in PlayerPanel
+    /// <summary>
+    /// Called when the Exit button is clicked in the player panel.
+    /// Sends an update for last login, disconnects from the server, and quits the application.
+    /// </summary>
     private void OnExitGameButtonClicked()
     {
-        // This replicates logic from MainMenuManager.OnExitButtonClicked()
         if (NetworkManager.Instance != null && NetworkManager.Instance.isConnected)
         {
             int userId = PlayerPrefs.GetInt("UserId", -1);
@@ -336,7 +410,10 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
 
-    // Called when "Settings" is clicked in PlayerPanel
+    /// <summary>
+    /// Called when the Settings button is clicked in the player panel.
+    /// Displays the settings panel.
+    /// </summary>
     private void OnSettingsButtonClicked()
     {
         if (settingsPanel != null)
@@ -345,42 +422,56 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void SetOpponentSnapshotPanel(bool isActive)  //Also used in intention to: "bool isMultiplayer"
+    /// <summary>
+    /// Sets the opponent snapshot panel's active state.
+    /// Typically used to control snapshot display in multiplayer mode.
+    /// </summary>
+    /// <param name="isActive">True to show the opponent snapshot panel; false to hide it.</param>
+    public void SetOpponentSnapshotPanel(bool isActive)
     {
-        // Only show opponent snapshot panel in Multiplayer mode
         opponentSnapshotPanel.SetActive(isActive);
     }
 
-
+    /// <summary>
+    /// Decompresses data compressed with GZip.
+    /// </summary>
+    /// <param name="data">The compressed byte array.</param>
+    /// <returns>The decompressed byte array.</returns>
     private byte[] DecompressData(byte[] data)
     {
-        using (var input = new MemoryStream(data))
+        using (var input = new System.IO.MemoryStream(data))
         using (var gzip = new System.IO.Compression.GZipStream(input, System.IO.Compression.CompressionMode.Decompress))
-        using (var output = new MemoryStream())
+        using (var output = new System.IO.MemoryStream())
         {
             gzip.CopyTo(output);
             return output.ToArray();
         }
     }
 
+    /// <summary>
+    /// Updates the opponent's snapshot image from a Base64 encoded and compressed image string.
+    /// The method decompresses the image data, loads it into a Texture2D, and sets it on the RawImage.
+    /// </summary>
+    /// <param name="imageData">Base64 encoded string containing compressed image data.</param>
     public void UpdateOpponentSnapshot(string imageData)
     {
         if (string.IsNullOrEmpty(imageData))
             return;
 
-        byte[] compressedBytes = System.Convert.FromBase64String(imageData);
+        byte[] compressedBytes = Convert.FromBase64String(imageData);
         byte[] imageBytes = DecompressData(compressedBytes);
-        //byte[] imageBytes = System.Convert.FromBase64String(imageData);
-        //Debug.Log("------ Image bytes - before updating (end): ---------> " + BitConverter.ToString(imageBytes));
 
-        Texture2D texture = new Texture2D(2, 2); //(2, 2) is an initial value of 2*2 pixels, but it is override by the dimentions of "imageBytes" in "texture.LoadImage(imageBytes)"
+        Texture2D texture = new Texture2D(2, 2); //(2, 2) is an initial value of 2*2 pixels, but it is override by the
+                                                 //dimentions of "imageBytes" in "texture.LoadImage(imageBytes)"
         texture.LoadImage(imageBytes);
-        //Debug.Log("Texture's width: " +  texture.width);
-        //Debug.Log("Texture's height: " +  texture.height);
 
         opponentSnapshotImage.texture = texture;
     }
 
+    /// <summary>
+    /// Sets the alpha value of the opponent snapshot image.
+    /// </summary>
+    /// <param name="alpha">Alpha value (0 to 1) to set on the snapshot image.</param>
     public void SetOpponentSnapshotAlpha(float alpha)
     {
         if (opponentSnapshotImage != null)
@@ -391,9 +482,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called when this UIManager instance is destroyed.
+    /// Clears references to the opponent snapshot image and panel to free memory.
+    /// </summary>
     void OnDestroy()
     {
-        //To save memory - I am not sure if it's needed
         opponentSnapshotImage = null;
         opponentSnapshotPanel = null;
     }

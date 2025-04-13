@@ -1,7 +1,18 @@
 using System.Collections.Generic;
 
+/// <summary>
+/// Description:
+/// Provides a collection of tip messages to be displayed in the waiting scene.
+/// These tips offer gameplay strategies and advice, such as tower placement, resource management,
+/// and using special abilities effectively.
+/// </summary>
 public static class WaitingTips
 {
+    /// <summary>
+    /// Returns a list of tip messages for the waiting scene.
+    /// The returned tips cover various aspects of gameplay, such as strategy, tower placement, and resource management.
+    /// </summary>
+    /// <returns>A List of strings, each containing a tip message.</returns>
     public static List<string> GetMessages()
     {
         return new List<string>
@@ -14,7 +25,7 @@ public static class WaitingTips
             "Pay attention to balloon types – some may require special strategies.",
             "Don't forget to check out new upgrades and abilities as they become available.",
             "Managing your economy is critical. Make sure you’re earning enough to support your defense.",
-            "In Multiplayer mode, save enough money for sending balloons to you opponent when he is weak.",
+            "In Multiplayer mode, save enough money for sending balloons to your opponent when he is weak.",
             "You have special abilities. Remember to use them!",
             "Remember to place towers where they have a clear line of sight to maximize their effectiveness.",
             "Before placing a new tower, view its range to better understand where exactly to place it.",

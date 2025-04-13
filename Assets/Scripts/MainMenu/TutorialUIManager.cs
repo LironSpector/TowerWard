@@ -2,6 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Description:
+/// Manages the display and hiding of the tutorial UI panel.
+/// It holds references to the main tutorial panel and its close button,
+/// ensuring that the panel is hidden at startup and providing methods to show or hide the tutorial.
+/// </summary>
 public class TutorialUIManager : MonoBehaviour
 {
     [Header("Tutorial UI References")]
@@ -11,14 +17,19 @@ public class TutorialUIManager : MonoBehaviour
     [Tooltip("The close button in the tutorial panel")]
     public Button closeButton;
 
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// Ensures the tutorial panel is hidden on start, and adds a listener to the close button.
+    /// </summary>
     private void Awake()
     {
-        // Ensure the panel is hidden on start
+        // Hide the tutorial panel at startup.
         if (tutorialPanel != null)
         {
             tutorialPanel.SetActive(false);
         }
 
+        // Add the HideTutorial method as a click listener to the close button.
         if (closeButton != null)
         {
             closeButton.onClick.AddListener(HideTutorial);
@@ -26,7 +37,7 @@ public class TutorialUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Show the tutorial panel.
+    /// Shows the tutorial panel.
     /// </summary>
     public void ShowTutorial()
     {
@@ -37,7 +48,7 @@ public class TutorialUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Hide the tutorial panel.
+    /// Hides the tutorial panel.
     /// </summary>
     public void HideTutorial()
     {

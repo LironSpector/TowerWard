@@ -3,52 +3,66 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections.Generic;
 
+/// <summary>
+/// Description:
+/// Manages the main menu UI functionality including navigation between scenes,
+/// handling multiplayer matchmaking requests, exiting the game, logging out, and displaying tutorials.
+/// </summary>
 public class MainMenuManager : MonoBehaviour
 {
+    /// <summary>
+    /// UI text element used to display the current connection status.
+    /// </summary>
     public TextMeshProUGUI connectionStatusText;
+
+    /// <summary>
+    /// Reference to the Tutorial UI Manager for displaying tutorial content.
+    /// </summary>
     public TutorialUIManager tutorialUIManager;
 
+    /// <summary>
+    /// Called on the frame when the script is enabled, before any Update methods.
+    /// Initializes the main menu by playing music and optionally displaying the connection status.
+    /// </summary>
     void Start()
     {
         Debug.Log("Started Main Menu");
         Debug.Log("A:" + NetworkManager.Instance + ", ");
 
         AudioManager.Instance.PlayMainMenuMusic();
-
-        // Optional: Display connection status
-        if (NetworkManager.Instance.isConnected)
-        {
-            connectionStatusText.text = "Connected to Server";
-        }
-        else
-        {
-            connectionStatusText.text = "Not Connected to Server";
-        }
     }
 
+    /// <summary>
+    /// Called when the Single Player button is clicked.
+    /// Loads the main game scene.
+    /// </summary>
     public void OnSinglePlayerButtonClicked()
     {
-        // Load the game scene
         SceneManager.LoadScene("SampleScene");
     }
 
+    /// <summary>
+    /// Called when the Multiplayer button is clicked.
+    /// If the client is connected to the server, sends a matchmaking request and loads the WaitingScene.
+    /// Otherwise, displays an error message indicating that multiplayer cannot start.
+    /// </summary>
     public void OnMultiplayerButtonClicked()
     {
         if (NetworkManager.Instance.isConnected)
         {
-            // Request matchmaking
             NetworkManager.Instance.RequestMatchmaking();
-
-            // Load the WaitingScene
             SceneManager.LoadScene("WaitingScene");
         }
         else
         {
-            // Notify the player that the server connection failed
             connectionStatusText.text = "Cannot start multiplayer: Not connected to server.";
         }
     }
 
+    /// <summary>
+    /// Called when the Exit button is clicked.
+    /// Sends the last login update to the server (if connected), disconnects from the server, and quits the application.
+    /// </summary>
     public void OnExitButtonClicked()
     {
         if (NetworkManager.Instance != null && NetworkManager.Instance.isConnected)
@@ -64,16 +78,20 @@ public class MainMenuManager : MonoBehaviour
         Application.Quit();
     }
 
+    /// <summary>
+    /// Called when the Logout button is clicked.
+    /// Sends an update of the last login time to the server, clears stored authentication tokens and user ID,
+    /// and navigates back to the LoginScene.
+    /// </summary>
     public void OnLogoutButtonClicked()
     {
-        // Send the "UpdateLastLogin" message
         int userId = PlayerPrefs.GetInt("UserId", -1);
         if (userId != -1)
         {
             NetworkManager.Instance.messageSender.SendUpdateLastLogin(userId);
         }
 
-        // Clear token data (and userId) so the next time we start the game or go back to login scene, we won't skip login
+        // Clear saved tokens and user data so that the next session requires login.
         PlayerPrefs.DeleteKey("AccessToken");
         PlayerPrefs.DeleteKey("AccessTokenExpiry");
         PlayerPrefs.DeleteKey("RefreshToken");
@@ -81,12 +99,16 @@ public class MainMenuManager : MonoBehaviour
         PlayerPrefs.DeleteKey("UserId");
         PlayerPrefs.Save();
 
-        SceneManager.LoadScene("LoginScene"); // Go back to the LoginScene immediately
+        SceneManager.LoadScene("LoginScene");
     }
 
+    /// <summary>
+    /// Called when the Tutorial button is clicked.
+    /// If a TutorialUIManager is assigned, it displays the tutorial.
+    /// Otherwise, logs a warning message.
+    /// </summary>
     public void OnTutorialButtonClicked()
     {
-        // If we have a reference to the tutorial manager, show the tutorial.
         if (tutorialUIManager != null)
         {
             tutorialUIManager.ShowTutorial();

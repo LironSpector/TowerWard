@@ -1,33 +1,73 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro; // For using TextMeshPro
 using UnityEngine.SceneManagement;
+using TMPro;
 using System;
 using System.Collections;
 
+/// <summary>
+/// Manages the login and registration processes in the login scene.
+/// Handles user input, displays status messages, enforces security measures like login lockouts and password complexity,
+/// and sends appropriate network requests via the NetworkManager.
+/// </summary>
 public class LoginSceneManager : MonoBehaviour
 {
     [Header("Panels")]
+    /// <summary>
+    /// The panel used to display login UI.
+    /// </summary>
     public GameObject loginPanel;
+    /// <summary>
+    /// The panel used to display registration UI.
+    /// </summary>
     public GameObject registerPanel;
 
     [Header("Login Fields")]
+    /// <summary>
+    /// Input field for entering the username during login.
+    /// </summary>
     public TMP_InputField loginUsernameField;
+    /// <summary>
+    /// Input field for entering the password during login.
+    /// </summary>
     public TMP_InputField loginPasswordField;
 
     [Header("Register Fields")]
+    /// <summary>
+    /// Input field for entering the username during registration.
+    /// </summary>
     public TMP_InputField registerUsernameField;
+    /// <summary>
+    /// Input field for entering the password during registration.
+    /// </summary>
     public TMP_InputField registerPasswordField;
+    /// <summary>
+    /// Input field for confirming the password during registration.
+    /// </summary>
     public TMP_InputField registerConfirmPasswordField;
 
     [Header("UI Status Text")]
-    public TextMeshProUGUI statusText;   // For displaying errors, status, etc.
+    /// <summary>
+    /// Text field for displaying status messages (such as errors or notifications).
+    /// </summary>
+    public TextMeshProUGUI statusText;
 
     // Login security settings
+    /// <summary>
+    /// Remaining number of allowed login attempts.
+    /// </summary>
     private int remainingAttempts = 5;
+    /// <summary>
+    /// Flag indicating if login is currently locked due to too many failed attempts.
+    /// </summary>
     private bool isLocked = false;
+    /// <summary>
+    /// The time (using Time.time) when the login lockout period will expire.
+    /// </summary>
     private float lockoutEndTime = 0f; // Time.time when lockout expires
 
+    /// <summary>
+    /// Initializes the login scene. Displays the login panel, logs token information, and starts a delayed auto-login.
+    /// </summary>
     private void Start()
     {
         ShowLoginPanel();
@@ -38,13 +78,19 @@ public class LoginSceneManager : MonoBehaviour
         Debug.Log("Access token is this: " + token);
         Debug.Log("Refresh token is this: " + refreshToken);
 
-        // Start a coroutine to delay the execution by 1 second
+        // Delay auto-login to allow initial network setup.
         StartCoroutine(DelayedAutoLogin(token, refreshToken));
     }
 
+    /// <summary>
+    /// Coroutine to delay the auto-login request by 0.5 seconds.
+    /// </summary>
+    /// <param name="token">The access token retrieved from PlayerPrefs.</param>
+    /// <param name="refreshToken">The refresh token retrieved from PlayerPrefs.</param>
+    /// <returns>An IEnumerator for the coroutine.</returns>
     private IEnumerator DelayedAutoLogin(string token, string refreshToken)
     {
-        yield return new WaitForSeconds(1f); // Wait for 1 second
+        yield return new WaitForSeconds(0.5f);
 
         Debug.Log("Connected? " + NetworkManager.Instance.isConnected);
         Debug.Log("isHandshakeCompleted? " + NetworkManager.Instance.isHandshakeCompleted);
@@ -53,13 +99,15 @@ public class LoginSceneManager : MonoBehaviour
         Debug.Log("Passed initial check 3");
     }
 
-    // Called by the "Login" button OnClick
+    /// <summary>
+    /// Called when the "Login" button is clicked.
+    /// Validates input, checks for lockout, and sends a login request if safe.
+    /// </summary>
     public void OnClickLogin()
     {
-        // Check if login is currently locked
+        // Check if login is locked.
         if (isLocked)
         {
-            // If lockout time still active, show message and do not proceed
             if (Time.time < lockoutEndTime)
             {
                 statusText.text = "Too many incorrect attempts. Please try again after 5 minutes.";
@@ -67,50 +115,54 @@ public class LoginSceneManager : MonoBehaviour
             }
             else
             {
-                // Lockout has expired; reset lock status
+                // Lockout period expired; reset lockout status.
                 isLocked = false;
                 remainingAttempts = 5;
             }
         }
 
-        // Grab input
+        // Retrieve input from login fields.
         string username = loginUsernameField.text;
         string password = loginPasswordField.text;
 
-        // Basic client-side checks
+        // Ensure both username and password are provided.
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
         {
             statusText.text = "Please enter username and password.";
             return;
         }
 
-        // Basic malicious pattern checks (client-side)
+        // Perform basic client-side security checks.
         if (!InputValidator.IsSafeInput(username) || !InputValidator.IsSafeInput(password))
         {
             statusText.text = "Invalid or potentially dangerous input detected. Please try again.";
             return;
         }
 
-        // Send login request to the server
+        // Send the login request to the server.
         NetworkManager.Instance.messageSender.LoginUser(username, password);
     }
 
-    // Called by the "Register" button OnClick
+    /// <summary>
+    /// Called when the "Register" button is clicked.
+    /// Validates registration input, checks for password confirmation and complexity,
+    /// and sends a registration request to the server if all validations pass.
+    /// </summary>
     public void OnClickRegister()
     {
-        // Grab input
+        // Retrieve input from registration fields.
         string username = registerUsernameField.text;
         string password = registerPasswordField.text;
         string confirmPassword = registerConfirmPasswordField.text;
 
-        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) ||
-            string.IsNullOrEmpty(confirmPassword))
+        // Ensure all registration fields are populated.
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
         {
             statusText.text = "Please fill in all fields.";
             return;
         }
 
-        // Basic malicious pattern checks
+        // Validate input for potential malicious content.
         if (!InputValidator.IsSafeInput(username) ||
             !InputValidator.IsSafeInput(password) ||
             !InputValidator.IsSafeInput(confirmPassword))
@@ -119,14 +171,14 @@ public class LoginSceneManager : MonoBehaviour
             return;
         }
 
-        // Check if the password and confirmation match
+        // Ensure the password and confirmation match.
         if (!password.Equals(confirmPassword))
         {
             statusText.text = "Passwords do not match! Please try again.";
             return;
         }
 
-        // Validate password complexity using our new PasswordValidator utility
+        // Check password complexity; if not valid, display the error message.
         string errorMessage;
         if (!PasswordValidator.IsValid(password, out errorMessage))
         {
@@ -134,10 +186,13 @@ public class LoginSceneManager : MonoBehaviour
             return;
         }
 
-        // Send registration request to the server
+        // Send the registration request to the server.
         NetworkManager.Instance.messageSender.RegisterUser(username, password);
     }
 
+    /// <summary>
+    /// Displays the login panel while hiding the registration panel and clearing any status text.
+    /// </summary>
     public void ShowLoginPanel()
     {
         loginPanel.SetActive(true);
@@ -145,6 +200,9 @@ public class LoginSceneManager : MonoBehaviour
         statusText.text = "";
     }
 
+    /// <summary>
+    /// Displays the registration panel while hiding the login panel and clearing any status text.
+    /// </summary>
     public void ShowRegisterPanel()
     {
         loginPanel.SetActive(false);
@@ -153,12 +211,12 @@ public class LoginSceneManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Called by the NetworkManager once login is successful.
+    /// Called by the NetworkManager when a login attempt is successful.
+    /// Resets login attempt counters, updates last login information, and transitions to the main menu.
     /// </summary>
     public void OnLoginSuccess()
     {
         statusText.text = "Login successful!";
-        // Reset the login attempt counter on success
         ResetLoginAttempts();
 
         int userId = PlayerPrefs.GetInt("UserId", -1);
@@ -171,12 +229,12 @@ public class LoginSceneManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Called by the NetworkManager once registration is successful.
+    /// Called by the NetworkManager when registration is successful.
+    /// Resets login attempt counters, updates last login information, and transitions to the main menu.
     /// </summary>
     public void OnRegisterSuccess()
     {
         statusText.text = "Registration successful!";
-        // Reset the login attempt counter on a new registration
         ResetLoginAttempts();
 
         int userId = PlayerPrefs.GetInt("UserId", -1);
@@ -189,8 +247,11 @@ public class LoginSceneManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles login failure and manages attempt counts and lockout status.
+    /// Handles a failed login attempt by reducing the number of remaining attempts.
+    /// If attempts reach zero, locks login for 5 minutes.
+    /// Displays an error message with the remaining attempts or lockout message.
     /// </summary>
+    /// <param name="reason">The reason for the login failure as provided by the server.</param>
     public void OnLoginFail(string reason)
     {
         remainingAttempts--;
@@ -198,7 +259,7 @@ public class LoginSceneManager : MonoBehaviour
         if (remainingAttempts <= 0)
         {
             isLocked = true;
-            lockoutEndTime = Time.time + 20f; // Block further attempts for 5 minutes (300 seconds)
+            lockoutEndTime = Time.time + 300f; // Block further attempts for 5 minutes (300 seconds)
             statusText.text = "Too many incorrect attempts. Please try again after 5 minutes.";
         }
         else
@@ -207,18 +268,25 @@ public class LoginSceneManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles a failed registration attempt by displaying the failure reason.
+    /// </summary>
+    /// <param name="reason">The reason for the registration failure as provided by the server.</param>
     public void OnRegisterFail(string reason)
     {
         statusText.text = "Register failed: " + reason;
     }
 
+    /// <summary>
+    /// Transitions the scene to the main menu.
+    /// </summary>
     public void GoToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
 
     /// <summary>
-    /// Resets the login attempt counter and clears any lockout flags.
+    /// Resets the login attempt counter and clears any active lockout.
     /// </summary>
     private void ResetLoginAttempts()
     {
@@ -227,6 +295,11 @@ public class LoginSceneManager : MonoBehaviour
         lockoutEndTime = 0f;
     }
 }
+
+
+
+
+
 
 
 
@@ -260,6 +333,11 @@ public class LoginSceneManager : MonoBehaviour
 //    [Header("UI Status Text")]
 //    public TextMeshProUGUI statusText;   // For displaying errors, status, etc.
 
+//    // Login security settings
+//    private int remainingAttempts = 5;
+//    private bool isLocked = false;
+//    private float lockoutEndTime = 0f; // Time.time when lockout expires
+
 //    private void Start()
 //    {
 //        ShowLoginPanel();
@@ -270,13 +348,13 @@ public class LoginSceneManager : MonoBehaviour
 //        Debug.Log("Access token is this: " + token);
 //        Debug.Log("Refresh token is this: " + refreshToken);
 
-//        // Start a coroutine to delay the execution by 1 second
+//        // Start a coroutine to delay the execution by 0.5 seconds
 //        StartCoroutine(DelayedAutoLogin(token, refreshToken));
 //    }
 
 //    private IEnumerator DelayedAutoLogin(string token, string refreshToken)
 //    {
-//        yield return new WaitForSeconds(1f); // Wait for 1 second
+//        yield return new WaitForSeconds(0.5f);
 
 //        Debug.Log("Connected? " + NetworkManager.Instance.isConnected);
 //        Debug.Log("isHandshakeCompleted? " + NetworkManager.Instance.isHandshakeCompleted);
@@ -288,6 +366,23 @@ public class LoginSceneManager : MonoBehaviour
 //    // Called by the "Login" button OnClick
 //    public void OnClickLogin()
 //    {
+//        // Check if login is currently locked
+//        if (isLocked)
+//        {
+//            // If lockout time still active, show message and do not proceed
+//            if (Time.time < lockoutEndTime)
+//            {
+//                statusText.text = "Too many incorrect attempts. Please try again after 5 minutes.";
+//                return; // Exit the function so that the login will not be possible
+//            }
+//            else
+//            {
+//                // Lockout has expired; reset lock status
+//                isLocked = false;
+//                remainingAttempts = 5;
+//            }
+//        }
+
 //        // Grab input
 //        string username = loginUsernameField.text;
 //        string password = loginPasswordField.text;
@@ -334,13 +429,22 @@ public class LoginSceneManager : MonoBehaviour
 //            return;
 //        }
 
+//        // Check if the password and confirmation match
 //        if (!password.Equals(confirmPassword))
 //        {
-//            // Password mismatch
 //            statusText.text = "Passwords do not match! Please try again.";
 //            return;
 //        }
 
+//        // Validate password complexity using our new PasswordValidator utility
+//        string errorMessage;
+//        if (!PasswordValidator.IsValid(password, out errorMessage))
+//        {
+//            statusText.text = errorMessage;
+//            return;
+//        }
+
+//        // Send registration request to the server
 //        NetworkManager.Instance.messageSender.RegisterUser(username, password);
 //    }
 
@@ -348,7 +452,6 @@ public class LoginSceneManager : MonoBehaviour
 //    {
 //        loginPanel.SetActive(true);
 //        registerPanel.SetActive(false);
-//        //registerPanel.SetActive(true); // For testing
 //        statusText.text = "";
 //    }
 
@@ -365,6 +468,8 @@ public class LoginSceneManager : MonoBehaviour
 //    public void OnLoginSuccess()
 //    {
 //        statusText.text = "Login successful!";
+//        // Reset the login attempt counter on success
+//        ResetLoginAttempts();
 
 //        int userId = PlayerPrefs.GetInt("UserId", -1);
 //        if (userId != -1)
@@ -381,6 +486,8 @@ public class LoginSceneManager : MonoBehaviour
 //    public void OnRegisterSuccess()
 //    {
 //        statusText.text = "Registration successful!";
+//        // Reset the login attempt counter on a new registration
+//        ResetLoginAttempts();
 
 //        int userId = PlayerPrefs.GetInt("UserId", -1);
 //        if (userId != -1)
@@ -391,9 +498,23 @@ public class LoginSceneManager : MonoBehaviour
 //        GoToMainMenu();
 //    }
 
+//    /// <summary>
+//    /// Handles login failure and manages attempt counts and lockout status.
+//    /// </summary>
 //    public void OnLoginFail(string reason)
 //    {
-//        statusText.text = "Login failed: " + reason;
+//        remainingAttempts--;
+
+//        if (remainingAttempts <= 0)
+//        {
+//            isLocked = true;
+//            lockoutEndTime = Time.time + 300f; // Block further attempts for 5 minutes (300 seconds)
+//            statusText.text = "Too many incorrect attempts. Please try again after 5 minutes.";
+//        }
+//        else
+//        {
+//            statusText.text = "Login failed: " + reason + ". Attempts left: " + remainingAttempts;
+//        }
 //    }
 
 //    public void OnRegisterFail(string reason)
@@ -404,5 +525,15 @@ public class LoginSceneManager : MonoBehaviour
 //    public void GoToMainMenu()
 //    {
 //        SceneManager.LoadScene("MainMenu");
+//    }
+
+//    /// <summary>
+//    /// Resets the login attempt counter and clears any lockout flags.
+//    /// </summary>
+//    private void ResetLoginAttempts()
+//    {
+//        remainingAttempts = 5;
+//        isLocked = false;
+//        lockoutEndTime = 0f;
 //    }
 //}

@@ -4,14 +4,30 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// WaveGeneratorEditor that generates 150 waves automatically
+/// Description:
+/// Provides an editor window for automatically generating 150 waves for the game based on balloon health values.
+/// The editor uses a single universal balloon prefab and a predefined dictionary mapping balloon names to maximum health values.
+/// It creates WaveData assets dynamically using various hard-coded and progression-based spawn instructions.
 /// </summary>
 public class WaveGeneratorEditor : EditorWindow
 {
+    #region Public Fields
+
     [Header("Universal Balloon Prefab")]
+    /// <summary>
+    /// A reference to the universal balloon prefab used for wave generation.
+    /// This prefab will be used for all generated waves.
+    /// </summary>
     public GameObject universalBalloonPrefab;
 
-    // Dictionary that maps a balloon "name" to the max health in its range
+    #endregion
+
+    #region Private Fields
+
+    /// <summary>
+    /// A dictionary mapping a balloon name to its maximum health in its range.
+    /// This is used to determine the final health value for each balloon type.
+    /// </summary>
     private static readonly Dictionary<string, int> balloonHealthMap = new Dictionary<string, int>
     {
         { "RedBalloon",           1   },
@@ -29,12 +45,26 @@ public class WaveGeneratorEditor : EditorWindow
         { "BigBossBalloon",       3126}  // range 627-3126 => 3126
     };
 
+    #endregion
+
+    #region Menu Methods
+
+    /// <summary>
+    /// Adds a menu item under Tools to open the Wave Generator editor window.
+    /// </summary>
     [MenuItem("Tools/Wave Generator")]
     public static void ShowWindow()
     {
         GetWindow<WaveGeneratorEditor>("Wave Generator");
     }
 
+    #endregion
+
+    #region Editor GUI
+
+    /// <summary>
+    /// Draws the editor window's GUI. Allows the user to assign the universal balloon prefab and trigger wave generation.
+    /// </summary>
     private void OnGUI()
     {
         GUILayout.Label("Single Universal Balloon Prefab", EditorStyles.boldLabel);
@@ -48,25 +78,37 @@ public class WaveGeneratorEditor : EditorWindow
         }
     }
 
+    #endregion
+
+    #region Wave Generation
+
+    /// <summary>
+    /// Generates 150 waves by creating WaveData assets with spawn instructions based on fixed and progression-based logic.
+    /// The waves are stored in the "Assets/Waves" folder.
+    /// </summary>
     private void GenerateWaves()
     {
+        // Ensure the target folder exists.
         string folderPath = "Assets/Waves";
         if (!AssetDatabase.IsValidFolder(folderPath))
         {
             AssetDatabase.CreateFolder("Assets", "Waves");
         }
 
-        // Counters for dynamic wave generation logic, same as original
+        // Counters for dynamic wave generation logic.
         int moreRedCount = 0, moreBlueCount = 0, moreGreenCount = 0, moreYellowCount = 0;
         int morePinkCount = 0, moreBlackCount = 0, moreWhiteCount = 0;
         int moreStrongCount = 0, moreStrongerCount = 0, moreVeryStrongCount = 0;
         int moreSmallBossCount = 0, moreMediumBossCount = 0, moreBigBossCount = 0;
 
+        // Generate waves 1 through 150.
         for (int i = 1; i <= 150; i++)
         {
+            // Create a new WaveData instance.
             WaveData wave = ScriptableObject.CreateInstance<WaveData>();
             List<string> balloonNames = new List<string>();
 
+            // Hard-coded wave configurations for specific waves.
             if (i == 1) balloonNames.AddRange(Enumerable.Repeat("RedBalloon", 5));
             else if (i == 3) balloonNames.AddRange(Enumerable.Repeat("BlueBalloon", 3));
             else if (i == 6) balloonNames.AddRange(Enumerable.Repeat("GreenBalloon", 4));
@@ -128,7 +170,7 @@ public class WaveGeneratorEditor : EditorWindow
                                             .Concat(Enumerable.Repeat("MediumBossBalloon", 35)));
             else
             {
-                // Add balloons based on progression
+                // Default progression-based wave generation.
                 if (i >= 1) balloonNames.AddRange(Enumerable.Repeat("RedBalloon",
                     Mathf.Min(5 + moreRedCount++ + i / 3, 14)));
                 if (i >= 3) balloonNames.AddRange(Enumerable.Repeat("BlueBalloon",
@@ -160,36 +202,37 @@ public class WaveGeneratorEditor : EditorWindow
                     Mathf.Min(1 + moreBigBossCount++ + i / 30, 75)));
             }
 
-            // Shuffle
+            // Shuffle the list so the order of balloons is random.
             balloonNames = balloonNames.OrderBy(x => Random.value).ToList();
 
-            // Build the wave instructions
+            // Build the wave instructions based on the balloon names.
             float currentTime = 0f;
             foreach (string balloonName in balloonNames)
             {
                 float spawnDelay = Random.Range(0.1f, 0.6f);
                 currentTime += spawnDelay;
 
-                // Look up final health from dictionary
+                // Look up final health for the balloon name from the dictionary.
                 int mappedHealth = 1;
                 if (!balloonHealthMap.TryGetValue(balloonName, out mappedHealth))
                 {
-                    Debug.LogWarning($"Balloon name '{balloonName}' not found in dictionary. Default to 1");
+                    Debug.LogWarning($"Balloon name '{balloonName}' not found in dictionary. Defaulting to 1");
                     mappedHealth = 1;
                 }
 
+                // Create a spawn instruction with the universal balloon prefab, spawn delay, and the mapped health.
                 WaveData.SpawnInstruction instruction = new WaveData.SpawnInstruction
                 {
-                    balloonPrefab = universalBalloonPrefab, // always the same prefab
+                    balloonPrefab = universalBalloonPrefab,
                     spawnDelay = spawnDelay,
                     initialHealth = mappedHealth
                 };
 
-                // Add to wave
+                // Add the spawn instruction to the wave.
                 wave.spawnInstructions.Add(instruction);
             }
 
-            // Delay before wave begins
+            // Set the delay before the wave begins.
             if (i < 75)
             {
                 wave.delayBeforeWaveBegins = 0.5f * i;
@@ -199,7 +242,7 @@ public class WaveGeneratorEditor : EditorWindow
                 wave.delayBeforeWaveBegins = 0.5f * 75 + 5 * (i - 75);
             }
 
-            // Save wave asset
+            // Save the wave as a ScriptableObject asset.
             AssetDatabase.CreateAsset(wave, $"{folderPath}/Wave{i}.asset");
         }
 
@@ -210,4 +253,6 @@ public class WaveGeneratorEditor : EditorWindow
             "All 150 waves have been generated successfully using universalBalloonPrefab + health-based types.",
             "OK");
     }
+
+    #endregion
 }
