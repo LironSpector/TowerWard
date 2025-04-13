@@ -24,7 +24,7 @@ public class BankManager : MonoBehaviour
         bankOpenButton.onClick.AddListener(OnBankButtonClicked);
         submitInvestmentButton.onClick.AddListener(OnSubmitInvestment);
 
-        // At start, hide or disable the input / submit if you want
+        // At start, hide or disable the input / submit
         investmentInput.gameObject.SetActive(false);
         submitInvestmentButton.gameObject.SetActive(false);
     }

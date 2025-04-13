@@ -6,8 +6,7 @@ public class DestructiveEnergyTower : Tower
     private float currentInterval = 60f;
     private int damageToBalloons = 1;
 
-    // If you want a quick green overlay effect
-    public GameObject greenFlashFxPrefab;
+    public GameObject greenFlashFxPrefab; // A quick green overlay effect
 
     protected override void Start()
     {

@@ -39,7 +39,7 @@ public static class GlobalSettings
             }
         }
 
-        // if you want to check scene name:
+        // check scene name:
         string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         if (sceneName == "MainMenu" || sceneName == "WaitingScene")
         {

@@ -277,19 +277,15 @@ public class UIManager : MonoBehaviour
         }
         else if (isVillageTower)
         {
-            // VillageTower only uses "specialValue" as "buffPercent" 
-            // We can rename it:
-            specialValueLabel = "Buff Percent";
-            // If you want to hide specialInterval entirely if it’s not used,
-            // you can just skip it. Or label it "Unused".
-            intervalLabel = "Interval (Unused)"; // Or skip
+            specialValueLabel = "Buff Percent"; // VillageTower only uses "specialValue" as "buffPercent" 
+            intervalLabel = "Interval (Unused)"; // Not used
         }
 
         // Then we add them as usual
         AddUpgradeLineFloat(intervalLabel, curr.specialInterval, nxt.specialInterval);
         AddUpgradeLineInt(specialValueLabel, curr.specialValue, nxt.specialValue);
 
-        // For freeze/slow/poison fields, if you want them all the same logic
+        // For freeze/slow/poison fields
         AddUpgradeLineFloat("Freeze Duration", curr.freezeDuration, nxt.freezeDuration);
         AddUpgradeLineFloat("Slow Duration", curr.slowDuration, nxt.slowDuration);
         AddUpgradeLineFloat("Slow Factor", curr.slowFactor, nxt.slowFactor);
@@ -318,7 +314,6 @@ public class UIManager : MonoBehaviour
         // If PlayerPanel is active, continuously update wave number
         if (playerPanel.activeSelf && waveNumberText != null)
         {
-            // Adjust according to how you track waves:
             int waveIndex = BalloonSpawner.Instance.GetCurrentWaveIndex();
             waveNumberText.text = waveIndex.ToString();
         }

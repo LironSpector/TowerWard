@@ -50,8 +50,8 @@ public class AreaDamageTower : Tower
         if (towerData != null && level <= towerData.levels.Length)
         {
             TowerLevelData lvl = towerData.levels[level - 1];
-            currentInterval = lvl.specialInterval; // how often to do AoE
-            currentDamage = lvl.specialValue;    // or you could use lvl.damage if you prefer
+            currentInterval = lvl.specialInterval;
+            currentDamage = lvl.specialValue;
         }
     }
 

@@ -21,10 +21,9 @@ public static class InputValidator
         "exec ", "execute ",
         "declare ",
         "union ", " union ", "union select",
-        " or ", " and ",
         " or 1=1", " and 1=1", " or '1'='1", " and '1'='1", " or \"1\"=\"1",
         " group by ", " having ", " order by ",
-        ";--", "-- ", "#", "/*", "*/",
+        ";--", "-- ", "/*", "*/",
         "sleep(", "benchmark(",
         " cast(", " char(", " nchar(", " varchar(", " nvarchar(",
     };

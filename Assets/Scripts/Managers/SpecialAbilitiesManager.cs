@@ -196,14 +196,12 @@ public class SpecialAbilitiesManager : MonoBehaviour
 
     private IEnumerator BalloonPriceDiscountRoutine()
     {
-        // e.g. define a variable => GameManager.Instance.balloonPriceFactor = 0.5f
-        // or in your "BalloonButton" or "BalloonSendingPanel" => interpret cost = baseCost * factor
         BalloonSendingPanel balloonSendingPanel = FindObjectOfType<BalloonSendingPanel>();
         if (balloonSendingPanel != null)
         {
             foreach (var balloonButton in balloonSendingPanel.balloonButtons)
             {
-                balloonButton.tempDiscountFactor = 0.5f; // or however you do it
+                balloonButton.tempDiscountFactor = 0.5f;
                 balloonButton.Refresh();
             }
         }
@@ -291,9 +289,6 @@ public class SpecialAbilitiesManager : MonoBehaviour
 
     public void ResetAllCooldowns()
     {
-        // If you track coroutines, you'd stop them or set them to zero
-        // For simplicity, set the bools false + re-enable buttons:
-
         isDoubleMoneyOnCooldown = false;
         doubleMoneyButton.interactable = true;
 

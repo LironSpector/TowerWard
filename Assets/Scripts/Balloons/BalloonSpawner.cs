@@ -215,7 +215,7 @@ public class BalloonSpawner : MonoBehaviour
 
         // Possibly set balloon’s movement waypoints
         BalloonMovement movement = balloonGO.GetComponent<BalloonMovement>();
-        movement.waypoints = waypoints; // or wherever you define them
+        movement.waypoints = waypoints;
 
         // Subscribe to OnDestroyed events
         b.OnDestroyed += OnBalloonDestroyed;

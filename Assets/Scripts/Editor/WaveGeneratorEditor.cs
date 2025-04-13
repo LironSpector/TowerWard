@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// WaveGeneratorEditor that generates 150 waves exactly like your original code,
-/// but uses a single universalBalloonPrefab + a dictionary of balloonName => health.
-/// No references to old prefab fields for red/blue/etc. We only store "RedBalloon" (string).
+/// WaveGeneratorEditor that generates 150 waves automatically
 /// </summary>
 public class WaveGeneratorEditor : EditorWindow
 {
@@ -68,8 +66,6 @@ public class WaveGeneratorEditor : EditorWindow
         {
             WaveData wave = ScriptableObject.CreateInstance<WaveData>();
             List<string> balloonNames = new List<string>();
-
-            // EXACT same distribution logic as your old code, but using string IDs instead of prefabs:
 
             if (i == 1) balloonNames.AddRange(Enumerable.Repeat("RedBalloon", 5));
             else if (i == 3) balloonNames.AddRange(Enumerable.Repeat("BlueBalloon", 3));

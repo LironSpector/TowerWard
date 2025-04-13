@@ -12,11 +12,11 @@ public class AudioManager : MonoBehaviour
     [Header("Music Sources")]
     public AudioSource mainMenuMusicSource;   // Loop for main menu
     public AudioSource gameMusicSource;       // Loop for game
-    public AudioSource oneShotMusicSource;    // For playing one-shot music (win/lose) if needed
+    public AudioSource oneShotMusicSource;    // For playing one-shot music (win/lose)
 
     // ========== SFX SOURCE ==========
     [Header("Sound Effects")]
-    public AudioSource sfxSource; // a single AudioSource for all SFX, or you can do a pool
+    public AudioSource sfxSource; // a single AudioSource for all SFX
 
     // ========== CLIPS ==========
 
@@ -27,11 +27,11 @@ public class AudioManager : MonoBehaviour
     public AudioClip loseMusicClip;       // one-shot after game is lost
 
     [Header("SFX Clips")]
-    public AudioClip balloonPopClip;      // balloon pop
+    public AudioClip balloonPopClip;
     public AudioClip towerPanelChooseClip;
     public AudioClip towerPlacementClip;
     public AudioClip towerSelectionClip;
-    // Suppose we want an array/dictionary for projectile shots:
+
     public List<AudioClip> projectileShotClips; // or a Dictionary<ProjectileType, AudioClip>
 
     // ========== VOLUMES & MUTE SETTINGS ==========
@@ -47,25 +47,17 @@ public class AudioManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // if you want it persistent across scenes
+            DontDestroyOnLoad(gameObject); // persistent across scenes
         }
         else
         {
             Destroy(gameObject);
             return;
         }
-
-        // OPTIONAL: Initialize your AudioSources if needed
-        // e.g. mainMenuMusicSource.loop = true;
-        // e.g. gameMusicSource.loop = true;
     }
 
     void Start()
     {
-        // Optionally: Start playing main menu music if you're in main menu scene
-        // mainMenuMusicSource.clip = mainMenuMusicClip;
-        // mainMenuMusicSource.loop = true;
-        // mainMenuMusicSource.Play();
         RefreshVolumes();
     }
 
@@ -210,12 +202,9 @@ public class AudioManager : MonoBehaviour
         if (mainMenuMusicSource != null) mainMenuMusicSource.volume = mainMenuVol;
         if (gameMusicSource != null) gameMusicSource.volume = gameVol;
 
-        // For SFX, we won't set sfxSource.volume because we do PlayOneShot(clip, sfxVolume).
-        // But if you want to do it, you can set sfxSource.volume = sfxVol for baseline.
         if (sfxSource != null) sfxSource.volume = sfxVol;
 
-        // For the oneShotMusicSource => typically used for the win/lose clip
+        // For the oneShotMusicSource => used for the win/lose clip
         if (oneShotMusicSource != null) oneShotMusicSource.volume = sfxVol;
-        // or you might want a separate volume for that
     }
 }

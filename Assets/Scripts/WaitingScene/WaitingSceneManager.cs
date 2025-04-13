@@ -34,7 +34,7 @@ public class WaitingSceneManager : MonoBehaviour
     void Update()
     {
         // 2) Continuously rotate spinner
-        // If you want it rotating only while isWaiting is true:
+        // Rotate only while isWaiting is true:
         if (isWaiting && spinnerImage != null)
         {
             spinnerImage.transform.Rotate(0f, 0f, -spinnerSpeed * Time.deltaTime);

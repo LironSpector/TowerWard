@@ -6,10 +6,6 @@ using System.Collections.Generic;
 public class MainMenuManager : MonoBehaviour
 {
     public TextMeshProUGUI connectionStatusText;
-
-    // Add a reference to the tutorial manager.
-    // If you prefer, you can use a singleton pattern or `FindObjectOfType<TutorialUIManager>()`,
-    // but let's keep it a public reference for clarity.
     public TutorialUIManager tutorialUIManager;
 
     void Start()

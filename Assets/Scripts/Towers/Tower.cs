@@ -92,7 +92,7 @@ public class Tower : MonoBehaviour
 
         TowerLevelData levelData = towerData.levels[level - 1];
 
-        // 1) Adjust range if you want
+        // 1) Adjust range
         if (rangeCollider != null)
         {
             rangeCollider.radius = levelData.range;

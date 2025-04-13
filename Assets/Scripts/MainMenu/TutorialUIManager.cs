@@ -11,10 +11,6 @@ public class TutorialUIManager : MonoBehaviour
     [Tooltip("The close button in the tutorial panel")]
     public Button closeButton;
 
-    // Optionally, if you want to directly reference the text:
-    // public TextMeshProUGUI tutorialText; 
-    // (Then you can load text dynamically, but usually you'd just set it in the Inspector.)
-
     private void Awake()
     {
         // Ensure the panel is hidden on start

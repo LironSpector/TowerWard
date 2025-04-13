@@ -165,7 +165,7 @@ public class GameFlowController : MonoBehaviour
             // Opponent lost
             if (string.IsNullOrEmpty(reason))
             {
-                // Default reason if not provided, e.g., "You've defeated the other player"
+                // Default reason if not provided
                 reason = "You've defeated the other player";
             }
             WinGame(reason);

@@ -39,13 +39,13 @@ public class ProjectileTower : Tower
             towerShooting.damage = levelData.damage;
         }
 
-        // 4) If you have a level-specific sprite
+        // 4) A level-specific sprite
         base.ApplyImageStatus(levelData);
     }
 
     public void UpdateRangeIndicatorVisualOnly(float newRange)
     {
-        // If you want to update range on the fly
+        // Update range on the fly
         if (rangeIndicator != null)
         {
             float diameter = newRange * 2f;

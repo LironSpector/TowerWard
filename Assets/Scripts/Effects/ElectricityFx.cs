@@ -2,7 +2,6 @@ using UnityEngine;
 
 /// <summary>
 /// A simple script that fades out a sprite over time.
-/// Attach this to your electricityFxPrefab (which has a SpriteRenderer).
 /// </summary>
 public class ElectricityFx : MonoBehaviour
 {

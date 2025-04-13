@@ -33,8 +33,6 @@ public class SurpriseBoxManager : MonoBehaviour
         {
             // wait random time
             float waitTime = Random.Range(minSpawnTime, maxSpawnTime);
-            // If you want this wait to ignore Time.timeScale (e.g. if user speeds up),
-            // use WaitForSecondsRealtime instead:
             yield return new WaitForSeconds(waitTime);
 
             // If game ended during wait, break

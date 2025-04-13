@@ -50,7 +50,6 @@ public class SettingsPanel : MonoBehaviour
         // e.g. store 0=none, 1=fps, 2=advanced
 
         initialExtremeSpeed = GlobalSettings.ExtremeSpeedEnabled;
-        // or if you store it in GameManager or some other place
 
         // Set UI
         mainMenuVolumeSlider.value = initialMainMenuVol;

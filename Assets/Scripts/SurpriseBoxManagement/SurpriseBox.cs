@@ -69,9 +69,8 @@ public class SurpriseBox : MonoBehaviour
 
     void RewardMoney()
     {
-        // formula => waveNumber * 0.5 * random[50..100]
         int waveIndex = BalloonSpawner.Instance.GetCurrentWaveIndex();
-        // or however you track waves
+
         int randomVal = Random.Range(50, 101); // 50..100
         float multiplier = waveIndex * 0.5f;
         if (multiplier < 1f) multiplier = 1f; // if wave=0, fallback

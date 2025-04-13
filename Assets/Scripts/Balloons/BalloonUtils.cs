@@ -8,8 +8,7 @@ public static class BalloonUtils
     /// </summary>
     public static BalloonStats GetStatsForHealth(Balloon balloon, int health)
     {
-        // We'll fill in a 'stats' object by referencing balloon's sprites
-        // and your existing health thresholds.
+        // Fill in a 'stats' object by referencing balloon's sprites and health thresholds.
         BalloonStats stats = new BalloonStats();
 
         if (health == 1)

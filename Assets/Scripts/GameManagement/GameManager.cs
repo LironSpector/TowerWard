@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
     public GameFlowController flowController;
     public CellOccupationManager cellManager;
     public SnapshotManager snapshotManager;
-    // If you have a ResourceManager, declare that here as well.
 
     // Track the time the game starts
     private float gameStartTime;
@@ -177,7 +176,6 @@ public class GameManager : MonoBehaviour
         {
             SpendCurrency(cost);
 
-            // We also keep "Cost" if needed, or you might omit it.
             JObject dataObj = new JObject
             {
                 ["BalloonHealth"] = balloonHealth,

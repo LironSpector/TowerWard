@@ -41,8 +41,6 @@ public class BaseTowerShooting : MonoBehaviour
             {
                 Projectile spawnedProjectile = Shoot();
                 fireCountdown = 1f / fireRate;
-
-                // If you need to do anything else with `spawnedProjectile`, do it here
             }
             fireCountdown -= Time.deltaTime;
 

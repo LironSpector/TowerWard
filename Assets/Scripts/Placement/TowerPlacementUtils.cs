@@ -23,8 +23,7 @@ public static class TowerPlacementUtils
     }
 
     /// <summary>
-    /// Checks if a world position corresponds to any of the predefined path cells.
-    /// This example uses the balloonPathPositions list, but you could make it configurable.
+    /// Checks if a world position corresponds to any of the predefined path cells (using the balloonPathPositions list).
     /// </summary>
     public static bool IsOnBalloonPath(Vector2 position, Tilemap tilemap, List<Vector3Int> balloonPathPositions)
     {
