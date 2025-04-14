@@ -132,7 +132,7 @@ public class Balloon : MonoBehaviour
     /// </summary>
     public event Action<Balloon> OnDestroyed;
     /// <summary>
-    /// Event triggered when the balloon reaches the end.
+    /// Event triggered when the balloon reaches the end of the balloon path.
     /// </summary>
     public event Action<Balloon> OnEndReached;
 

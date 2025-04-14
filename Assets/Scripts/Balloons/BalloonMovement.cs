@@ -26,7 +26,7 @@ public class BalloonMovement : MonoBehaviour
     /// <summary>
     /// Flag to control whether the balloon starts exactly at its current position or resets to the first waypoint.
     /// </summary>
-    public bool startFromExactPosition = false; // New flag to control starting position
+    public bool startFromExactPosition = false;
 
     #endregion
 
