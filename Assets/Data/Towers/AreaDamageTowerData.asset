@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64886e0f14012504394f0356eba2bf7a, type: 3}
   m_Name: AreaDamageTowerData
   m_EditorClassIdentifier: 
-  towerName: Basic Tower
+  towerName: Area Damage
   towerSprite: {fileID: 21300000, guid: 832321f0ffb28da4b8a759b529f433d1, type: 3}
   levels:
-  - upgradeCost: 100
+  - upgradeCost: 400
     range: 1.25
     fireRate: 0
     damage: 0
@@ -27,8 +27,8 @@ MonoBehaviour:
     poisonDuration: 0
     poisonTickInterval: 0
     towerLevelSprite: {fileID: 21300000, guid: 0f5ec4ca7e5df9d47a908658d3ae39f4, type: 3}
-  - upgradeCost: 150
-    range: 1.25
+  - upgradeCost: 500
+    range: 1.5
     fireRate: 0
     damage: 0
     specialInterval: 1
@@ -39,8 +39,8 @@ MonoBehaviour:
     poisonDuration: 0
     poisonTickInterval: 0
     towerLevelSprite: {fileID: 21300000, guid: 0f686368f41af334eac6782d2d3f9885, type: 3}
-  - upgradeCost: 200
-    range: 2.5
+  - upgradeCost: 1250
+    range: 2
     fireRate: 0
     damage: 0
     specialInterval: 1

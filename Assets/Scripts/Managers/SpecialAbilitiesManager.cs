@@ -179,7 +179,6 @@ public class SpecialAbilitiesManager : MonoBehaviour
     {
         if (isDoubleMoneyOnCooldown) return;
 
-        Debug.Log("Double Money Activated!");
         GameManager.Instance.moneyMultiplier = 2f;
         StartCoroutine(DoubleMoneyRoutine());
     }
@@ -329,7 +328,6 @@ public class SpecialAbilitiesManager : MonoBehaviour
     {
         if (isNoMoneyOpponentOnCooldown) return;
 
-        Debug.Log("NoMoneyForOpponent Activated (Local)!");
         isNoMoneyOpponentOnCooldown = true;
         noMoneyOpponentButton.interactable = false;
 
@@ -370,7 +368,6 @@ public class SpecialAbilitiesManager : MonoBehaviour
     {
         if (isCloudScreenOnCooldown) return;
 
-        Debug.Log("CloudScreen Activated (Local)!");
         isCloudScreenOnCooldown = true;
         cloudScreenButton.interactable = false;
 
@@ -428,7 +425,7 @@ public class SpecialAbilitiesManager : MonoBehaviour
         isCloudScreenOnCooldown = false;
         cloudScreenButton.interactable = true;
 
-        Debug.Log("All special ability cooldowns reset by SurpriseBox!");
+        //Debug.Log("All special ability cooldowns reset by SurpriseBox!");
     }
 
     #endregion

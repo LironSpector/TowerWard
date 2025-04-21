@@ -15,7 +15,7 @@ MonoBehaviour:
   towerName: Sniper Tower
   towerSprite: {fileID: 21300000, guid: 47fc6055e872dd94198c9982e2ad6e6f, type: 3}
   levels:
-  - upgradeCost: 250
+  - upgradeCost: 400
     range: 6
     fireRate: 0.75
     damage: 3
@@ -27,10 +27,10 @@ MonoBehaviour:
     poisonDuration: 0
     poisonTickInterval: 0
     towerLevelSprite: {fileID: 21300000, guid: 81fe499dc32db0f4c997c8b6edb2e420, type: 3}
-  - upgradeCost: 350
+  - upgradeCost: 800
     range: 6
     fireRate: 0.75
-    damage: 5
+    damage: 6
     specialInterval: 0
     specialValue: 0
     freezeDuration: 0
@@ -39,10 +39,10 @@ MonoBehaviour:
     poisonDuration: 0
     poisonTickInterval: 0
     towerLevelSprite: {fileID: 21300000, guid: a6e55c9373980c1469b8682fcd7f8ee8, type: 3}
-  - upgradeCost: 450
+  - upgradeCost: 1500
     range: 6
     fireRate: 0.75
-    damage: 8
+    damage: 10
     specialInterval: 0
     specialValue: 0
     freezeDuration: 0

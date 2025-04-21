@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64886e0f14012504394f0356eba2bf7a, type: 3}
   m_Name: FreezingTowerData
   m_EditorClassIdentifier: 
-  towerName: Basic Tower
+  towerName: Freezing Tower
   towerSprite: {fileID: 21300000, guid: 4ff6c8aa9d99b4f4d999c5292156a4c9, type: 3}
   levels:
-  - upgradeCost: 100
-    range: 1.25
-    fireRate: 1
+  - upgradeCost: 550
+    range: 1.5
+    fireRate: 1.5
     damage: 1
     specialInterval: 0
     specialValue: 0
@@ -27,9 +27,9 @@ MonoBehaviour:
     poisonDuration: 0
     poisonTickInterval: 0
     towerLevelSprite: {fileID: 21300000, guid: 7cf185d13853403469af8d99d49647ce, type: 3}
-  - upgradeCost: 150
-    range: 1.25
-    fireRate: 2.5
+  - upgradeCost: 900
+    range: 1.75
+    fireRate: 2
     damage: 1
     specialInterval: 0
     specialValue: 0
@@ -39,9 +39,9 @@ MonoBehaviour:
     poisonDuration: 0
     poisonTickInterval: 0
     towerLevelSprite: {fileID: 21300000, guid: 60e2439cf8958314eaefafbeb9078b7e, type: 3}
-  - upgradeCost: 200
-    range: 2.5
-    fireRate: 4
+  - upgradeCost: 1600
+    range: 2.25
+    fireRate: 3
     damage: 1
     specialInterval: 0
     specialValue: 0

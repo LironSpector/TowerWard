@@ -99,7 +99,7 @@ public class AreaDamageTower : Tower
                 Balloon b = hit.GetComponent<Balloon>();
                 if (b != null)
                 {
-                    Debug.Log("Taking damage: " + currentDamage);
+                    //Debug.Log("Taking damage: " + currentDamage);
                     b.TakeDamage(currentDamage);
                 }
             }

@@ -327,7 +327,6 @@ public class GameManager : MonoBehaviour
     /// <param name="balloonHealth">Health value of the opponent balloon to spawn.</param>
     public void SpawnOpponentBalloon(int balloonHealth)
     {
-        Debug.Log($"Spawning opponent balloon with health={balloonHealth}");
         if (isGameOver) return;
 
         // Spawn the universal balloon using the BalloonSpawner.

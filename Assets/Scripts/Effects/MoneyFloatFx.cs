@@ -40,7 +40,6 @@ public class MoneyFloatFx : MonoBehaviour
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
-        Debug.Log("Started!");
     }
 
     /// <summary>
@@ -72,7 +71,6 @@ public class MoneyFloatFx : MonoBehaviour
         // Destroy the GameObject when the sprite is fully transparent.
         if (alpha <= 0f)
         {
-            Debug.Log("Started!Finished!");
             Destroy(gameObject);
         }
     }

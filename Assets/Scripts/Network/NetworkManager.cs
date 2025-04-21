@@ -257,7 +257,6 @@ public class NetworkManager : MonoBehaviour
     public void ResetMatchmaking()
     {
         IsMatchmakingRequested = false;
-        Debug.Log("[NetworkManager] Reset matchmaking flag.");
     }
 
     /// <summary>

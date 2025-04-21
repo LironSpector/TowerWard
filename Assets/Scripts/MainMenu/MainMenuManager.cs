@@ -11,11 +11,6 @@ using System.Collections.Generic;
 public class MainMenuManager : MonoBehaviour
 {
     /// <summary>
-    /// UI text element used to display the current connection status.
-    /// </summary>
-    public TextMeshProUGUI connectionStatusText;
-
-    /// <summary>
     /// Reference to the Tutorial UI Manager for displaying tutorial content.
     /// </summary>
     public TutorialUIManager tutorialUIManager;
@@ -52,10 +47,6 @@ public class MainMenuManager : MonoBehaviour
         {
             NetworkManager.Instance.RequestMatchmaking();
             SceneManager.LoadScene("WaitingScene");
-        }
-        else
-        {
-            connectionStatusText.text = "Cannot start multiplayer: Not connected to server.";
         }
     }
 
