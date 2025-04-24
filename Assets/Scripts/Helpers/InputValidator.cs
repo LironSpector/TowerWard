@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// Description:
-/// Provides a static method to validate input strings by checking for potential SQL injection and XSS attack patterns.
+/// Provides a static method to validate input strings by checking for potential SQL injection attack patterns.
 /// The method performs a case-insensitive search for known keywords or patterns that might indicate malicious input.
 /// Returns false if any suspicious pattern is found, and true otherwise.
 /// </summary>
@@ -36,26 +36,8 @@ public static class InputValidator
     };
 
     /// <summary>
-    /// Contains keywords and patterns commonly associated with Cross-Site Scripting (XSS) attacks.
-    /// </summary>
-    private static readonly List<string> XSSKeywords = new List<string>
-    {
-        "<script", "script>",
-        "<iframe", "</iframe",
-        "<object", "</object",
-        "<embed", "</embed",
-        "<style", "</style",
-        "<svg", "</svg",
-        "<link",
-        "javascript:",
-        "onerror=", "onload=", "onclick=", "onmouseover=", "onfocus=",
-        "alert(", "prompt(", "confirm(", "eval(",
-        "href=",
-    };
-
-    /// <summary>
     /// Checks if the provided input string is safe by ensuring it does not contain known SQL injection
-    /// or XSS-related keywords and patterns. The check is performed in a case-insensitive manner.
+    /// keywords and patterns. The check is performed in a case-insensitive manner.
     /// </summary>
     /// <param name="input">The string input to validate.</param>
     /// <returns>
@@ -73,15 +55,6 @@ public static class InputValidator
 
         // Check for any SQL injection-related keywords.
         foreach (var keyword in SQLInjectionKeywords)
-        {
-            if (lower.Contains(keyword))
-            {
-                return false;
-            }
-        }
-
-        // Check for any XSS-related keywords.
-        foreach (var keyword in XSSKeywords)
         {
             if (lower.Contains(keyword))
             {

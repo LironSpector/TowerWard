@@ -17,13 +17,11 @@ public class MainMenuManager : MonoBehaviour
 
     /// <summary>
     /// Called on the frame when the script is enabled, before any Update methods.
-    /// Initializes the main menu by playing music and optionally displaying the connection status.
+    /// Initializes the main menu by playing music.
     /// </summary>
     void Start()
     {
         Debug.Log("Started Main Menu");
-        Debug.Log("A:" + NetworkManager.Instance + ", ");
-
         AudioManager.Instance.PlayMainMenuMusic();
     }
 

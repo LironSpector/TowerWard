@@ -1,24 +1,7 @@
+//------- Messages (different message types) used in the client side in some other files as a way to transfer some information -------
 public class Message
 {
     public string Type { get; set; }
-}
-
-// MatchFoundMessage
-public class MatchFoundMessage : Message
-{
-    // No additional data needed
-}
-
-// SendBalloonMessage
-public class SendBalloonMessage : Message
-{
-    public SendBalloonData Data { get; set; }
-}
-
-public class SendBalloonData
-{
-    public string BalloonType { get; set; }
-    public int Quantity { get; set; }
 }
 
 // GameSnapshotMessage
@@ -41,10 +24,4 @@ public class GameOverMessage : Message
 public class GameOverData
 {
     public bool Won { get; set; }
-}
-
-// MatchmakingRequestMessage
-public class MatchmakingRequestMessage : Message
-{
-    // No additional data needed
 }

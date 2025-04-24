@@ -17,7 +17,7 @@ MonoBehaviour:
   levels:
   - upgradeCost: 550
     range: 1.5
-    fireRate: 1.5
+    fireRate: 2
     damage: 1
     specialInterval: 0
     specialValue: 0
@@ -29,7 +29,7 @@ MonoBehaviour:
     towerLevelSprite: {fileID: 21300000, guid: 7cf185d13853403469af8d99d49647ce, type: 3}
   - upgradeCost: 900
     range: 1.75
-    fireRate: 2
+    fireRate: 3
     damage: 1
     specialInterval: 0
     specialValue: 0
@@ -41,7 +41,7 @@ MonoBehaviour:
     towerLevelSprite: {fileID: 21300000, guid: 60e2439cf8958314eaefafbeb9078b7e, type: 3}
   - upgradeCost: 1600
     range: 2.25
-    fireRate: 3
+    fireRate: 4
     damage: 1
     specialInterval: 0
     specialValue: 0
