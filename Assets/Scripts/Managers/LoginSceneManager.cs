@@ -216,7 +216,6 @@ public class LoginSceneManager : MonoBehaviour
     /// </summary>
     public void OnLoginSuccess()
     {
-        statusText.text = "Login successful!";
         ResetLoginAttempts();
 
         int userId = PlayerPrefs.GetInt("UserId", -1);

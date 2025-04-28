@@ -18,6 +18,8 @@ public class FPSDisplay : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (GameManager.Instance.isGameOver) return;
+
         // Smooth the delta time using an exponential moving average.
         deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
 
@@ -32,6 +34,9 @@ public class FPSDisplay : MonoBehaviour
     /// </summary>
     void OnGUI()
     {
+        if (GameManager.Instance.isGameOver)
+            return;
+
         // Get the current screen dimensions.
         int width = Screen.width, height = Screen.height;
 
